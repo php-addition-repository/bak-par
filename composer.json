@@ -11,7 +11,7 @@
     },
     "name": "par/par",
     "replace": {
-        "par/core": "self.version"
+        "par/core": "0.1.0"
     },
     "description": "PHP Addition Repository (PAR)",
     "license": "MIT",
