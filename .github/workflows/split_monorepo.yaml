@@ -45,6 +45,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+  
+      - id: previous_tag
+        uses: WyriHaximus/github-action-get-previous-tag@master
   
       - id: branch_name
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -53,12 +57,13 @@ jobs:
         name: Monorepo Split of ${{ matrix.package }}
         uses: symplify/github-action-monorepo-split@master
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_GIT_TOKEN }}
         with:
           package-directory: 'packages/${{ matrix.package }}'
           split-repository-organization: 'php-addition-repository'
           split-repository-name: '${{ matrix.package }}'
           branch: ${{ steps.branch_name.outputs.branch }}
+          tag: ${{ steps.previous_tag.outputs.tag }}
           user-name: 'Alex Brouwer'
           user-email: 'brouwer.alexander@gmail.com'
       
