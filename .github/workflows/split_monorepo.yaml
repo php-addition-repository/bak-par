@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  
+    # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
+    tags:
+      - '*'
 
 jobs:
   provide_packages_json:
@@ -19,12 +23,16 @@ jobs:
           php-version: 7.4
           coverage: none
           tools: composer:v2
-      
-      - run: composer install --no-progress --ansi
-      
+
+      - run: composer install --no-progress --ansi --no-suggest
+  
       # get package json list
-      - id: set-matrix
+      - id: output_data
         run: echo "::set-output name=matrix::$(vendor/bin/monorepo-builder packages-json)"
+  
+    # this step is needed, so the output gets to the next defined job
+    outputs:
+      matrix: ${{ steps.output_data.outputs.matrix }}
   
   split_monorepo:
     needs: provide_packages_json
@@ -36,22 +44,16 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-        # this is required for "WyriHaximus/github-action-get-previous-tag" workflow
-        # see https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
-        with:
-          fetch-depth: 0
-      
-      # see https://github.com/WyriHaximus/github-action-get-previous-tag
-      - id: previous_tag
-        uses: "WyriHaximus/github-action-get-previous-tag@master"
-      
+  
       - # Uses an action in the root directory
-        uses: TomasVotruba/github-action-monorepo-split@master
+        name: Monorepo Split of ${{ matrix.package }}
+        uses: symplify/github-action-monorepo-split@master
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
-          package-directory: 'packages/${{ matrix.package_name }}'
+          package-directory: 'packages/${{ matrix.package }}'
           split-repository-organization: 'par'
-          split-repository-name: '${{ matrix.package_name }}'
-          tag: ${{ steps.previous_tag.outputs.tag }}
+          split-repository-name: '${{ matrix.package }}'
+      #          user-name: "kaizen-ci"
+      #          user-email: "info@kaizen-ci.org"
       
