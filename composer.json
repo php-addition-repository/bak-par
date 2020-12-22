@@ -1,0 +1,24 @@
+{
+    "name": "par/par",
+    "description": "PHP Addition Repository (PAR)",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Brouwer",
+            "email": "brouwer.alexander@gmail.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    }
+}
