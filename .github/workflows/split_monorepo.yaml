@@ -56,7 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           package-directory: 'packages/${{ matrix.package }}'
-          split-repository-organization: 'par'
+          split-repository-organization: 'php-addition-repository'
           split-repository-name: '${{ matrix.package }}'
           branch: ${{ steps.branch_name.outputs.branch }}
           user-name: 'alexbrouwer'
