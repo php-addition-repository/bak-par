@@ -55,6 +55,7 @@ jobs:
           package-directory: 'packages/${{ matrix.package }}'
           split-repository-organization: 'par'
           split-repository-name: '${{ matrix.package }}'
-          user-name: "alexbrouwer"
-          user-email: "brouwer.alexander@gmail.com"
+          branch: 'main'
+          user-name: 'alexbrouwer'
+          user-email: 'brouwer.alexander@gmail.com'
       
