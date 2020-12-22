@@ -1,14 +1,14 @@
-# PHP Additional Repository
+# PHP Addition Repository
 
-TODO add badges
+_TODO add badges_
 
 ## Documentation
 
-**TODO** add link to docs
+_TODO add link to docs_
 
 ## Credits
 
-- **TODO** add credits
+_TODO add credits_
 
 ## License
 
