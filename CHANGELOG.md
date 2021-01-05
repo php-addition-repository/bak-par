@@ -8,22 +8,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/symplify/changelog-linker).
 
 <!-- changelog-linker -->
-
-## [0.2.1] - 2021-01-05
-
-- Patch release to fix repo splitting
-
-## [0.2.0] - 2021-01-05
-
-- Added first structs to `Par\Core`
-
-## [0.1.0] - 2020-12-22
-
-### Unknown Package
-
-#### Changed
-
-- [#1] Introduce monorepo functionality
-
-[#1]: https://github.com/php-addition-repository/par/pull/1
-[0.1.0]: https://github.com/php-addition-repository/par/compare/0.1.0...0.1.0

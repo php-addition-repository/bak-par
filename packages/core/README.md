@@ -2,7 +2,7 @@
 
 _TODO add badges_
 
-Core structures and helpers
+Core structures and helpers.
 
 ## Documentation
 
