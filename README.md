@@ -9,7 +9,11 @@ _TODO add link to docs_
 
 ## Credits
 
-_TODO add credits_
+## Credits
+
+- To [Rudi Theunissen](https://github.com/rtheunissen) and [Joe Watkins](https://github.com/krakjoe) for their work on
+  the pecl [Data Structures](https://github.com/php-ds/ext-ds) package which in my opinion should be made available in
+  the PHP core!
 
 ## License
 
