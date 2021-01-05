@@ -1,5 +1,7 @@
 # PHP Addition Repository
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/php-addition-repository/par/Unit%20tests?label=Unit%20Tests)
+
 _TODO add badges_
 
 ## Documentation

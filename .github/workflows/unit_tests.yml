@@ -1,0 +1,33 @@
+name: Unit tests
+
+on:
+  pull_request: null
+
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.0' ]
+
+    name: PHP ${{ matrix.php }} tests
+    steps:
+      - uses: actions/checkout@v2
+        # required for "git tag" presence for monorepo-builder split and changelog-linker git tags resolver; default is 1
+        # https://github.com/actions/checkout#fetch-all-tags
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache PHP dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+      - run: composer install --no-progress --ansi
+
+      - run: vendor/bin/phpunit
