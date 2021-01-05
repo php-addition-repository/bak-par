@@ -9,7 +9,17 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## 0.1.0 - 2021-01-05
+## [0.1.0] - 2021-01-05
+
+### Unknown Package
+
+#### Changed
+
+- [#1] Introduce monorepo functionality
+
+
+
+## [0.1.0] - 2021-01-05
 
 ### Unknown Package
 
@@ -18,3 +28,4 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1] Introduce monorepo functionality
 
 [#1]: https://github.com/php-addition-repository/par/pull/1
+[0.1.0]: https://github.com/php-addition-repository/par/compare/0.1.0...0.1.0
