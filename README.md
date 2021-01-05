@@ -5,7 +5,7 @@
 
 ## Documentation
 
-_TODO add link to docs_
+Documentation can be found [here](https://php-addition-repository.github.io/)
 
 ## Credits
 

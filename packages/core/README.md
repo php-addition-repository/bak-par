@@ -5,13 +5,17 @@
 
 Core structures and helpers.
 
-## Documentation
+## Installation
 
 ```
 composer require par/core
 ```
 
-_TODO add link to docs_
+## Documentation
+
+Documentation can be found [here](https://php-addition-repository.github.io/)
+
+_TODO add link to docs for package_
 
 ## License
 
