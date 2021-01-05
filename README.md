@@ -1,7 +1,7 @@
 # PHP Addition Repository
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/php-addition-repository/par/Unit%20tests?label=Unit%20Tests)
-[![Coverage Status](https://coveralls.io/repos/github/php-addition-repository/par/badge.svg?branch=master)](https://coveralls.io/github/php-addition-repository/par?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/php-addition-repository/par/badge.svg?branch=main)](https://coveralls.io/github/php-addition-repository/par?branch=main)
 
 ## Documentation
 
