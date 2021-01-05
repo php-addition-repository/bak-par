@@ -33,7 +33,7 @@ jobs:
     # this step is needed, so the output gets to the next defined job
     outputs:
       matrix: ${{ steps.output_data.outputs.matrix }}
-  
+
   split_monorepo:
     needs: provide_packages_json
 
@@ -47,8 +47,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - id: branch_name
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-  
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+
       - # Uses an action in the root directory
         name: Monorepo Split of ${{ matrix.package }}
         uses: symplify/github-action-monorepo-split@master
