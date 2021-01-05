@@ -3,7 +3,7 @@ name: Unit tests
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   unit_tests:
@@ -15,9 +15,6 @@ jobs:
     name: PHP ${{ matrix.php }} tests
     steps:
       - uses: actions/checkout@v2
-        # required for "git tag" presence for monorepo-builder split and changelog-linker git tags resolver; default is 1
-        # https://github.com/actions/checkout#fetch-all-tags
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       - uses: shivammathur/setup-php@v2
         with:
