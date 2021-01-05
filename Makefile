@@ -12,6 +12,15 @@ build: docker-init
 workspace: docker-init
 	$(DOCKER_COMPOSE) run workspace sh
 
+release-major:
+	$(DOCKER_COMPOSE) run workspace monorepo-builder release major
+
+release-minor:
+	$(DOCKER_COMPOSE) run workspace monorepo-builder release minor
+
+release-patch:
+	$(DOCKER_COMPOSE) run workspace monorepo-builder release patch
+
 .docker/.env:
 	cp $(DOCKER_COMPOSE_DIR)/.env.example $(DOCKER_COMPOSE_DIR)/.env
 
