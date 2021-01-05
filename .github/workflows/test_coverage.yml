@@ -33,5 +33,5 @@ jobs:
           COVERALLS_RUN_LOCALLY: 1
         if: success()
         run: |
-          composer global require php-coveralls/php-coveralls
-          php-coveralls --coverage_clover=clover.xml -v
+          composer global require php-coveralls/php-coveralls --no-progress --ansi
+          php-coveralls --coverage_clover=clover.xml -v -o coveralls.json
