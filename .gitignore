@@ -1,2 +1,8 @@
+# Docker
+.docker/.env
+
 # Composer
 /vendor/
+
+# phpunit
+.phpunit.result.cache
