@@ -16,7 +16,7 @@ jobs:
             run: composer validate --strict
 
           - name: Monorepo-builder Validate
-            run: vendor/bin/monorepo-build validate
+            run: vendor/bin/monorepo-builder validate
 
     name: ${{ matrix.actions.name }}
     runs-on: ubuntu-latest
