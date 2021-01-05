@@ -1,6 +1,7 @@
 # PHP Addition Repository - Core
 
-_TODO add badges_
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/php-addition-repository/core?sort=semver)](https://github.com/php-addition-repository/core/releases)
+[![Packagist Downloads](https://img.shields.io/packagist/dm/par/core)](https://packagist.org/packages/par/core)
 
 Core structures and helpers.
 
