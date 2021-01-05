@@ -9,25 +9,13 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## [0.1.0] - 2020-12-22
+## [0.2.1] - 2021-01-05
 
-### Unknown Package
+- Patch release to fix repo splitting
 
-#### Changed
+## [0.2.0] - 2021-01-05
 
-- [#1] Introduce monorepo functionality
-
-
-
-## [0.1.0] - 2020-12-22
-
-### Unknown Package
-
-#### Changed
-
-- [#1] Introduce monorepo functionality
-
-
+- Added first structs to `Par\Core`
 
 ## [0.1.0] - 2020-12-22
 
