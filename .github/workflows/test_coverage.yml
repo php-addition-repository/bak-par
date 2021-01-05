@@ -28,7 +28,7 @@ jobs:
       - run: |
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
           # coveralls.io
-          wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
+          wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
           php php-coveralls.phar --verbose
         env:
           COVERALLS_REPO_TOKEN: '08xWclquTWoOVzfk22lHhv6bgXjXcl0A1'
