@@ -1,0 +1,34 @@
+name: Test Coverage
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --depth=100000 origin
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Cache PHP dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+      - run: composer install --no-progress --ansi
+
+      - run: |
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+          # coveralls.io
+          wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
+          php php-coveralls.phar --verbose
+        env:
+          COVERALLS_REPO_TOKEN: '08xWclquTWoOVzfk22lHhv6bgXjXcl0A1'
