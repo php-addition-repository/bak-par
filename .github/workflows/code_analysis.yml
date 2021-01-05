@@ -1,0 +1,40 @@
+name: Code Analysis
+
+on:
+  pull_request: null
+  push:
+    branches:
+      - master
+
+jobs:
+  code_analysis:
+    strategy:
+      fail-fast: false
+      matrix:
+        actions:
+          - name: Composer Validate
+            run: composer validate --strict
+
+          - name: Monorepo-builder Validate
+            run: vendor/bin/monorepo-build validate
+
+    name: ${{ matrix.actions.name }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v1
+        with:
+          php-version: 8.0
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache PHP dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+      - run: composer install --no-progress --ansi
+
+      - run: ${{ matrix.actions.run }}

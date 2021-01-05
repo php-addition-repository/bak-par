@@ -1,7 +1,9 @@
 name: Unit tests
 
 on:
-  pull_request: null
+  push:
+    branches:
+      - master
 
 jobs:
   unit_tests:
@@ -17,7 +19,7 @@ jobs:
         # https://github.com/actions/checkout#fetch-all-tags
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
-      - uses: shivammathur/setup-php@v1
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           coverage: none
