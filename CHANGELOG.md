@@ -8,3 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/symplify/changelog-linker).
 
 <!-- changelog-linker -->
+
+## 0.1.0 - 2021-01-05
+
+### Unknown Package
+
+#### Changed
+
+- [#1] Introduce monorepo functionality
+
+[#1]: https://github.com/php-addition-repository/par/pull/1
