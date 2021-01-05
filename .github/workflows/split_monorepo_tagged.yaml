@@ -52,9 +52,6 @@ jobs:
       - id: previous_tag
         uses: "WyriHaximus/github-action-get-previous-tag@master"
 
-      - id: branch_name
-        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
-
       - # Uses an action in the root directory
         name: Monorepo Split of ${{ matrix.package }}
         uses: symplify/github-action-monorepo-split@master
@@ -65,6 +62,6 @@ jobs:
           split-repository-organization: 'php-addition-repository'
           split-repository-name: '${{ matrix.package }}'
           tag: ${{ steps.previous_tag.outputs.tag }}
-          branch: ${{ steps.branch_name.outputs.branch }}
+          branch: 'main'
           user-name: 'Alex Brouwer'
           user-email: 'brouwer.alexander@gmail.com'
