@@ -32,11 +32,30 @@ jobs:
           args: 'project:run'
 
       - name: Push docs to php-addition-repository.github.io
-        uses: dmnemec/copy_file_to_another_repo_action@v1.0.4
         env:
           API_TOKEN_GITHUB: ${{ secrets.REPO_GIT_TOKEN }}
-        with:
-          source_file: 'build/docs'
-          destination_repo: 'php-addition-repository/php-addition-repository.github.io'
-          user_email: 'brouwer.alexander@gmail.com'
-          user_name: 'Alex Brouwer'
+        run: |
+          CLONE_DIR=$(mktemp -d)
+          WORKDIR=/github/workspace
+
+          echo "Cloning destination git repository"
+          git clone --single-branch --branch master "https://x-access-token:$API_TOKEN_GITHUB@github.com/php-addition-repository.github.io.git" "$CLONE_DIR"
+
+          cd $CLONE_DIR
+          git config user.email "brouwer.alexander@gmail.com"
+          git config user.name "Alex Brouwer"
+
+          echo "Copying contents to git repo"
+          rm -rf .
+          cp -R "$WORKDIR/build/docs/" "$CLONE_DIR/"
+
+          echo "Adding git commit"
+          git add .
+          if git status | grep -q "Changes to be committed"
+          then
+            git commit --message "Update docs"
+            echo "Pushing git commit"
+            git push -u origin HEAD:$OUTPUT_BRANCH
+          else
+            echo "No changes detected"
+          fi
