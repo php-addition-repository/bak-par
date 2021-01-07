@@ -46,7 +46,7 @@ jobs:
           git config user.name "Alex Brouwer"
 
           echo "Copying contents to git repo"
-          rm -rf .
+          rm -rf "$CLONE_DIR/"
           cp -R "$WORKDIR/build/docs/" "$CLONE_DIR/"
 
           echo "Adding git commit"
