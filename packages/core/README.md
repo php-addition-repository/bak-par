@@ -13,9 +13,7 @@ composer require par/core
 
 ## Documentation
 
-Documentation can be found [here](https://php-addition-repository.github.io/)
-
-_TODO add link to docs for package_
+Documentation can be found [here](https://php-addition-repository.github.io/namespaces/par-core.html)
 
 ## License
 
