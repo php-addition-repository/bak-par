@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Monorepo\ReleaseWorker\ChangelogLinkerDumpReleaseWorker;
-use App\Monorepo\ReleaseWorker\ChangelogLinkerLinkReleaseWorker;
+use App\Monorepo\ReleaseWorker\ChangelogLinkerReleaseWorker;
 use App\Monorepo\ReleaseWorker\PushNextDevReleaseWorker;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker;
@@ -43,8 +42,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(UpdateReplaceReleaseWorker::class);
     $services->set(SetCurrentMutualDependenciesReleaseWorker::class);
 
-    $services->set(ChangelogLinkerDumpReleaseWorker::class);
-    $services->set(ChangelogLinkerLinkReleaseWorker::class);
+    $services->set(ChangelogLinkerReleaseWorker::class);
     $services->set(AddTagToChangelogReleaseWorker::class);
 
     $services->set(TagVersionReleaseWorker::class);
