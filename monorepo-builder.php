@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 use App\Monorepo\ReleaseWorker\ChangelogLinkerDumpReleaseWorker;
 use App\Monorepo\ReleaseWorker\ChangelogLinkerLinkReleaseWorker;
@@ -15,7 +15,7 @@ use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorke
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateReplaceReleaseWorker;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 
-return static function ( ContainerConfigurator $containerConfigurator ): void {
+return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     // Things to add to root composer on merge
@@ -34,21 +34,22 @@ return static function ( ContainerConfigurator $containerConfigurator ): void {
         ]
     );
 
-    $parameters->set( Option::PACKAGE_ALIAS_FORMAT, '<major>.<minor>.x-dev' );
+    $parameters->set(Option::PACKAGE_ALIAS_FORMAT, '<major>.<minor>.x-dev');
+    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, ['docs']);
 
     $services = $containerConfigurator->services();
 
     // Release workers - in order to execute
-    $services->set( UpdateReplaceReleaseWorker::class );
-    $services->set( SetCurrentMutualDependenciesReleaseWorker::class );
+    $services->set(UpdateReplaceReleaseWorker::class);
+    $services->set(SetCurrentMutualDependenciesReleaseWorker::class);
 
-    $services->set( ChangelogLinkerDumpReleaseWorker::class );
-    $services->set( ChangelogLinkerLinkReleaseWorker::class );
-    $services->set( AddTagToChangelogReleaseWorker::class );
+    $services->set(ChangelogLinkerDumpReleaseWorker::class);
+    $services->set(ChangelogLinkerLinkReleaseWorker::class);
+    $services->set(AddTagToChangelogReleaseWorker::class);
 
-    $services->set( TagVersionReleaseWorker::class );
-    $services->set( PushTagReleaseWorker::class );
-    $services->set( SetNextMutualDependenciesReleaseWorker::class );
-    $services->set( UpdateBranchAliasReleaseWorker::class );
-    $services->set( PushNextDevReleaseWorker::class );
+    $services->set(TagVersionReleaseWorker::class);
+    $services->set(PushTagReleaseWorker::class);
+    $services->set(SetNextMutualDependenciesReleaseWorker::class);
+    $services->set(UpdateBranchAliasReleaseWorker::class);
+    $services->set(PushNextDevReleaseWorker::class);
 };

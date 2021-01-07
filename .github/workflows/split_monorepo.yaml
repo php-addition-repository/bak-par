@@ -51,12 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Generate docs
-        uses: docker://phpdoc/phpdoc:3
-        with:
-          workdir: '/github/workspace'
-          args: 'project:run'
-
       - # Uses an action in the root directory
         name: Monorepo Split of ${{ matrix.package }}
         uses: symplify/github-action-monorepo-split@master

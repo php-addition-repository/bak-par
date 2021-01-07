@@ -6,7 +6,7 @@
         xsi:schemaLocation="https://www.phpdoc.org">
     <title>PAR - PHP Additional Repository</title>
     <paths>
-        <output>package/php-addition-repository.github.io</output>
+        <output>build/docs</output>
         <cache>build/.cache/docs</cache>
     </paths>
     <version number="1.0.0">
