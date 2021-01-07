@@ -26,17 +26,17 @@ jobs:
       - run: composer install --no-progress --ansi
 
       - name: Generate docs
-        uses: docker://phpdoc/phpdoc
+        uses: docker://phpdoc/phpdoc:3
         with:
-          workspace: '/github/workspace'
+          workdir: '/github/workspace'
           args: 'project:run'
 
-      - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@master
+      - name: Push docs to php-addition-repository.github.io
+        uses: dmnemec/copy_file_to_another_repo_action@v1.0.4
         env:
           API_TOKEN_GITHUB: ${{ secrets.REPO_GIT_TOKEN }}
         with:
-          source-directory: 'docs'
-          destination-github-username: 'php-addition-repository'
-          destination-repository-name: 'php-addition-repository.github.io'
-          user-email: brouwer.alexander@gmail.com
+          source_file: 'build/docs'
+          destination_repo: 'php-addition-repository/php-addition-repository.github.io'
+          user_email: 'brouwer.alexander@gmail.com'
+          user_name: 'Alex Brouwer'
