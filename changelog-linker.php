@@ -13,7 +13,7 @@ return static function ( ContainerConfigurator $containerConfigurator ): void {
     $parameters->set(
         Option::NAMES_TO_URLS,
         [
-            'Core' => 'https://github.com/par/core/',
+            'Core' => 'https://github.com/php-addition-repository/core/',
         ]
     );
 };
