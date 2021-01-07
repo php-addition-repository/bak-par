@@ -35,8 +35,9 @@ jobs:
         uses: andstor/copycat-action@v3
         with:
           personal_token: ${{ secrets.REPO_GIT_TOKEN }}
-          src_path: 'build/docs/'
+          src_path: '/build/docs/'
+          src_branch: 'main'
           dst_path: '/.'
-          dst_owner: php-addition-repository
-          dst_repo_name: php-addition-repository.github.io
+          dst_owner: 'php-addition-repository'
+          dst_repo_name: 'php-addition-repository.github.io'
           clean: true
