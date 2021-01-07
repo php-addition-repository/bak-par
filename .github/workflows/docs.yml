@@ -36,7 +36,6 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.REPO_GIT_TOKEN }}
         run: |
           CLONE_DIR=$(mktemp -d)
-          WORKDIR=/github/workspace
 
           echo "Cloning destination git repository"
           git clone --single-branch --branch master "https://x-access-token:$API_TOKEN_GITHUB@github.com/php-addition-repository/php-addition-repository.github.io.git" "$CLONE_DIR"
@@ -47,7 +46,7 @@ jobs:
 
           echo "Copying contents to git repo"
           rm -rf "$CLONE_DIR/"
-          cp -R "$WORKDIR/build/docs/" "$CLONE_DIR/"
+          cp -R "$RUNNER_WORKSPACE/build/docs/" "$CLONE_DIR/"
 
           echo "Adding git commit"
           git add .
