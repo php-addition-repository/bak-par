@@ -45,5 +45,6 @@
         "symplify/changelog-linker": "^9.0",
         "symplify/monorepo-builder": "^9.0"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
