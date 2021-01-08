@@ -9,6 +9,14 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## 0.2.1 - 2021-01-08
+
+- [#5] [Global] Run unit tests workflow on PR
+- [#4] [Global] Update composer dependencies
+- [#2] [All] Fix changelog linker release
+
+
+
 ## [0.1.0] - 2021-01-05
 
 ### Unknown Package
@@ -19,3 +27,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 [#1]: https://github.com/php-addition-repository/par/pull/1
 [0.1.0]: https://github.com/php-addition-repository/par/compare/0.1.0...0.1.0
+[#5]: https://github.com/php-addition-repository/par/pull/5
+[#4]: https://github.com/php-addition-repository/par/pull/4
+[#2]: https://github.com/php-addition-repository/par/pull/2
