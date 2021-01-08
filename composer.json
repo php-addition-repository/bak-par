@@ -32,7 +32,7 @@
         }
     },
     "replace": {
-        "par/core": "0.2.1"
+        "par/core": "0.3.0"
     },
     "config": {
         "sort-packages": true,
