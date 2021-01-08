@@ -1,4 +1,25 @@
 {
+    "name": "par/par",
+    "description": "PHP Addition Repository (PAR)",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Brouwer",
+            "email": "brouwer.alexander@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-intl": "*",
+        "php-ds/php-ds": "^1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-master",
+        "symplify/changelog-linker": "^9.0",
+        "symplify/monorepo-builder": "^9.0"
+    },
     "autoload": {
         "psr-4": {
             "Par\\Core\\": "packages/core/src/"
@@ -10,19 +31,9 @@
             "ParTest\\Core\\": "packages/core/test/"
         }
     },
-    "name": "par/par",
     "replace": {
         "par/core": "0.2.0"
     },
-    "description": "PHP Addition Repository (PAR)",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Alex Brouwer",
-            "email": "brouwer.alexander@gmail.com",
-            "role": "lead"
-        }
-    ],
     "config": {
         "sort-packages": true,
         "platform": {
@@ -33,17 +44,6 @@
         "branch-alias": {
             "dev-master": "0.1.x-dev"
         }
-    },
-    "require": {
-        "php": "^8.0",
-        "ext-intl": "*",
-        "php-ds/php-ds": "^1.2"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "roave/security-advisories": "dev-master",
-        "symplify/changelog-linker": "^9.0",
-        "symplify/monorepo-builder": "^9.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
