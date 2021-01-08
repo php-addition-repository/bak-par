@@ -24,7 +24,7 @@ final class ChangelogLinkerReleaseWorker implements ReleaseWorkerInterface
     public function work ( Version $version ): void
     {
         $this->processRunner->run(
-            'vendor/bin/changelog-linker dump-merges'
+            'vendor/bin/changelog-linker dump-merges --in-packages --in-categories'
         );
         $this->processRunner->run(
             'vendor/bin/changelog-linker link'
