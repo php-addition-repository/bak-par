@@ -68,19 +68,22 @@ class EnumTest extends TestCase
      */
     public function itCanReturnAllElements(): void
     {
-        $expectedValues = [
-            Planet::Mercury(),
-            Planet::Venus(),
-            Planet::Earth(),
-            Planet::Mars(),
-            Planet::Jupiter(),
-            Planet::Saturn(),
-            Planet::Uranus(),
-            Planet::Neptune(),
-        ];
-        foreach (Planet::values() as $planet) {
-            self::assertHashEquals(array_shift($expectedValues), $planet);
-        }
+        // Because of internal caching we need to fetch the list first
+        $values = Planet::values();
+
+        self::assertSame(
+            [
+                Planet::Mercury(),
+                Planet::Venus(),
+                Planet::Earth(),
+                Planet::Mars(),
+                Planet::Jupiter(),
+                Planet::Saturn(),
+                Planet::Uranus(),
+                Planet::Neptune(),
+            ],
+            $values
+        );
     }
 
     /**
@@ -110,40 +113,21 @@ class EnumTest extends TestCase
     /**
      * @test
      */
-    public function itSupportsUnserialization(): void
+    public function itCannotUsedInSerialization(): void
     {
-        $planet = Planet::Mars();
-        $serialized = 'C:28:"ParTest\Core\Fixtures\Planet":4:{Mars}';
+        $this->expectException(\BadMethodCallException::class);
 
-        /** @var Planet $deserialized */
-        $deserialized = unserialize($serialized);
-
-        self::assertInstanceOf(Planet::class, $deserialized);
-        self::assertSame($planet->name(), $deserialized->name());
+        serialize(Planet::Earth());
     }
 
     /**
      * @test
      */
-    public function itWillThrowAnExceptionWhenUnserializingNonExistingElement(): void
+    public function itCannotBeCloned(): void
     {
-        $serialized = 'C:28:"ParTest\Core\Fixtures\Planet":3:{Sun}';
+        $this->expectException(\BadMethodCallException::class);
 
-        $this->expectExceptionObject(
-            InvalidEnumElement::withName(Planet::class, 'Sun')
-        );
-
-        unserialize($serialized);
-    }
-
-    /**
-     * @test
-     */
-    public function itSupportsSerialization(): void
-    {
-        $serialized = serialize(Planet::Earth());
-
-        self::assertSame('C:28:"ParTest\Core\Fixtures\Planet":5:{Earth}', $serialized);
+        clone Planet::Earth();
     }
 
     /**
@@ -190,6 +174,14 @@ class EnumTest extends TestCase
         $definitionCache = $reflectionClass->getProperty('definitionCache');
         $definitionCache->setAccessible(true);
         $definitionCache->setValue($definitionCache->getDefaultValue());
+
+        $instances = $reflectionClass->getProperty('instances');
+        $instances->setAccessible(true);
+        $instances->setValue($instances->getDefaultValue());
+
+        $allInstancesLoaded = $reflectionClass->getProperty('allInstancesLoaded');
+        $allInstancesLoaded->setAccessible(true);
+        $allInstancesLoaded->setValue($allInstancesLoaded->getDefaultValue());
     }
 }
 
