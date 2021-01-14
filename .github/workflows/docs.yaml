@@ -18,14 +18,14 @@ jobs:
 
       - name: Cleanup docs
         run: |
-          rm -rf packages/docs/public
-          mkdir packages/docs/public
+          rm -rf packages/docs/docs
+          mkdir packages/docs/docs
 
       - name: Generate docs
         uses: docker://phpdoc/phpdoc:3
         with:
           workdir: '/github/workspace'
-          args: 'project:run -t packages/docs/public'
+          args: 'project:run -t packages/docs/docs'
 
       - name: Push docs
         uses: symplify/github-action-monorepo-split@master
