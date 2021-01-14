@@ -70,4 +70,54 @@ final class DayOfWeek extends Enum
     {
         return array_search($this->name(), static::VALUE_MAP, true);
     }
+
+    /**
+     * Returns the day-of-week that is the specified number of days before this one.
+     *
+     * The calculation rolls around the start of the year from Monday to Sunday. The specified period may be negative.
+     *
+     * @param int $days The days to subtract, positive or negative
+     *
+     * @return DayOfWeek
+     */
+    public function minus(int $days): self
+    {
+        return $this->plus($days * -1);
+    }
+
+    /**
+     * Returns the day-of-week that is the specified number of days after this one.
+     *
+     * The calculation rolls around the end of the week from Sunday to Monday. The specified period may be negative.
+     *
+     * @param int $days The days to add, positive or negative
+     *
+     * @return DayOfWeek
+     */
+    public function plus(int $days): self
+    {
+        $currentValue = $this->value();
+        $newValue = $currentValue + $days;
+
+        if ($newValue === 0) {
+            $newValue = self::MAX_VALUE;
+        }
+
+        $rangeMultiplier = (int)floor($newValue / self::MAX_VALUE);
+
+        if ($newValue < self::MIN_VALUE) {
+            $rangeMultiplier *= -1;
+            $newValue = ($rangeMultiplier * self::MAX_VALUE) + $newValue;
+        }
+
+        if ($newValue > self::MAX_VALUE) {
+            $newValue -= $rangeMultiplier * self::MAX_VALUE;
+        }
+
+        if ($newValue === $currentValue) {
+            return $this;
+        }
+
+        return self::of($newValue);
+    }
 }

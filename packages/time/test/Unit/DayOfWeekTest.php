@@ -85,4 +85,24 @@ class DayOfWeekTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function itCanBeMovedViaSubtraction(): void
+    {
+        self::assertSame(DayOfWeek::Sunday(), DayOfWeek::Monday()->minus(1));
+        self::assertSame(DayOfWeek::Saturday(), DayOfWeek::Monday()->minus(9));
+        self::assertSame(DayOfWeek::Wednesday(), DayOfWeek::Monday()->minus(-2));
+        self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->minus(0));
+        self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->minus(14));
+    }
+
+    public function itCanBeMovedViaAddition(): void
+    {
+        self::assertSame(DayOfWeek::Tuesday(), DayOfWeek::Monday()->plus(1));
+        self::assertSame(DayOfWeek::Wednesday(), DayOfWeek::Monday()->plus(9));
+        self::assertSame(DayOfWeek::Saturday(), DayOfWeek::Monday()->plus(-2));
+        self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->plus(0));
+        self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->plus(14));
+    }
 }
