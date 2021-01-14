@@ -9,6 +9,20 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## 0.4.0 - 2021-01-14
+
+### Unknown Package
+
+#### Added
+
+- [#8] Added `Par\Core\Enum` class to allow for enumerable objects
+- [#7] Added test for non-hashable equality assertion
+
+#### Fixed
+
+- 
+
+
 ## [0.3.0] - 2021-01-08
 
 ### [Core]
@@ -55,3 +69,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [Core]: https://github.com/php-addition-repository/core/
 
 [0.3.0]: https://github.com/php-addition-repository/par/compare/0.2.1...0.3.0
+[#10]: https://github.com/php-addition-repository/par/pull/10
+[#8]: https://github.com/php-addition-repository/par/pull/8
+[#7]: https://github.com/php-addition-repository/par/pull/7
