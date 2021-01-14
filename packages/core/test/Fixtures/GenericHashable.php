@@ -6,6 +6,9 @@ namespace ParTest\Core\Fixtures;
 
 use Par\Core\Hashable;
 
+/**
+ * @internal
+ */
 final class GenericHashable implements Hashable
 {
     public function __construct(private int|string|bool|null|float $value)
