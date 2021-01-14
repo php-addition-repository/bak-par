@@ -1,4 +1,4 @@
-name: Docs
+name: Generate Docs
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - '*'
 
 jobs:
-  split_monorepo:
+  docs:
     runs-on: ubuntu-latest
 
     steps:
