@@ -10,6 +10,11 @@ use ReflectionClass;
 use Serializable;
 use Stringable;
 
+/**
+ * This is the common base class of all enumerations.
+ *
+ * @example "packages/core/test/Fixtures/Planet.php" Implementation example
+ */
 abstract class Enum implements Hashable, Stringable, Serializable
 {
     private static array $definitionCache = [];
