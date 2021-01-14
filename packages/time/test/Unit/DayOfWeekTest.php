@@ -32,6 +32,34 @@ class DayOfWeekTest extends TestCase
         DayOfWeek::of(8);
     }
 
+    public function provideNative(): array
+    {
+        return [
+            \DateTime::class => [
+                DayOfWeek::Thursday(),
+                \DateTime::createFromFormat('Y-m-d', '2021-01-14'),
+            ],
+            \DateTimeImmutable::class => [
+                DayOfWeek::Wednesday(),
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2021-01-20'),
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideNative
+     *
+     * @param DayOfWeek          $expected
+     * @param \DateTimeInterface $native
+     *
+     * @return void
+     */
+    public function itCanBeCreatedFromNativeDateTime(DayOfWeek $expected, \DateTimeInterface $native): void
+    {
+        self::assertSame($expected, DayOfWeek::fromNative($native));
+    }
+
     /**
      * @test
      */

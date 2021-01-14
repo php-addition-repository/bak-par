@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Par\Time;
 
+use DateTimeInterface;
 use Par\Core\Enum;
 use Par\Time\Exception\InvalidArgumentException;
 
@@ -30,6 +31,18 @@ final class DayOfWeek extends Enum
         6 => 'Saturday',
         7 => 'Sunday',
     ];
+
+    /**
+     * Obtains an instance of DayOfWeek from  an implementation of the DateTimeInterface.
+     *
+     * @param DateTimeInterface $dateTime The datetime to convert
+     *
+     * @return static
+     */
+    public static function fromNative(DateTimeInterface $dateTime): static
+    {
+        return static::of((int)$dateTime->format('N'));
+    }
 
     /**
      * Obtains an instance of DayOfWeek from an int value.
