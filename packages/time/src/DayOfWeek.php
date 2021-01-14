@@ -68,6 +68,6 @@ final class DayOfWeek extends Enum
      */
     public function value(): int
     {
-        return $this->ordinal() + 1;
+        return array_search($this->name(), static::VALUE_MAP, true);
     }
 }

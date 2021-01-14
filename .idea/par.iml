@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/core/src" isTestSource="false" packagePrefix="Par\Core\" />
       <sourceFolder url="file://$MODULE_DIR$/packages/core/test" isTestSource="true" packagePrefix="ParTest\Core\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="true" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/time/src" isTestSource="false" packagePrefix="Par\Time\" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/time/test" isTestSource="true" packagePrefix="ParTest\Time\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/symplify-kernel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/composer-json-manipulator" />

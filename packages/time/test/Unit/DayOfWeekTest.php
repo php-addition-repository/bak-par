@@ -13,12 +13,18 @@ class DayOfWeekTest extends TestCase
 {
     use HashableAssertions;
 
+    public function itWillReturnValue(): void
+    {
+        self::assertSame(2, DayOfWeek::Tuesday()->value());
+    }
+
     /**
      * @test
      */
     public function itCanBeCreatedFromValue(): void
     {
         $expected = DayOfWeek::Thursday();
+
         self::assertHashEquals($expected, DayOfWeek::of(4));
     }
 
