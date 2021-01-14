@@ -7,7 +7,6 @@ namespace Par\Core;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use ReflectionClass;
-use Serializable;
 use Stringable;
 
 /**
@@ -15,9 +14,12 @@ use Stringable;
  *
  * @example "packages/core/test/Fixtures/Planet.php" Implementation example
  */
-abstract class Enum implements Hashable, Stringable, Serializable
+abstract class Enum implements Hashable, Stringable
 {
     private static array $definitionCache = [];
+    private static array $allInstancesLoaded = [];
+    private static array $instances = [];
+
     private string $name;
     private int $ordinal;
 
@@ -69,8 +71,8 @@ abstract class Enum implements Hashable, Stringable, Serializable
     {
         $className = static::class;
 
-        if (static::$definitionCache[$className] ?? null) {
-            return static::$definitionCache[$className];
+        if (self::$definitionCache[$className] ?? null) {
+            return self::$definitionCache[$className];
         }
 
         $methods = [];
@@ -106,34 +108,44 @@ abstract class Enum implements Hashable, Stringable, Serializable
 
         $definition = [];
         foreach ($methods as $ordinal => $name) {
-            $definition[$name] = new EnumDefinition($name, $ordinal, $constants[$name]);
+            $definition[$name] = new EnumDefinition($name, $ordinal, $constants[$name] ?? []);
         }
 
-        return static::$definitionCache[$className] ??= $definition;
+        return self::$definitionCache[$className] ??= $definition;
     }
 
     private static function createFromDefinition(EnumDefinition $definition): static
     {
+        $className = static::class;
+        if (isset(self::$instances[$className][$definition->name()])) {
+            return self::$instances[$className][$definition->name()];
+        }
+
         $instance = new static(...$definition->args());
         $instance->name = $definition->name();
         $instance->ordinal = $definition->ordinal();
 
-        return $instance;
+        return self::rememberInstance($definition->name(), $instance);
     }
 
-    /**
-     * Returns a list containing the elements of this enum type, in the order they are declared.
-     *
-     * @return static[]
-     */
-    final public static function values(): iterable
+    private static function rememberInstance(string $name, Enum $instance): static
     {
-        $values = [];
-        foreach (static::resolveDefinition() as $definition) {
-            $values[] = static::createFromDefinition($definition);
+        $className = static::class;
+        self::$instances[$className][$name] = $instance;
+        if (!isset(self::$allInstancesLoaded[$className])
+            && count(self::$instances[$className]) === count(self::$definitionCache[$className])
+        ) {
+            uasort(
+                self::$instances[$className],
+                static function (self $a, self $b) {
+                    return $a->ordinal() <=> $b->ordinal();
+                }
+            );
+
+            self::$allInstancesLoaded[$className] = true;
         }
 
-        return $values;
+        return $instance;
     }
 
     /**
@@ -143,6 +155,29 @@ abstract class Enum implements Hashable, Stringable, Serializable
     final public function ordinal(): int
     {
         return $this->ordinal;
+    }
+
+    /**
+     * Returns a list containing the elements of this enum type, in the order they are declared.
+     *
+     * @return static[]
+     */
+    final public static function values(): iterable
+    {
+        $className = static::class;
+        if (isset(self::$allInstancesLoaded[$className])) {
+            return array_values(self::$instances[$className]);
+        }
+
+        if (!isset(self::$instances[$className])) {
+            self::$instances[$className] = [];
+        }
+
+        foreach (static::resolveDefinition() as $definition) {
+            static::createFromDefinition($definition);
+        }
+
+        return array_values(self::$instances[$className]);
     }
 
     /**
@@ -177,33 +212,21 @@ abstract class Enum implements Hashable, Stringable, Serializable
         return $this->ordinal;
     }
 
-    public function serialize(): string
-    {
-        return $this->name;
-    }
-
-    public function unserialize($serialized): void
+    public function __clone(): void
     {
         $className = static::class;
+        throw new \BadMethodCallException("Cannot clone enum {$className}.");
+    }
 
-        $definition = static::findDefinition($serialized);
-        if (!$definition) {
-            throw InvalidEnumElement::withName($className, $serialized);
-        }
+    public function __sleep(): array
+    {
+        $className = static::class;
+        throw new \BadMethodCallException("Cannot serialize enum {$className}.");
+    }
 
-        $args = $definition->args();
-        if (!empty($args)) {
-            $reflectionClass = new ReflectionClass($className);
-
-            $constructor = $reflectionClass->getConstructor();
-            if ($constructor && $constructor->getParameters()) {
-                $constructor->setAccessible(true);
-                $constructor->invokeArgs($this, $args);
-                $constructor->setAccessible(false);
-            }
-        }
-
-        $this->name = $serialized;
-        $this->ordinal = $definition->ordinal();
+    public function __wakeup(): void
+    {
+        $className = static::class;
+        throw new \BadMethodCallException("Cannot unserialize enum {$className}.");
     }
 }
