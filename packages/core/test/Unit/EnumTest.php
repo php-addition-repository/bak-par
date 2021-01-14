@@ -21,10 +21,10 @@ class EnumTest extends TestCase
      */
     public function itCanFindAnElementByName(): void
     {
-        $element = Planet::valueOf('earth');
+        $element = Planet::valueOf('Earth');
 
         self::assertInstanceOf(Planet::class, $element);
-        self::assertSame('earth', $element->name());
+        self::assertSame('Earth', $element->name());
     }
 
     /**
@@ -34,7 +34,7 @@ class EnumTest extends TestCase
     {
         $element = Planet::Earth();
 
-        self::assertSame(Planet::class . '::earth', (string)$element);
+        self::assertSame(Planet::class . '::Earth', (string)$element);
     }
 
     /**
@@ -44,7 +44,7 @@ class EnumTest extends TestCase
     {
         $element = Planet::Earth();
 
-        self::assertSame('earth', $element->toString());
+        self::assertSame('Earth', $element->toString());
     }
 
     /**
@@ -88,7 +88,7 @@ class EnumTest extends TestCase
      */
     public function itsNameEqualsDefinedMethodTag(): void
     {
-        self::assertSame('mars', Planet::Mars()->name());
+        self::assertSame('Mars', Planet::Mars()->name());
     }
 
     /**
@@ -113,7 +113,7 @@ class EnumTest extends TestCase
     public function itSupportsUnserialization(): void
     {
         $planet = Planet::Mars();
-        $serialized = 'C:28:"ParTest\Core\Fixtures\Planet":4:{mars}';
+        $serialized = 'C:28:"ParTest\Core\Fixtures\Planet":4:{Mars}';
 
         /** @var Planet $deserialized */
         $deserialized = unserialize($serialized);
@@ -127,10 +127,10 @@ class EnumTest extends TestCase
      */
     public function itWillThrowAnExceptionWhenUnserializingNonExistingElement(): void
     {
-        $serialized = 'C:28:"ParTest\Core\Fixtures\Planet":3:{sun}';
+        $serialized = 'C:28:"ParTest\Core\Fixtures\Planet":3:{Sun}';
 
         $this->expectExceptionObject(
-            InvalidEnumElement::withName(Planet::class, 'sun')
+            InvalidEnumElement::withName(Planet::class, 'Sun')
         );
 
         unserialize($serialized);
@@ -143,7 +143,7 @@ class EnumTest extends TestCase
     {
         $serialized = serialize(Planet::Earth());
 
-        self::assertSame('C:28:"ParTest\Core\Fixtures\Planet":5:{earth}', $serialized);
+        self::assertSame('C:28:"ParTest\Core\Fixtures\Planet":5:{Earth}', $serialized);
     }
 
     /**
