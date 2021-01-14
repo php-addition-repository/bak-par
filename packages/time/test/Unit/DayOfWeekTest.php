@@ -65,19 +65,18 @@ class DayOfWeekTest extends TestCase
      */
     public function itWillContainAllDaysOfWeek(): void
     {
-        $expected = [
-            DayOfWeek::Monday(),
-            DayOfWeek::Tuesday(),
-            DayOfWeek::Wednesday(),
-            DayOfWeek::Thursday(),
-            DayOfWeek::Friday(),
-            DayOfWeek::Saturday(),
-            DayOfWeek::Sunday(),
-        ];
-
-        foreach (DayOfWeek::values() as $planet) {
-            self::assertHashEquals(array_shift($expected), $planet);
-        }
+        self::assertSame(
+            [
+                DayOfWeek::Monday(),
+                DayOfWeek::Tuesday(),
+                DayOfWeek::Wednesday(),
+                DayOfWeek::Thursday(),
+                DayOfWeek::Friday(),
+                DayOfWeek::Saturday(),
+                DayOfWeek::Sunday(),
+            ],
+            DayOfWeek::values()
+        );
     }
 
 }
