@@ -22,7 +22,7 @@ final class HashableEqualsTest extends TestCase
         return [
             'same-hashable' => [$expected, $expected, true],
             'other-hashable' => [$expected, $other, false],
-            'other-value' => [$expected, '', false],
+            'other-value' => [$expected, 'foo', false],
         ];
     }
 
@@ -43,7 +43,7 @@ final class HashableEqualsTest extends TestCase
     /**
      * @test
      */
-    public function itCanCreateDescriptionForFailure(): void
+    public function itCanCreateDescriptionForFailureWhenOtherIsHashable(): void
     {
         $expected = new GenericHashable('foo');
         $constraint = new HashableEquals($expected);
@@ -60,4 +60,23 @@ final class HashableEqualsTest extends TestCase
         $constraint->evaluate(new GenericHashable('bar'));
     }
 
+    /**
+     * @test
+     */
+    public function itCanCreateDescriptionForFailureWhenOtherIsNotHashable(): void
+    {
+        $expected = new GenericHashable('foo');
+        $constraint = new HashableEquals($expected);
+
+        $this->expectException(ExpectationFailedException::class);
+        $this->expectExceptionMessage(
+            'Failed asserting that \'foo\' equals ParTest\Core\Fixtures\GenericHashable@foo.
+--- Expected
++++ Actual
+@@ @@
+-ParTest\Core\Fixtures\GenericHashable@foo
++\'foo\''
+        );
+        $constraint->evaluate('foo');
+    }
 }
