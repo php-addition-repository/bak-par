@@ -11,7 +11,7 @@ trait ResourceTrait
 
     /**
      * @return mixed
-     * @psalm-return resource
+     * @psalm-return closed-resource
      */
     protected function createClosedResource(): mixed
     {
