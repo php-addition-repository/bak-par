@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Time\Unit;
+namespace Par\Time\PHPUnit;
 
 use Closure;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Par\Time\Factory;
-use PHPUnit\Framework\TestCase;
 
-abstract class TimeTestCase extends TestCase
+/**
+ * Trait containing a PHPUnit\Framework\TestCase::setUp implementation that will make sure enums work as expected
+ * between tests.
+ */
+trait TimeTestCaseTrait
 {
-    private string $saveTz;
+    private ?string $saveTz = null;
 
     /**
      * @param DateTimeInterface        $actualDateTime
@@ -175,21 +178,19 @@ abstract class TimeTestCase extends TestCase
         //save current timezone
         $this->saveTz = date_default_timezone_get();
         date_default_timezone_set('Europe/Amsterdam');
-
-        parent::setUp();
     }
 
     protected function tearDown(): void
     {
-        date_default_timezone_set($this->saveTz);
+        if (is_string($this->saveTz)) {
+            date_default_timezone_set($this->saveTz);
+        }
         Factory::setTestNow();
-
-        parent::tearDown();
     }
 
     /**
-     * Lock Factory::create() within the Closure to make sure every call uses the exact datetime regardless of current
-     * time
+     * Lock current date-time use in `Factory::create*()` methods within the Closure to make sure every call uses the
+     * exact datetime regardless of current time.
      *
      * @param Closure                $func The function to execute with locked now
      * @param DateTimeImmutable|null $dt   The now to use
