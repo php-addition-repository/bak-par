@@ -10,12 +10,13 @@ use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use Par\Core\PHPUnit\HashableAssertions;
 use ParTest\Core\Fixtures\Planet;
+use ParTest\Core\Unit\PHPUnit\EnumTestCaseTrait;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 class EnumTest extends TestCase
 {
     use HashableAssertions;
+    use EnumTestCaseTrait;
 
     /**
      * @test
@@ -151,26 +152,6 @@ class EnumTest extends TestCase
         $this->expectExceptionObject(InvalidEnumElement::withName(Planet::class, 'sun'));
 
         Planet::valueOf('sun');
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Reset all static properties
-        $reflectionClass = new ReflectionClass(Enum::class);
-
-        $definitionCache = $reflectionClass->getProperty('definitionCache');
-        $definitionCache->setAccessible(true);
-        $definitionCache->setValue($definitionCache->getDefaultValue());
-
-        $instances = $reflectionClass->getProperty('instances');
-        $instances->setAccessible(true);
-        $instances->setValue($instances->getDefaultValue());
-
-        $allInstancesLoaded = $reflectionClass->getProperty('allInstancesLoaded');
-        $allInstancesLoaded->setAccessible(true);
-        $allInstancesLoaded->setValue($allInstancesLoaded->getDefaultValue());
     }
 }
 
