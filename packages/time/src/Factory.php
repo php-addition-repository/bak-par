@@ -18,7 +18,7 @@ final class Factory
     public const YESTERDAY = 'yesterday, midnight';
     public const TOMORROW = 'tomorrow, midnight';
 
-    private static string $relativePattern = '/this|next|previous|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
+    private const RELATIVE_PATTERN = '/this|next|previous|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
 
     private static ?DateTimeImmutable $testNow = null;
 
@@ -31,6 +31,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz    The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function createDate(?int $year = null,
                                       ?int $month = null,
@@ -57,6 +58,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz     The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function create(
         ?int $year = null,
@@ -68,6 +70,7 @@ final class Factory
         DateTimeZone|string|null $tz = null
     ): DateTimeImmutable {
         $test = self::getTestNow();
+        /** @psalm-suppress ImpureFunctionCall */
         $currentTime = $test instanceof DateTimeImmutable ? $test->getTimestamp() : time();
 
         $year = $year ?? (int)date('Y', $currentTime);
@@ -92,8 +95,13 @@ final class Factory
         return $instance->modify($year . ' year');
     }
 
+    /**
+     * @return DateTimeImmutable|null
+     * @psalm-mutation-free
+     */
     public static function getTestNow(): ?DateTimeImmutable
     {
+        /** @psalm-suppress ImpureStaticProperty */
         return self::$testNow;
     }
 
@@ -111,6 +119,7 @@ final class Factory
      *
      * @return DateTimeImmutable
      * @throws InvalidArgumentException
+     * @psalm-mutation-free
      */
     public static function createFromFormat(string $format,
                                             string $time,
@@ -136,10 +145,12 @@ final class Factory
      * @param DateTimeZone|string|null $object The value to convert.
      *
      * @return DateTimeZone
+     * @psalm-mutation-free
      */
     private static function safeCreateDateTimeZone(DateTimeZone|string|null $object): DateTimeZone
     {
         if ($object === null) {
+            /** @psalm-suppress ImpureFunctionCall */
             return new DateTimeZone(date_default_timezone_get());
         }
 
@@ -156,6 +167,7 @@ final class Factory
      * @param DateTimeInterface $dateTime The datetime instance to convert.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function createFromInstance(DateTimeInterface $dateTime): DateTimeImmutable
     {
@@ -173,6 +185,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz        The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function createFromTimestamp(int $timestamp, $tz = null): DateTimeImmutable
     {
@@ -183,6 +196,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function now(DateTimeZone|string|null $tz = null): DateTimeImmutable
     {
@@ -195,6 +209,7 @@ final class Factory
      *
      * @return DateTimeImmutable
      * @throws InvalidArgumentException
+     * @psalm-mutation-free
      */
     public static function parse(?string $time = self::NOW, $tz = null): DateTimeImmutable
     {
@@ -238,6 +253,7 @@ final class Factory
      * @param string $time The time string to check.
      *
      * @return bool true if there is a keyword, otherwise false
+     * @psalm-mutation-free
      */
     private static function hasRelativeKeywords(string $time): bool
     {
@@ -247,7 +263,7 @@ final class Factory
 
         // skip common format with a '-' in it
         if (preg_match('/\d{4}-\d{1,2}-\d{1,2}/', $time) !== 1) {
-            return preg_match(static::$relativePattern, $time) > 0;
+            return preg_match(static::RELATIVE_PATTERN, $time) > 0;
         }
 
         return false;
@@ -259,6 +275,7 @@ final class Factory
      * @param string $time The time string to check.
      *
      * @return bool true if there is a keyword, otherwise false
+     * @psalm-mutation-free
      */
     private static function isTimeExpression(string $time): bool
     {
@@ -279,6 +296,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz     The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function createTime(?int $hour = null,
                                       ?int $minute = null,
@@ -298,6 +316,7 @@ final class Factory
      * @param bool                     $allowWrapping Allow wrapping (April 31st to May 1st, )
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public static function isValidDate(int $year, int $month, int $day, $tz = null, bool $allowWrapping = false): bool
     {
@@ -319,6 +338,7 @@ final class Factory
      * @param bool   $allowWrapping Allow wrapping (April 31st to May 1st, )
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public static function isValidForFormat(string $format, string $time, bool $allowWrapping = false): bool
     {
@@ -332,6 +352,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function today($tz = null): DateTimeImmutable
     {
@@ -342,6 +363,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function tomorrow($tz = null): DateTimeImmutable
     {
@@ -352,6 +374,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
+     * @psalm-mutation-free
      */
     public static function yesterday($tz = null): DateTimeImmutable
     {
