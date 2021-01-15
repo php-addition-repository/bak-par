@@ -11,6 +11,7 @@ trait ResourceTrait
 
     /**
      * @return resource
+     * @psalm-return closed-resource
      */
     protected function createClosedResource()
     {

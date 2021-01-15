@@ -32,7 +32,7 @@ final class HashTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{scalar|null}>
      */
     public function provideScalarAndNullValue(): array
     {
@@ -49,15 +49,15 @@ final class HashTest extends TestCase
      * @test
      * @dataProvider provideScalarAndNullValue
      *
-     * @param bool|float|int|string|null $scalarOrNullValue
+     * @param scalar|null $scalarOrNullValue
      */
-    public function itReturnsValueForScalarAndNullValue($scalarOrNullValue): void
+    public function itReturnsValueForScalarAndNullValue(bool|float|int|string|null $scalarOrNullValue): void
     {
         self::assertEquals($scalarOrNullValue, Values::hash($scalarOrNullValue));
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{object|resource|closed-resource|callable|iterable|array, int}>
      */
     public function provideNonScalarOrNullValueAndHash(): array
     {
@@ -80,8 +80,8 @@ final class HashTest extends TestCase
      * @test
      * @dataProvider provideNonScalarOrNullValueAndHash
      *
-     * @param object|resource|callable|iterable|array $nonScalarValue
-     * @param int                                     $expectedHashCode
+     * @param object|resource|closed-resource|callable|iterable|array $nonScalarValue
+     * @param int                                                     $expectedHashCode
      */
     public function itReturnsHashCodeForNonScalarOrNullValue($nonScalarValue, int $expectedHashCode): void
     {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Par\Core;
 
 use IntlChar;
-use JetBrains\PhpStorm\Pure;
 use TypeError;
 
 /**
@@ -98,7 +97,6 @@ final class HashCode
      *
      * @return int The resulting hash
      */
-    #[Pure]
     public static function forFloat(float $value): int
     {
         $packed = pack('g', $value);
@@ -178,7 +176,7 @@ final class HashCode
     /**
      * Transform an resource to integer hash.
      *
-     * @param resource $value The resource to transform
+     * @param mixed $value The resource to transform
      *
      * @return int The resulting hash
      */

@@ -14,7 +14,7 @@ final class TypeOfTest extends TestCase
     use ResourceTrait;
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{mixed, string}>
      */
     public function providedValuesWithExpectedType(): array
     {

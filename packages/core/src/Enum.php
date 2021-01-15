@@ -16,14 +16,22 @@ use Stringable;
  */
 abstract class Enum implements Hashable, Stringable
 {
+    /**
+     * @var array<string, array<string, EnumDefinition>>
+     */
     private static array $definitionCache = [];
+
+    /**
+     * @var array<string, bool>
+     */
     private static array $allInstancesLoaded = [];
+
+    /**
+     * @var array<string, array<string, Enum>>
+     */
     private static array $instances = [];
 
-    private string $name;
-    private int $ordinal;
-
-    protected function __construct()
+    final private function __construct(private int $ordinal, private string $name)
     {
         // Protected to prevent usage of "new EnumImpl"
     }
@@ -90,48 +98,32 @@ abstract class Enum implements Hashable, Stringable
             throw InvalidEnumDefinition::noMethodTagsDefinedOn($className);
         }
 
-        $constants = [];
-        foreach ($reflectionClass->getReflectionConstants() as $reflectionClassConstant) {
-            if ($reflectionClassConstant->isPublic()) {
-                continue;
-            }
-            $value = $reflectionClassConstant->getValue();
-            $constants[$reflectionClassConstant->getName()] = is_array($value) ? $value : [];
-        }
-
-        // Validate all or none of the methods have a constant value
-        $missingConstants = array_diff($methods, array_keys($constants));
-        $numMissingConstants = count($missingConstants);
-        if ($numMissingConstants > 0 && $numMissingConstants !== count($methods)) {
-            throw InvalidEnumDefinition::missingClassConstants($className, $missingConstants);
-        }
-
         $definition = [];
         foreach ($methods as $ordinal => $name) {
-            $definition[$name] = new EnumDefinition($name, $ordinal, $constants[$name] ?? []);
+            $definition[$name] = new EnumDefinition($name, $ordinal, []);
         }
 
         return self::$definitionCache[$className] ??= $definition;
     }
 
-    private static function createFromDefinition(EnumDefinition $definition): static
+    private static function createFromDefinition(EnumDefinition $definition): Enum
     {
         $className = static::class;
         if (isset(self::$instances[$className][$definition->name()])) {
             return self::$instances[$className][$definition->name()];
         }
 
-        $instance = new static(...$definition->args());
-        $instance->name = $definition->name();
-        $instance->ordinal = $definition->ordinal();
+        $instance = new static($definition->ordinal(), $definition->name());
 
         return self::rememberInstance($definition->name(), $instance);
     }
 
-    private static function rememberInstance(string $name, Enum $instance): static
+    private static function rememberInstance(string $name, Enum $instance): Enum
     {
         $className = static::class;
+
         self::$instances[$className][$name] = $instance;
+
         if (!isset(self::$allInstancesLoaded[$className])
             && count(self::$instances[$className]) === count(self::$definitionCache[$className])
         ) {
@@ -198,7 +190,7 @@ abstract class Enum implements Hashable, Stringable
         return sprintf("%s::%s", static::class, $this->name);
     }
 
-    public function equals(mixed $other): bool
+    final public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
             return $this->hash() === $other->hash();
@@ -207,24 +199,24 @@ abstract class Enum implements Hashable, Stringable
         return false;
     }
 
-    public function hash(): bool|float|int|string
+    final public function hash(): int
     {
         return $this->ordinal;
     }
 
-    public function __clone(): void
+    final public function __clone()
     {
         $className = static::class;
         throw new \BadMethodCallException("Cannot clone enum {$className}.");
     }
 
-    public function __sleep(): array
+    final public function __sleep(): array
     {
         $className = static::class;
         throw new \BadMethodCallException("Cannot serialize enum {$className}.");
     }
 
-    public function __wakeup(): void
+    final public function __wakeup(): void
     {
         $className = static::class;
         throw new \BadMethodCallException("Cannot unserialize enum {$className}.");

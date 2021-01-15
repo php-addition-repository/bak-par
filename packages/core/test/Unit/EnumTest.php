@@ -133,18 +133,6 @@ class EnumTest extends TestCase
     /**
      * @test
      */
-    public function itWillThrowAnExceptionWhenNotAllElementsHaveConstants(): void
-    {
-        $this->expectExceptionObject(
-            InvalidEnumDefinition::missingClassConstants(MissingElementConstantsEnum::class, ['second', 'fourth'])
-        );
-
-        MissingElementConstantsEnum::values();
-    }
-
-    /**
-     * @test
-     */
     public function itWillThrowAnExceptionWhenNoMethodTagsDefined(): void
     {
         $this->expectExceptionObject(
@@ -183,24 +171,6 @@ class EnumTest extends TestCase
         $allInstancesLoaded->setAccessible(true);
         $allInstancesLoaded->setValue($allInstancesLoaded->getDefaultValue());
     }
-}
-
-/**
- * @internal
- *
- * @method static self first()
- * @method static self second()
- * @method static self third()
- * @method static self fourth()
- */
-final class MissingElementConstantsEnum extends Enum
-{
-    // public is ignored
-    public const second = [];
-
-    // these are used
-    protected const third = [];
-    private const first = [];
 }
 
 /**
