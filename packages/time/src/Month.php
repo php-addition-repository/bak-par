@@ -85,6 +85,22 @@ final class Month extends Enum
     }
 
     /**
+     * Obtains an instance of Month from an int value.
+     *
+     * @param int $month The month-of-year to represent, from 1 (January) to 12 (December)
+     *
+     * @return Month
+     * @throws InvalidArgumentException If the month-of-year is invalid
+     * @psalm-mutation-free
+     */
+    public static function of(int $month): self
+    {
+        Assert::range($month, self::MIN_VALUE, self::MAX_VALUE);
+
+        return self::valueOf(self::VALUE_MAP[$month]);
+    }
+
+    /**
      * Obtains an instance of Month for tomorrow.
      *
      * @return static
@@ -104,27 +120,6 @@ final class Month extends Enum
     public static function yesterday(): static
     {
         return static::fromNative(Factory::yesterday());
-    }
-
-    /**
-     * Gets the length of this month in days.
-     *
-     * This takes a flag to determine whether to return the length for a leap year or not.
-     *
-     * February has 28 days in a standard year and 29 days in a leap year. April, June, September and November have 30
-     * days. All other months have 31 days.
-     *
-     * @param bool $leapYear True if the length is required for a leap year
-     *
-     * @return int
-     */
-    public function length(bool $leapYear = false): int
-    {
-        return match ($this) {
-            self::April(), self::June(), self::September(), self::November() => 30,
-            self::February() => $leapYear ? 29 : 28,
-            default => 31
-        };
     }
 
     /**
@@ -174,22 +169,6 @@ final class Month extends Enum
     }
 
     /**
-     * Obtains an instance of Month from an int value.
-     *
-     * @param int $month The month-of-year to represent, from 1 (January) to 12 (December)
-     *
-     * @return Month
-     * @throws InvalidArgumentException If the month-of-year is invalid
-     * @psalm-mutation-free
-     */
-    public static function of(int $month): self
-    {
-        Assert::range($month, self::MIN_VALUE, self::MAX_VALUE);
-
-        return self::valueOf(self::VALUE_MAP[$month]);
-    }
-
-    /**
      * Gets the month corresponding to the first month of this quarter.
      *
      * The year can be divided into four quarters. This method returns the first month of the quarter for the base
@@ -214,4 +193,61 @@ final class Month extends Enum
 
         return self::January();
     }
+
+    /**
+     * Gets the day-of-year corresponding to the first day of this month.
+     *
+     * This returns the day-of-year that this month begins on, using the leap year flag to determine the length of
+     * February.
+     *
+     * @param bool $leapYear True if the length is required for a leap year
+     *
+     * @return int
+     */
+    public function firstDayOfYear(bool $leapYear = false): int
+    {
+        $firstDay = 1;
+
+        foreach (self::values() as $month) {
+            /** @var self $month */
+            if ($month->compareTo($this) < 0) {
+                $firstDay += $month->length($leapYear);
+            }
+        }
+
+        return $firstDay;
+    }
+
+    /**
+     *
+     * @param Month $other
+     *
+     * @return int
+     */
+    private function compareTo(Month $other): int
+    {
+        return $this->ordinal() <=> $other->ordinal();
+    }
+
+    /**
+     * Gets the length of this month in days.
+     *
+     * This takes a flag to determine whether to return the length for a leap year or not.
+     *
+     * February has 28 days in a standard year and 29 days in a leap year. April, June, September and November have 30
+     * days. All other months have 31 days.
+     *
+     * @param bool $leapYear True if the length is required for a leap year
+     *
+     * @return int
+     */
+    public function length(bool $leapYear = false): int
+    {
+        return match ($this) {
+            self::April(), self::June(), self::September(), self::November() => 30,
+            self::February() => $leapYear ? 29 : 28,
+            default => 31
+        };
+    }
+
 }

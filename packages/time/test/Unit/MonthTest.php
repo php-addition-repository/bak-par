@@ -225,6 +225,54 @@ class MonthTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string, array{Month, bool, int}>
+     */
+    public function provideFirstDayOfYearValues(): array
+    {
+        return [
+            'January' => [Month::January(), false, 1],
+            'January - leap' => [Month::January(), true, 1],
+            'February' => [Month::February(), false, 32],
+            'February - leap' => [Month::February(), true, 32],
+            'March' => [Month::March(), false, 60],
+            'March - leap' => [Month::March(), true, 61],
+            'April' => [Month::April(), false, 91],
+            'April - leap' => [Month::April(), true, 92],
+            'May' => [Month::May(), false, 121],
+            'May - leap' => [Month::May(), true, 122],
+            'June' => [Month::June(), false, 152],
+            'June - leap' => [Month::June(), true, 153],
+            'July' => [Month::July(), false, 182],
+            'July - leap' => [Month::July(), true, 183],
+            'August' => [Month::August(), false, 213],
+            'August - leap' => [Month::August(), true, 214],
+            'September' => [Month::September(), false, 244],
+            'September - leap' => [Month::September(), true, 245],
+            'October' => [Month::October(), false, 274],
+            'October - leap' => [Month::October(), true, 275],
+            'November' => [Month::November(), false, 305],
+            'November - leap' => [Month::November(), true, 306],
+            'December' => [Month::December(), false, 335],
+            'December - leap' => [Month::December(), true, 336],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideFirstDayOfYearValues
+     *
+     * @param Month $month
+     * @param bool  $leapYear
+     * @param int   $expected
+     */
+    public function itCanDetermineAmountOfDaysInYearUntilFirstDayOfMonth(Month $month,
+                                                                         bool $leapYear,
+                                                                         int $expected): void
+    {
+        self::assertSame($expected, $month->firstDayOfYear($leapYear));
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
