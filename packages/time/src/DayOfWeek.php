@@ -9,6 +9,8 @@ use Par\Core\Enum;
 use Par\Time\Exception\InvalidArgumentException;
 
 /**
+ * @psalm-immutable
+ *
  * @method static self Monday()
  * @method static self Tuesday()
  * @method static self Wednesday()
@@ -22,6 +24,9 @@ final class DayOfWeek extends Enum
     private const MIN_VALUE = 1;
     private const MAX_VALUE = 7;
 
+    /**
+     * @var array<int, string>
+     */
     private const VALUE_MAP = [
         1 => 'Monday',
         2 => 'Tuesday',
@@ -51,24 +56,13 @@ final class DayOfWeek extends Enum
      *
      * @return static
      * @throws InvalidArgumentException If the day-of-week is invalid
+     * @psalm-mutation-free
      */
     public static function of(int $dayOfWeek): static
     {
         Assert::range($dayOfWeek, static::MIN_VALUE, static::MAX_VALUE);
 
         return static::valueOf(static::VALUE_MAP[$dayOfWeek]);
-    }
-
-    /**
-     * Returns the day-of-week int value.
-     *
-     * The values are numbered following the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
-     *
-     * @return int The day-of-week, from 1 (Monday) to 7 (Sunday)
-     */
-    public function value(): int
-    {
-        return array_search($this->name(), static::VALUE_MAP, true);
     }
 
     /**
@@ -119,5 +113,17 @@ final class DayOfWeek extends Enum
         }
 
         return self::of($newValue);
+    }
+
+    /**
+     * Returns the day-of-week int value.
+     *
+     * The values are numbered following the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
+     *
+     * @return int The day-of-week, from 1 (Monday) to 7 (Sunday)
+     */
+    public function value(): int
+    {
+        return array_flip(static::VALUE_MAP)[$this->name()];
     }
 }
