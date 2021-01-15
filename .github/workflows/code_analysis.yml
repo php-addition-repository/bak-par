@@ -18,6 +18,9 @@ jobs:
           - name: Monorepo-builder Validate
             run: vendor/bin/monorepo-builder validate
 
+          - name: Psalm
+            run: vendor/bin/psalm
+
     name: ${{ matrix.actions.name }}
     runs-on: ubuntu-latest
 
