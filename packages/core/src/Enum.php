@@ -51,8 +51,7 @@ abstract class Enum implements Hashable, Stringable
      * @param string $name The name of the element to return
      *
      * @return static
-     * @psalm-mutation-free
-     * @psalm-suppress ImpureMethodCall
+     * @psalm-pure
      */
     final public static function valueOf(string $name): static
     {
@@ -70,6 +69,7 @@ abstract class Enum implements Hashable, Stringable
      * @param string $name
      *
      * @return EnumDefinition|null
+     * @psalm-pure
      */
     private static function findDefinition(string $name): ?EnumDefinition
     {
@@ -84,6 +84,9 @@ abstract class Enum implements Hashable, Stringable
 
     /**
      * @return array<string, EnumDefinition>
+     * @psalm-pure
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress ImpureMethodCall
      */
     private static function resolveDefinition(): array
     {
@@ -118,6 +121,13 @@ abstract class Enum implements Hashable, Stringable
         return self::$definitionCache[$className] ??= $definition;
     }
 
+    /**
+     * @param EnumDefinition $definition
+     *
+     * @return Enum
+     * @psalm-pure
+     * @psalm-suppress ImpureStaticProperty
+     */
     private static function createFromDefinition(EnumDefinition $definition): Enum
     {
         $className = static::class;
@@ -130,6 +140,14 @@ abstract class Enum implements Hashable, Stringable
         return self::rememberInstance($definition->name(), $instance);
     }
 
+    /**
+     * @param string $name
+     * @param Enum   $instance
+     *
+     * @return Enum
+     * @psalm-pure
+     * @psalm-suppress ImpureStaticProperty
+     */
     private static function rememberInstance(string $name, Enum $instance): Enum
     {
         $className = static::class;

@@ -63,7 +63,7 @@ final class Month extends Enum
      * Obtains an instance of Month for today.
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function today(): static
     {
@@ -76,7 +76,7 @@ final class Month extends Enum
      * @param DateTimeInterface $native The datetime to convert
      *
      * @return Month
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function fromNative(DateTimeInterface $native): self
     {
@@ -91,7 +91,7 @@ final class Month extends Enum
      *
      * @return Month
      * @throws InvalidArgumentException If the month-of-year is invalid
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function of(int $month): self
     {
@@ -104,7 +104,7 @@ final class Month extends Enum
      * Obtains an instance of Month for tomorrow.
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function tomorrow(): static
     {
@@ -115,7 +115,7 @@ final class Month extends Enum
      * Obtains an instance of Month for yesterday.
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function yesterday(): static
     {

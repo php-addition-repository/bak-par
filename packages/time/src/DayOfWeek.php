@@ -42,7 +42,7 @@ final class DayOfWeek extends Enum
      * Obtains an instance of DayOfWeek for today.
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function today(): static
     {
@@ -55,7 +55,7 @@ final class DayOfWeek extends Enum
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function fromNative(DateTimeInterface $dateTime): static
     {
@@ -70,7 +70,7 @@ final class DayOfWeek extends Enum
      *
      * @return static
      * @throws InvalidArgumentException If the day-of-week is invalid
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function of(int $dayOfWeek): static
     {
@@ -83,7 +83,7 @@ final class DayOfWeek extends Enum
      * Obtains an instance of DayOfWeek for tomorrow.
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function tomorrow(): static
     {
@@ -94,7 +94,7 @@ final class DayOfWeek extends Enum
      * Obtains an instance of DayOfWeek for yesterday.
      *
      * @return static
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function yesterday(): static
     {

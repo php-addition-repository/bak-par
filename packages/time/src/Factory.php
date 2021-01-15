@@ -31,7 +31,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz    The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function createDate(?int $year = null,
                                       ?int $month = null,
@@ -58,7 +58,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz     The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function create(
         ?int $year = null,
@@ -97,7 +97,7 @@ final class Factory
 
     /**
      * @return DateTimeImmutable|null
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function getTestNow(): ?DateTimeImmutable
     {
@@ -119,7 +119,7 @@ final class Factory
      *
      * @return DateTimeImmutable
      * @throws InvalidArgumentException
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function createFromFormat(string $format,
                                             string $time,
@@ -145,7 +145,7 @@ final class Factory
      * @param DateTimeZone|string|null $object The value to convert.
      *
      * @return DateTimeZone
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     private static function safeCreateDateTimeZone(DateTimeZone|string|null $object): DateTimeZone
     {
@@ -167,7 +167,7 @@ final class Factory
      * @param DateTimeInterface $dateTime The datetime instance to convert.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function createFromInstance(DateTimeInterface $dateTime): DateTimeImmutable
     {
@@ -186,7 +186,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz        The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function createFromTimestamp(int $timestamp, $tz = null): DateTimeImmutable
     {
@@ -197,7 +197,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function now(DateTimeZone|string|null $tz = null): DateTimeImmutable
     {
@@ -210,7 +210,7 @@ final class Factory
      *
      * @return DateTimeImmutable
      * @throws InvalidArgumentException
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function parse(?string $time = self::NOW, $tz = null): DateTimeImmutable
     {
@@ -254,7 +254,7 @@ final class Factory
      * @param string $time The time string to check.
      *
      * @return bool true if there is a keyword, otherwise false
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     private static function hasRelativeKeywords(string $time): bool
     {
@@ -276,7 +276,7 @@ final class Factory
      * @param string $time The time string to check.
      *
      * @return bool true if there is a keyword, otherwise false
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     private static function isTimeExpression(string $time): bool
     {
@@ -297,7 +297,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz     The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function createTime(?int $hour = null,
                                       ?int $minute = null,
@@ -317,7 +317,7 @@ final class Factory
      * @param bool                     $allowWrapping Allow wrapping (April 31st to May 1st, )
      *
      * @return bool
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function isValidDate(int $year, int $month, int $day, $tz = null, bool $allowWrapping = false): bool
     {
@@ -339,7 +339,7 @@ final class Factory
      * @param bool   $allowWrapping Allow wrapping (April 31st to May 1st, )
      *
      * @return bool
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function isValidForFormat(string $format, string $time, bool $allowWrapping = false): bool
     {
@@ -353,7 +353,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function today($tz = null): DateTimeImmutable
     {
@@ -364,7 +364,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function tomorrow($tz = null): DateTimeImmutable
     {
@@ -375,7 +375,7 @@ final class Factory
      * @param DateTimeZone|string|null $tz The timezone for the instance. Defaults to default timezone.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function yesterday($tz = null): DateTimeImmutable
     {
