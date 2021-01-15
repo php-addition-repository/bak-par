@@ -51,6 +51,8 @@ abstract class Enum implements Hashable, Stringable
      * @param string $name The name of the element to return
      *
      * @return static
+     * @psalm-mutation-free
+     * @psalm-suppress ImpureMethodCall
      */
     final public static function valueOf(string $name): static
     {
@@ -64,6 +66,11 @@ abstract class Enum implements Hashable, Stringable
         return static::createFromDefinition($definition);
     }
 
+    /**
+     * @param string $name
+     *
+     * @return EnumDefinition|null
+     */
     private static function findDefinition(string $name): ?EnumDefinition
     {
         foreach (static::resolveDefinition() as $definition) {
