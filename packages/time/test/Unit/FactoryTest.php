@@ -9,9 +9,12 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Factory;
+use Par\Time\PHPUnit\TimeTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 
-class FactoryTest extends TimeTestCase
+class FactoryTest extends TestCase
 {
+    use TimeTestCaseTrait;
 
     /**
      * @return array<string, array{string, string, bool, bool}>
