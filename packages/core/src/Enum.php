@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Par\Core;
 
+use BadMethodCallException;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use ReflectionClass;
+use ReflectionException;
 use Stringable;
 
 /**
@@ -86,13 +88,15 @@ abstract class Enum implements Hashable, Stringable
 
         $methods = [];
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $reflectionClass = new ReflectionClass($className);
-        $docComment = $reflectionClass->getDocComment();
-        if (is_string($docComment)) {
-            preg_match_all('/@method\s+static\s+self\s+([\w_]+)\(\s*?\)/', $docComment, $matches);
+        try {
+            $reflectionClass = new ReflectionClass($className);
+            $docComment = $reflectionClass->getDocComment();
+            if (is_string($docComment)) {
+                preg_match_all('/@method\s+static\s+self\s+([\w_]+)\(\s*?\)/', $docComment, $matches);
 
-            $methods = array_values($matches[1]);
+                $methods = array_values($matches[1]);
+            }
+        } catch (ReflectionException) {
         }
 
         if (count($methods) === 0) {
@@ -222,18 +226,18 @@ abstract class Enum implements Hashable, Stringable
     final public function __clone()
     {
         $className = static::class;
-        throw new \BadMethodCallException("Cannot clone enum {$className}.");
+        throw new BadMethodCallException("Cannot clone enum {$className}.");
     }
 
     final public function __sleep(): array
     {
         $className = static::class;
-        throw new \BadMethodCallException("Cannot serialize enum {$className}.");
+        throw new BadMethodCallException("Cannot serialize enum {$className}.");
     }
 
     final public function __wakeup(): void
     {
         $className = static::class;
-        throw new \BadMethodCallException("Cannot unserialize enum {$className}.");
+        throw new BadMethodCallException("Cannot unserialize enum {$className}.");
     }
 }

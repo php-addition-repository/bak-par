@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParTest\Core\Unit;
 
+use BadMethodCallException;
 use Par\Core\Enum;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
@@ -115,7 +116,7 @@ class EnumTest extends TestCase
      */
     public function itCannotUsedInSerialization(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         serialize(Planet::Earth());
     }
@@ -125,7 +126,7 @@ class EnumTest extends TestCase
      */
     public function itCannotBeCloned(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         clone Planet::Earth();
     }

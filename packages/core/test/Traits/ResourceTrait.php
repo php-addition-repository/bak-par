@@ -10,10 +10,10 @@ trait ResourceTrait
 {
 
     /**
-     * @return resource
-     * @psalm-return closed-resource
+     * @return mixed
+     * @psalm-return resource
      */
-    protected function createClosedResource()
+    protected function createClosedResource(): mixed
     {
         $resource = $this->createResource();
 

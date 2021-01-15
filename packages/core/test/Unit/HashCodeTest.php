@@ -166,10 +166,13 @@ class HashCodeTest extends TestCase
      * @test
      * @dataProvider provideForResourceValue
      *
-     * @param resource|closed-resource $value
-     * @param int                      $expectedHash
+     * @param mixed                          $value
+     *
+     * @psalm-param resource|closed-resource $value
+     *
+     * @param int                            $expectedHash
      */
-    public function itCanCreateHashForResourceValue($value, int $expectedHash): void
+    public function itCanCreateHashForResourceValue(mixed $value, int $expectedHash): void
     {
         self::assertEquals($expectedHash, HashCode::forResource($value));
     }

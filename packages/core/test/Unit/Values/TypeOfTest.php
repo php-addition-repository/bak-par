@@ -49,7 +49,7 @@ final class TypeOfTest extends TestCase
      * @param mixed  $value
      * @param string $expectedType
      */
-    public function itCanDetermineTypeOfValue($value, string $expectedType): void
+    public function itCanDetermineTypeOfValue(mixed $value, string $expectedType): void
     {
         self::assertSame($expectedType, Values::typeOf($value));
     }

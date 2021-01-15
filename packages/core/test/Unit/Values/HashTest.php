@@ -82,6 +82,8 @@ final class HashTest extends TestCase
      *
      * @param object|resource|closed-resource|callable|iterable|array $nonScalarValue
      * @param int                                                     $expectedHashCode
+     *
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function itReturnsHashCodeForNonScalarOrNullValue($nonScalarValue, int $expectedHashCode): void
     {
