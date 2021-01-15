@@ -175,6 +175,7 @@ final class Factory
             return $dateTime;
         }
 
+        /** @psalm-suppress ImpureMethodCall */
         return self::createFromFormat(DATE_ATOM, $dateTime->format(DATE_ATOM), $dateTime->getTimezone());
     }
 

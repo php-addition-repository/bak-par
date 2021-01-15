@@ -165,6 +165,9 @@ abstract class Enum implements Hashable, Stringable
      * Returns a list containing the elements of this enum type, in the order they are declared.
      *
      * @return static[]
+     * @psalm-mutation-free
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress ImpureMethodCall
      */
     final public static function values(): iterable
     {
