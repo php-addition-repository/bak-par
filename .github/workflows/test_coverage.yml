@@ -14,8 +14,9 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
+          extensions: intl, ds
           coverage: xdebug
-          tools: composer:v2
+          tools: composer
 
       - name: Cache PHP dependencies
         uses: actions/cache@v1
