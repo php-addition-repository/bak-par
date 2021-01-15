@@ -13,6 +13,7 @@ use Stringable;
  * This is the common base class of all enumerations.
  *
  * @example "packages/core/test/Fixtures/Planet.php" Implementation example
+ * @psalm-immutable
  */
 abstract class Enum implements Hashable, Stringable
 {
@@ -180,16 +181,27 @@ abstract class Enum implements Hashable, Stringable
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function toString(): string
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     final public function __toString(): string
     {
         return sprintf("%s::%s", static::class, $this->name);
     }
 
+    /**
+     * @param mixed $other
+     *
+     * @return bool
+     */
     final public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
@@ -199,6 +211,9 @@ abstract class Enum implements Hashable, Stringable
         return false;
     }
 
+    /**
+     * @return int
+     */
     final public function hash(): int
     {
         return $this->ordinal;

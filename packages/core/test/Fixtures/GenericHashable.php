@@ -15,6 +15,12 @@ final class GenericHashable implements Hashable
     {
     }
 
+    /**
+     * @param mixed $other
+     *
+     * @return bool
+     * @psalm-mutation-free
+     */
     public function equals(mixed $other): bool
     {
         if ($other instanceof self) {
@@ -24,6 +30,10 @@ final class GenericHashable implements Hashable
         return false;
     }
 
+    /**
+     * @return int|string|bool|float|null
+     * @psalm-mutation-free
+     */
     public function hash(): int|string|bool|null|float
     {
         return $this->value;

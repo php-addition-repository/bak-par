@@ -12,7 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 final class HashableEqualsTest extends TestCase
 {
-
+    /**
+     * @return array<string, array{GenericHashable, mixed, bool}>
+     */
     public function provideDataForEvaluate(): array
     {
         $expectedHash = 'hash';

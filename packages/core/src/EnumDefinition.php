@@ -6,6 +6,7 @@ namespace Par\Core;
 
 /**
  * @internal
+ * @psalm-immutable
  */
 final class EnumDefinition
 {

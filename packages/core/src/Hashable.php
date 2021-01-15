@@ -20,6 +20,7 @@ interface Hashable extends \Ds\Hashable
      * unique, objects which are equal must have the same hash value.
      *
      * @return bool|float|int|string|null
+     * @psalm-mutation-free
      */
     public function hash(): bool|float|int|string|null;
 
@@ -32,6 +33,7 @@ interface Hashable extends \Ds\Hashable
      * @param mixed $other The referenced value with which to compare
      *
      * @return bool True if this object is the same as the other argument
+     * @psalm-mutation-free
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function equals(mixed $other): bool;

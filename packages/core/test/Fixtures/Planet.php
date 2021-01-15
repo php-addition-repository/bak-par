@@ -8,6 +8,7 @@ use Par\Core\Enum;
 
 /**
  * @internal
+ * @psalm-immutable
  *
  * @method static self Mercury()
  * @method static self Venus()

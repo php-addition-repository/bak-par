@@ -6,7 +6,7 @@
         phpVersion="8.0"
         totallyTyped="true"
         hideExternalErrors="true"
-        errorLevel="2"
+        errorLevel="1"
 >
     <projectFiles>
         <directory name="src"/>
