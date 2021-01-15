@@ -30,9 +30,9 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
-          extensions: ds
+          extensions: intl, ds
           coverage: none
-          tools: composer:v2
+          tools: composer
 
       - name: Cache PHP dependencies
         uses: actions/cache@v1
