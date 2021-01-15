@@ -129,4 +129,43 @@ class DayOfWeekTest extends TestCase
         self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->plus(0));
         self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->plus(14));
     }
+
+    /**
+     * @test
+     */
+    public function itCanReturnTheDayOfWeekForToday(): void
+    {
+        $this->wrapWithTestNow(
+            static function () {
+                self::assertSame(DayOfWeek::Friday(), DayOfWeek::today());
+            },
+            Factory::createDate(2021, 1, 15)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function itCanReturnTheDayOfWeekForTomorrow(): void
+    {
+        $this->wrapWithTestNow(
+            static function () {
+                self::assertSame(DayOfWeek::Saturday(), DayOfWeek::tomorrow());
+            },
+            Factory::createDate(2021, 1, 15)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function itCanReturnTheDayOfWeekForYesterday(): void
+    {
+        $this->wrapWithTestNow(
+            static function () {
+                self::assertSame(DayOfWeek::Thursday(), DayOfWeek::yesterday());
+            },
+            Factory::createDate(2021, 1, 15)
+        );
+    }
 }

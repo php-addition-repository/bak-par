@@ -38,6 +38,17 @@ final class DayOfWeek extends Enum
     ];
 
     /**
+     * Obtains an instance of DayOfWeek for today.
+     *
+     * @return static
+     * @psalm-mutation-free
+     */
+    public static function today(): static
+    {
+        return static::fromNative(Factory::today());
+    }
+
+    /**
      * Obtains an instance of DayOfWeek from  an implementation of the DateTimeInterface.
      *
      * @param DateTimeInterface $dateTime The datetime to convert
@@ -63,6 +74,28 @@ final class DayOfWeek extends Enum
         Assert::range($dayOfWeek, static::MIN_VALUE, static::MAX_VALUE);
 
         return static::valueOf(static::VALUE_MAP[$dayOfWeek]);
+    }
+
+    /**
+     * Obtains an instance of DayOfWeek for tomorrow.
+     *
+     * @return static
+     * @psalm-mutation-free
+     */
+    public static function tomorrow(): static
+    {
+        return static::fromNative(Factory::tomorrow());
+    }
+
+    /**
+     * Obtains an instance of DayOfWeek for yesterday.
+     *
+     * @return static
+     * @psalm-mutation-free
+     */
+    public static function yesterday(): static
+    {
+        return static::fromNative(Factory::yesterday());
     }
 
     /**
