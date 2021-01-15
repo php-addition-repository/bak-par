@@ -11,11 +11,28 @@ use Par\Core\PHPUnit\HashableAssertions;
 use Par\Time\DayOfWeek;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Factory;
+use Par\Time\PHPUnit\TimeTestCaseTrait;
+use ParTest\Core\Unit\PHPUnit\EnumTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 class DayOfWeekTest extends TestCase
 {
     use HashableAssertions;
+    use EnumTestCaseTrait {
+        EnumTestCaseTrait::setUp as enumSetup;
+    }
+
+    use TimeTestCaseTrait {
+        TimeTestCaseTrait::setUp as timeSetup;
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->enumSetup();
+        $this->timeSetup();
+    }
 
     public function itWillReturnValue(): void
     {
