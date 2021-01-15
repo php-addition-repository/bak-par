@@ -21,6 +21,9 @@ class StringUtilsTest extends TestCase
         self::assertSame(['"a"', '"b"'], StringUtils::quoteList($strings));
     }
 
+    /**
+     * @return array<string, array{string, string[]}>
+     */
     public function provideHumanReadableStrings(): array
     {
         return [
@@ -35,8 +38,8 @@ class StringUtilsTest extends TestCase
      * @test
      * @dataProvider provideHumanReadableStrings
      *
-     * @param string $expected
-     * @param array  $strings
+     * @param string   $expected
+     * @param string[] $strings
      *
      * @return void
      */

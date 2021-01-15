@@ -31,7 +31,7 @@ final class ToStringTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{mixed, string}>
      */
     public function provideNativeValuesWithStringRepresentation(): array
     {
@@ -54,18 +54,42 @@ final class ToStringTest extends TestCase
             'bool' => [true, 'true'],
             'null' => [null, 'null'],
             'float' => [0.1, '0.1'],
-            'array-list' => [['foo', 'bar'], '[foo, bar]'],
-            'array-list-recursive' => [['foo', ['bar']], '[foo, [...]]'],
-            'array-map' => [[1 => 'foo', 3 => 'bar'], '{1=foo, 3=bar}'],
-            'array-map-recursive' => [[1 => ['foo']], '{1=[...]}'],
-            'object' => [$obj, sprintf('stdClass@%s', Values::hash($obj))],
-            'anonymous-object' => [$anonObj, sprintf('anonymous@%s', Values::hash($anonObj))],
+            'array-list' => [
+                ['foo', 'bar'],
+                '[foo, bar]',
+            ],
+            'array-list-recursive' => [
+                ['foo', ['bar']],
+                '[foo, [...]]',
+            ],
+            'array-map' => [
+                [1 => 'foo', 3 => 'bar'],
+                '{1=foo, 3=bar}',
+            ],
+            'array-map-recursive' => [
+                [1 => ['foo']],
+                '{1=[...]}',
+            ],
+            'object' => [
+                $obj,
+                sprintf('stdClass@%s', (string)Values::hash($obj)),
+            ],
+            'anonymous-object' => [
+                $anonObj,
+                sprintf('anonymous@%s', (string)Values::hash($anonObj)),
+            ],
             'closure' => [
                 $closure,
-                sprintf('closure@%s', Values::hash($closure)),
+                sprintf('closure@%s', (string)Values::hash($closure)),
             ],
-            'resource' => [$resource, sprintf('resource(stream)@%s', Values::hash($resource))],
-            'resource(closed)' => [$closedResource, sprintf('resource(closed)@%s', Values::hash($closedResource))],
+            'resource' => [
+                $resource,
+                sprintf('resource(stream)@%s', (string)Values::hash($resource)),
+            ],
+            'resource(closed)' => [
+                $closedResource,
+                sprintf('resource(closed)@%s', (string)Values::hash($closedResource)),
+            ],
         ];
     }
 

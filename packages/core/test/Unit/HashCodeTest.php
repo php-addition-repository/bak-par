@@ -17,7 +17,7 @@ class HashCodeTest extends TestCase
     use ResourceTrait;
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{mixed, int}>
      */
     public function provideForAnyValue(): array
     {
@@ -36,7 +36,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{bool, int}>
      */
     public function provideForBooleanValue(): array
     {
@@ -47,7 +47,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{float, int}>
      */
     public function provideForFloatValue(): array
     {
@@ -59,7 +59,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{int, int}>
      */
     public function provideForIntValue(): array
     {
@@ -74,7 +74,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{resource|closed-resource, int}>
      */
     public function provideForResourceValue(): array
     {
@@ -88,7 +88,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{object, int}>
      */
     public function provideForObjectValue(): array
     {
@@ -102,7 +102,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{string, int}>
      */
     public function provideForStringValue(): array
     {
@@ -115,7 +115,7 @@ class HashCodeTest extends TestCase
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{array, int}>
      */
     public function provideForArrayValue(): array
     {
@@ -166,10 +166,13 @@ class HashCodeTest extends TestCase
      * @test
      * @dataProvider provideForResourceValue
      *
-     * @param resource $value
-     * @param int      $expectedHash
+     * @param mixed                          $value
+     *
+     * @psalm-param resource|closed-resource $value
+     *
+     * @param int                            $expectedHash
      */
-    public function itCanCreateHashForResourceValue($value, int $expectedHash): void
+    public function itCanCreateHashForResourceValue(mixed $value, int $expectedHash): void
     {
         self::assertEquals($expectedHash, HashCode::forResource($value));
     }

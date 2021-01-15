@@ -14,7 +14,7 @@ final class TypeOfTest extends TestCase
     use ResourceTrait;
 
     /**
-     * @return array<string, array>
+     * @return array<string, array{mixed, string}>
      */
     public function providedValuesWithExpectedType(): array
     {
@@ -49,7 +49,7 @@ final class TypeOfTest extends TestCase
      * @param mixed  $value
      * @param string $expectedType
      */
-    public function itCanDetermineTypeOfValue($value, string $expectedType): void
+    public function itCanDetermineTypeOfValue(mixed $value, string $expectedType): void
     {
         self::assertSame($expectedType, Values::typeOf($value));
     }

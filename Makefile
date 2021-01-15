@@ -12,6 +12,14 @@ build: docker-init
 workspace: docker-init
 	$(DOCKER_COMPOSE) run workspace sh
 
+.PHONY: analyse
+analyse:
+	$(DOCKER_COMPOSE) run workspace psalm
+
+.PHONY: test
+test:
+	$(DOCKER_COMPOSE) run workspace phpunit
+
 release-major:
 	$(DOCKER_COMPOSE) run workspace monorepo-builder release major
 

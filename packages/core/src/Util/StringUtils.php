@@ -11,15 +11,16 @@ final class StringUtils
     /**
      * Returns a list where all elements have been encapsulated with double quotes (`"element"`).
      *
-     * @param array<string> $list A list of string that will be quoted
+     * @param array<string|Stringable> $list A list of string that will be quoted
      *
      * @return array<string> The quoted list of strings
+     * @psalm-pure
      */
     public static function quoteList(array $list): array
     {
         return array_map(
             static function (string|Stringable $string) {
-                return sprintf('"%s"', $string);
+                return sprintf('"%s"', (string)$string);
             },
             $list
         );
@@ -33,9 +34,10 @@ final class StringUtils
      * - `['a','b']` becomes `"a and b"`.
      * - `['a']` becomes `"a"`.
      *
-     * @param array $list A list of strings
+     * @param array<string|Stringable> $list A list of strings
      *
      * @return string A string where all elements have been joined in a human readable way
+     * @psalm-pure
      */
     public static function listToHumanReadable(array $list): string
     {
@@ -44,10 +46,10 @@ final class StringUtils
         }
 
         if (count($list) === 1) {
-            return reset($list);
+            return (string)reset($list);
         }
 
-        $lastString = array_pop($list);
+        $lastString = (string)array_pop($list);
 
         return sprintf('%s and %s', implode(', ', $list), $lastString);
     }

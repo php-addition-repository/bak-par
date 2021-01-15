@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParTest\Core\Unit;
 
+use BadMethodCallException;
 use Par\Core\Enum;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
@@ -115,7 +116,7 @@ class EnumTest extends TestCase
      */
     public function itCannotUsedInSerialization(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         serialize(Planet::Earth());
     }
@@ -125,21 +126,9 @@ class EnumTest extends TestCase
      */
     public function itCannotBeCloned(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         clone Planet::Earth();
-    }
-
-    /**
-     * @test
-     */
-    public function itWillThrowAnExceptionWhenNotAllElementsHaveConstants(): void
-    {
-        $this->expectExceptionObject(
-            InvalidEnumDefinition::missingClassConstants(MissingElementConstantsEnum::class, ['second', 'fourth'])
-        );
-
-        MissingElementConstantsEnum::values();
     }
 
     /**
@@ -187,24 +176,7 @@ class EnumTest extends TestCase
 
 /**
  * @internal
- *
- * @method static self first()
- * @method static self second()
- * @method static self third()
- * @method static self fourth()
- */
-final class MissingElementConstantsEnum extends Enum
-{
-    // public is ignored
-    public const second = [];
-
-    // these are used
-    protected const third = [];
-    private const first = [];
-}
-
-/**
- * @internal
+ * @psalm-immutable
  */
 final class NoMethodTagsEnum extends Enum
 {
