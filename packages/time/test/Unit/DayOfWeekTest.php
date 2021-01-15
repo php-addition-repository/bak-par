@@ -121,6 +121,9 @@ class DayOfWeekTest extends TestCase
         self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->minus(14));
     }
 
+    /**
+     * @test
+     */
     public function itCanBeMovedViaAddition(): void
     {
         self::assertSame(DayOfWeek::Tuesday(), DayOfWeek::Monday()->plus(1));
