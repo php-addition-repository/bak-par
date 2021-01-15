@@ -7,6 +7,7 @@ namespace Par\Time;
 use DateTimeInterface;
 use Par\Core\Enum;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Util\Range;
 
 /**
  * @psalm-immutable
@@ -54,9 +55,11 @@ final class DayOfWeek extends Enum
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return static
+     * @psalm-mutation-free
      */
     public static function fromNative(DateTimeInterface $dateTime): static
     {
+        /** @psalm-suppress ImpureMethodCall */
         return static::of((int)$dateTime->format('N'));
     }
 
@@ -124,22 +127,7 @@ final class DayOfWeek extends Enum
     public function plus(int $days): self
     {
         $currentValue = $this->value();
-        $newValue = $currentValue + $days;
-
-        if ($newValue === 0) {
-            $newValue = self::MAX_VALUE;
-        }
-
-        $rangeMultiplier = (int)floor($newValue / self::MAX_VALUE);
-
-        if ($newValue < self::MIN_VALUE) {
-            $rangeMultiplier *= -1;
-            $newValue = ($rangeMultiplier * self::MAX_VALUE) + $newValue;
-        }
-
-        if ($newValue > self::MAX_VALUE) {
-            $newValue -= $rangeMultiplier * self::MAX_VALUE;
-        }
+        $newValue = Range::calculateOverflow($currentValue, $days, self::MIN_VALUE, self::MAX_VALUE);
 
         if ($newValue === $currentValue) {
             return $this;
