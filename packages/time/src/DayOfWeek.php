@@ -10,15 +10,22 @@ use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Util\Range;
 
 /**
+ * A day-of-week, such as 'Tuesday'.
+ *
+ * DayOfWeek is an enum representing the 7 days of the week - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+ * and Sunday. In addition to the textual enum name, each day-of-week has an int value. The int value follows the
+ * ISO-8601 standard, from 1 (Monday) to 7 (Sunday). It is recommended that applications use the enum rather than the
+ * int value to ensure code clarity.
+ *
  * @psalm-immutable
  *
- * @method static self Monday()
- * @method static self Tuesday()
- * @method static self Wednesday()
- * @method static self Thursday()
- * @method static self Friday()
- * @method static self Saturday()
- * @method static self Sunday()
+ * @method static self Monday() The singleton instance for the day-of-week of Monday.
+ * @method static self Tuesday() The singleton instance for the day-of-week of Tuesday.
+ * @method static self Wednesday() The singleton instance for the day-of-week of Wednesday.
+ * @method static self Thursday() The singleton instance for the day-of-week of Thursday.
+ * @method static self Friday() The singleton instance for the day-of-week of Friday.
+ * @method static self Saturday() The singleton instance for the day-of-week of Saturday.
+ * @method static self Sunday() The singleton instance for the day-of-week of Sunday.
  */
 final class DayOfWeek extends Enum
 {
@@ -39,66 +46,66 @@ final class DayOfWeek extends Enum
     ];
 
     /**
-     * Obtains an instance of DayOfWeek for today.
+     * Obtains an instance of day-of-week for today.
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function today(): static
+    public static function today(): self
     {
-        return static::fromNative(Factory::today());
+        return self::fromNative(Factory::today());
     }
 
     /**
-     * Obtains an instance of DayOfWeek from  an implementation of the DateTimeInterface.
+     * Obtains an instance of day-of-week from  an implementation of the DateTimeInterface.
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function fromNative(DateTimeInterface $dateTime): static
+    public static function fromNative(DateTimeInterface $dateTime): self
     {
         /** @psalm-suppress ImpureMethodCall */
-        return static::of((int)$dateTime->format('N'));
+        return self::of((int)$dateTime->format('N'));
     }
 
     /**
-     * Obtains an instance of DayOfWeek from an int value.
+     * Obtains an instance of day-of-week from an int value.
      *
      * @param int $dayOfWeek The day-of-week to represent, from 1 (Monday) to 7 (Sunday)
      *
-     * @return static
+     * @return self
      * @throws InvalidArgumentException If the day-of-week is invalid
      * @psalm-pure
      */
-    public static function of(int $dayOfWeek): static
+    public static function of(int $dayOfWeek): self
     {
-        Assert::range($dayOfWeek, static::MIN_VALUE, static::MAX_VALUE);
+        Assert::range($dayOfWeek, self::MIN_VALUE, self::MAX_VALUE);
 
-        return static::valueOf(static::VALUE_MAP[$dayOfWeek]);
+        return self::valueOf(self::VALUE_MAP[$dayOfWeek]);
     }
 
     /**
-     * Obtains an instance of DayOfWeek for tomorrow.
+     * Obtains an instance of day-of-week for tomorrow.
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function tomorrow(): static
+    public static function tomorrow(): self
     {
-        return static::fromNative(Factory::tomorrow());
+        return self::fromNative(Factory::tomorrow());
     }
 
     /**
-     * Obtains an instance of DayOfWeek for yesterday.
+     * Obtains an instance of day-of-week for yesterday.
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function yesterday(): static
+    public static function yesterday(): self
     {
-        return static::fromNative(Factory::yesterday());
+        return self::fromNative(Factory::yesterday());
     }
 
     /**
@@ -108,7 +115,7 @@ final class DayOfWeek extends Enum
      *
      * @param int $days The days to subtract, positive or negative
      *
-     * @return DayOfWeek
+     * @return self The resulting day-of-week
      */
     public function minus(int $days): self
     {
@@ -122,7 +129,7 @@ final class DayOfWeek extends Enum
      *
      * @param int $days The days to add, positive or negative
      *
-     * @return DayOfWeek
+     * @return self The resulting day-of-week
      */
     public function plus(int $days): self
     {
@@ -145,6 +152,6 @@ final class DayOfWeek extends Enum
      */
     public function value(): int
     {
-        return array_flip(static::VALUE_MAP)[$this->name()];
+        return array_flip(self::VALUE_MAP)[$this->name()];
     }
 }
