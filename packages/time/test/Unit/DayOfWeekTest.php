@@ -7,12 +7,12 @@ namespace Par\TimeTest\Unit;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Par\Core\PHPUnit\EnumTestCaseTrait;
 use Par\Core\PHPUnit\HashableAssertions;
 use Par\Time\DayOfWeek;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Factory;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
-use ParTest\Core\Unit\PHPUnit\EnumTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 class DayOfWeekTest extends TestCase

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit\PHPUnit;
+namespace Par\Core\PHPUnit;
 
 use Par\Core\Enum;
 use ReflectionClass;

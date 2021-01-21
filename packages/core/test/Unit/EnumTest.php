@@ -8,9 +8,9 @@ use BadMethodCallException;
 use Par\Core\Enum;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
+use Par\Core\PHPUnit\EnumTestCaseTrait;
 use Par\Core\PHPUnit\HashableAssertions;
 use Par\CoreTest\Fixtures\Planet;
-use ParTest\Core\Unit\PHPUnit\EnumTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 class EnumTest extends TestCase
