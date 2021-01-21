@@ -75,27 +75,6 @@ final class HashCode
     }
 
     /**
-     * Handles overflowing of an integer
-     *
-     * @param int $value
-     *
-     * @return int
-     * @psalm-pure
-     */
-    private static function handleOverflow(int $value): int
-    {
-        $bits = 32;
-        $sign_mask = 1 << $bits - 1;
-        $clamp_mask = ($sign_mask << 1) - 1;
-
-        if ($value & $sign_mask) {
-            return ((~$value & $clamp_mask) + 1) * -1;
-        }
-
-        return $value & $clamp_mask;
-    }
-
-    /**
      * Transform a float to integer hash.
      *
      * @param float $value The float to transform
@@ -205,5 +184,26 @@ final class HashCode
         }
 
         return self::forInt((int)$value);
+    }
+
+    /**
+     * Handles overflowing of an integer
+     *
+     * @param int $value
+     *
+     * @return int
+     * @psalm-pure
+     */
+    private static function handleOverflow(int $value): int
+    {
+        $bits = 32;
+        $sign_mask = 1 << $bits - 1;
+        $clamp_mask = ($sign_mask << 1) - 1;
+
+        if ($value & $sign_mask) {
+            return ((~$value & $clamp_mask) + 1) * -1;
+        }
+
+        return $value & $clamp_mask;
     }
 }

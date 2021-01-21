@@ -10,10 +10,6 @@ namespace Par\Core;
  */
 final class EnumDefinition
 {
-    public function __construct(private string $name, private int $ordinal, private array $args)
-    {
-    }
-
     public function name(): string
     {
         return $this->name;
@@ -32,6 +28,10 @@ final class EnumDefinition
     public function isFor(string $name): bool
     {
         return $this->name === $name;
+    }
+
+    public function __construct(private string $name, private int $ordinal, private array $args)
+    {
     }
 
 }

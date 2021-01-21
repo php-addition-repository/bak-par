@@ -34,11 +34,13 @@ abstract class Enum implements Hashable, Stringable
      */
     private static array $instances = [];
 
-    final private function __construct(private int $ordinal, private string $name)
-    {
-        // Protected to prevent usage of "new EnumImpl"
-    }
-
+    /**
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return static
+     * @internal
+     */
     final public static function __callStatic(string $name, array $arguments): static
     {
         return static::valueOf($name);
@@ -51,6 +53,7 @@ abstract class Enum implements Hashable, Stringable
      * @param string $name The name of the element to return
      *
      * @return static
+     * @psalm-pure
      */
     final public static function valueOf(string $name): static
     {
@@ -64,6 +67,38 @@ abstract class Enum implements Hashable, Stringable
         return static::createFromDefinition($definition);
     }
 
+    /**
+     * Returns a list containing the elements of this enum type, in the order they are declared.
+     *
+     * @return static[]
+     * @psalm-mutation-free
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress ImpureMethodCall
+     */
+    final public static function values(): iterable
+    {
+        $className = static::class;
+        if (isset(self::$allInstancesLoaded[$className])) {
+            return array_values(self::$instances[$className]);
+        }
+
+        if (!isset(self::$instances[$className])) {
+            self::$instances[$className] = [];
+        }
+
+        foreach (static::resolveDefinition() as $definition) {
+            static::createFromDefinition($definition);
+        }
+
+        return array_values(self::$instances[$className]);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return EnumDefinition|null
+     * @psalm-pure
+     */
     private static function findDefinition(string $name): ?EnumDefinition
     {
         foreach (static::resolveDefinition() as $definition) {
@@ -77,6 +112,9 @@ abstract class Enum implements Hashable, Stringable
 
     /**
      * @return array<string, EnumDefinition>
+     * @psalm-pure
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress ImpureMethodCall
      */
     private static function resolveDefinition(): array
     {
@@ -111,6 +149,13 @@ abstract class Enum implements Hashable, Stringable
         return self::$definitionCache[$className] ??= $definition;
     }
 
+    /**
+     * @param EnumDefinition $definition
+     *
+     * @return Enum
+     * @psalm-pure
+     * @psalm-suppress ImpureStaticProperty
+     */
     private static function createFromDefinition(EnumDefinition $definition): Enum
     {
         $className = static::class;
@@ -123,6 +168,14 @@ abstract class Enum implements Hashable, Stringable
         return self::rememberInstance($definition->name(), $instance);
     }
 
+    /**
+     * @param string $name
+     * @param Enum   $instance
+     *
+     * @return Enum
+     * @psalm-pure
+     * @psalm-suppress ImpureStaticProperty
+     */
     private static function rememberInstance(string $name, Enum $instance): Enum
     {
         $className = static::class;
@@ -155,29 +208,6 @@ abstract class Enum implements Hashable, Stringable
     }
 
     /**
-     * Returns a list containing the elements of this enum type, in the order they are declared.
-     *
-     * @return static[]
-     */
-    final public static function values(): iterable
-    {
-        $className = static::class;
-        if (isset(self::$allInstancesLoaded[$className])) {
-            return array_values(self::$instances[$className]);
-        }
-
-        if (!isset(self::$instances[$className])) {
-            self::$instances[$className] = [];
-        }
-
-        foreach (static::resolveDefinition() as $definition) {
-            static::createFromDefinition($definition);
-        }
-
-        return array_values(self::$instances[$className]);
-    }
-
-    /**
      * Returns the name of this enum element, exactly as declared.
      */
     final public function name(): string
@@ -186,7 +216,9 @@ abstract class Enum implements Hashable, Stringable
     }
 
     /**
-     * @return string
+     * Returns the name of this enum constant, as contained in the declaration.
+     *
+     * @return string The name of this enum constant
      */
     public function toString(): string
     {
@@ -194,7 +226,9 @@ abstract class Enum implements Hashable, Stringable
     }
 
     /**
-     * @return string
+     * Returns the name of this enum constant, as contained in the declaration.
+     *
+     * @return string The name of this enum constant
      */
     final public function __toString(): string
     {
@@ -202,9 +236,7 @@ abstract class Enum implements Hashable, Stringable
     }
 
     /**
-     * @param mixed $other
-     *
-     * @return bool
+     * @inheritDoc
      */
     final public function equals(mixed $other): bool
     {
@@ -216,6 +248,8 @@ abstract class Enum implements Hashable, Stringable
     }
 
     /**
+     * @inheritDoc
+     *
      * @return int
      */
     final public function hash(): int
@@ -223,21 +257,35 @@ abstract class Enum implements Hashable, Stringable
         return $this->ordinal;
     }
 
+    /**
+     * @internal
+     */
     final public function __clone()
     {
         $className = static::class;
         throw new BadMethodCallException("Cannot clone enum {$className}.");
     }
 
+    /**
+     * @internal
+     */
     final public function __sleep(): array
     {
         $className = static::class;
         throw new BadMethodCallException("Cannot serialize enum {$className}.");
     }
 
+    /**
+     * @internal
+     */
     final public function __wakeup(): void
     {
         $className = static::class;
         throw new BadMethodCallException("Cannot unserialize enum {$className}.");
+    }
+
+    final private function __construct(private int $ordinal, private string $name)
+    {
+        // Protected to prevent usage of "new EnumImpl"
     }
 }

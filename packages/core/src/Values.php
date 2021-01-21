@@ -102,6 +102,68 @@ final class Values
     }
 
     /**
+     * Returns a textual representation for the type of value.
+     *
+     * - `'null'` for a __NULL__ value.
+     * - `'int'` for a native __integer__.
+     * - `'float'` for a native __float__ or __double__.
+     * - `'bool'` for a native __boolean__.
+     * - `'string'` for a native __string__.
+     * - `'array'` for a native __array__.
+     * - `'className'` for an __object__. `get_class($value)` is used for all objects except for anonymous classes, in
+     *   which case 'anonymous' is used.
+     * - `'closure'` for a __closure__ which is actually an instance of `Closure`.
+     * - `'resource'` for a __resource__.
+     *
+     * @param mixed $value The value for which to determine the type
+     *
+     * @return string The type of value.
+     * @psalm-mutation-free
+     */
+    public static function typeOf(mixed $value): string
+    {
+        if (is_object($value)) {
+            return self::getObjectType($value);
+        }
+
+        $nativeType = gettype($value);
+        $map = [
+            'boolean' => 'bool',
+            'integer' => 'int',
+            'double' => 'float',
+            'resource' => 'resource',
+            'resource (closed)' => 'resource',
+            'NULL' => 'null',
+            'array' => 'array',
+            'string' => 'string',
+        ];
+
+        return $map[$nativeType] ?? 'unknown';
+    }
+
+    /**
+     * Produces a scalar or null value to be used as the value's hash, which determines where it goes in the hash
+     * table. While this value does not have to be unique, values which are equal must have the same hash value.
+     *
+     * @param mixed $value The value to produce a hash for
+     *
+     * @return bool|float|int|string|null
+     * @psalm-mutation-free
+     */
+    public static function hash(mixed $value): bool|float|int|string|null
+    {
+        if (is_scalar($value) || null === $value) {
+            return $value;
+        }
+
+        if ($value instanceof Hashable) {
+            return $value->hash();
+        }
+
+        return HashCode::forAny($value);
+    }
+
+    /**
      * Transform an array to its textual representation.
      *
      * @param array<mixed> $value The array to transform
@@ -150,46 +212,6 @@ final class Values
     }
 
     /**
-     * Returns a textual representation for the type of value.
-     *
-     * - `'null'` for a __NULL__ value.
-     * - `'int'` for a native __integer__.
-     * - `'float'` for a native __float__ or __double__.
-     * - `'bool'` for a native __boolean__.
-     * - `'string'` for a native __string__.
-     * - `'array'` for a native __array__.
-     * - `'className'` for an __object__. `get_class($value)` is used for all objects except for anonymous classes, in
-     *   which case 'anonymous' is used.
-     * - `'closure'` for a __closure__ which is actually an instance of `Closure`.
-     * - `'resource'` for a __resource__.
-     *
-     * @param mixed $value The value for which to determine the type
-     *
-     * @return string The type of value.
-     * @psalm-mutation-free
-     */
-    public static function typeOf(mixed $value): string
-    {
-        if (is_object($value)) {
-            return self::getObjectType($value);
-        }
-
-        $nativeType = gettype($value);
-        $map = [
-            'boolean' => 'bool',
-            'integer' => 'int',
-            'double' => 'float',
-            'resource' => 'resource',
-            'resource (closed)' => 'resource',
-            'NULL' => 'null',
-            'array' => 'array',
-            'string' => 'string',
-        ];
-
-        return $map[$nativeType] ?? 'unknown';
-    }
-
-    /**
      * Returns the type of object.
      *
      * Instances of `Closure` return `'closure'`, anonymous instances return `'anonymous'` all other instances return
@@ -212,27 +234,5 @@ final class Values
         }
 
         return $class;
-    }
-
-    /**
-     * Produces a scalar or null value to be used as the value's hash, which determines where it goes in the hash
-     * table. While this value does not have to be unique, values which are equal must have the same hash value.
-     *
-     * @param mixed $value The value to produce a hash for
-     *
-     * @return bool|float|int|string|null
-     * @psalm-mutation-free
-     */
-    public static function hash(mixed $value): bool|float|int|string|null
-    {
-        if (is_scalar($value) || null === $value) {
-            return $value;
-        }
-
-        if ($value instanceof Hashable) {
-            return $value->hash();
-        }
-
-        return HashCode::forAny($value);
     }
 }
