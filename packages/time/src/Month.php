@@ -23,18 +23,18 @@ use Par\Time\Util\Range;
  *
  * @psalm-immutable
  *
- * @method static self January()
- * @method static self February()
- * @method static self March()
- * @method static self April()
- * @method static self May()
- * @method static self June()
- * @method static self July()
- * @method static self August()
- * @method static self September()
- * @method static self October()
- * @method static self November()
- * @method static self December()
+ * @method static self January() The singleton instance for the month of January with 31 days.
+ * @method static self February() The singleton instance for the month of February with 28 days, or 29 in a leap year.
+ * @method static self March() The singleton instance for the month of March with 31 days.
+ * @method static self April() The singleton instance for the month of April with 30 days.
+ * @method static self May() The singleton instance for the month of May with 31 days.
+ * @method static self June() The singleton instance for the month of June with 30 days.
+ * @method static self July() The singleton instance for the month of July with 31 days.
+ * @method static self August() The singleton instance for the month of August with 31 days.
+ * @method static self September() The singleton instance for the month of September with 30 days.
+ * @method static self October() The singleton instance for the month of October with 31 days.
+ * @method static self November() The singleton instance for the month of November with 30 days.
+ * @method static self December() The singleton instance for the month of December with 31 days.
  */
 final class Month extends Enum
 {
@@ -62,12 +62,12 @@ final class Month extends Enum
     /**
      * Obtains an instance of Month for today.
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function today(): static
+    public static function today(): self
     {
-        return static::fromNative(Factory::today());
+        return self::fromNative(Factory::today());
     }
 
     /**
@@ -75,7 +75,7 @@ final class Month extends Enum
      *
      * @param DateTimeInterface $native The datetime to convert
      *
-     * @return Month
+     * @return self
      * @psalm-pure
      */
     public static function fromNative(DateTimeInterface $native): self
@@ -89,7 +89,7 @@ final class Month extends Enum
      *
      * @param int $month The month-of-year to represent, from 1 (January) to 12 (December)
      *
-     * @return Month
+     * @return self
      * @throws InvalidArgumentException If the month-of-year is invalid
      * @psalm-pure
      */
@@ -103,23 +103,23 @@ final class Month extends Enum
     /**
      * Obtains an instance of Month for tomorrow.
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function tomorrow(): static
+    public static function tomorrow(): self
     {
-        return static::fromNative(Factory::tomorrow());
+        return self::fromNative(Factory::tomorrow());
     }
 
     /**
      * Obtains an instance of Month for yesterday.
      *
-     * @return static
+     * @return self
      * @psalm-pure
      */
-    public static function yesterday(): static
+    public static function yesterday(): self
     {
-        return static::fromNative(Factory::yesterday());
+        return self::fromNative(Factory::yesterday());
     }
 
     /**
@@ -130,7 +130,7 @@ final class Month extends Enum
      *
      * @param int $months The months to subtract, positive or negative
      *
-     * @return Month
+     * @return self The resulting month.
      */
     public function minus(int $months): self
     {
@@ -144,7 +144,7 @@ final class Month extends Enum
      *
      * @param int $months The months to add, positive or negative
      *
-     * @return Month
+     * @return self The resulting month.
      */
     public function plus(int $months): self
     {
@@ -175,7 +175,7 @@ final class Month extends Enum
      * month. January, February and March return January. April, May and June return April. July, August and
      * September return July. October, November and December return October.
      *
-     * @return Month
+     * @return self The resulting Month.
      */
     public function firstMonthOfQuarter(): self
     {
@@ -202,7 +202,7 @@ final class Month extends Enum
      *
      * @param bool $leapYear True if the length is required for a leap year
      *
-     * @return int
+     * @return int The resulting day
      */
     public function firstDayOfYear(bool $leapYear = false): int
     {
@@ -219,7 +219,6 @@ final class Month extends Enum
     }
 
     /**
-     *
      * @param Month $other
      *
      * @return int
@@ -239,7 +238,7 @@ final class Month extends Enum
      *
      * @param bool $leapYear True if the length is required for a leap year
      *
-     * @return int
+     * @return int The resulting length.
      */
     public function length(bool $leapYear = false): int
     {
