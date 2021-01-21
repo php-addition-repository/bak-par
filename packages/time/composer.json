@@ -29,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ParTest\\Time\\": "test/"
+            "Par\\TimeTest\\": "test/"
         }
     },
     "extra": {

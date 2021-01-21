@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Time\Unit;
+namespace Par\TimeTest\Unit;
 
 use DateTime;
 use DateTimeImmutable;
