@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit\PHPUnit\Constraint;
+namespace Par\CoreTest\Unit\PHPUnit\Constraint;
 
 use Par\Core\Hashable;
 use Par\Core\PHPUnit\Constraint\HashableEquals;
-use ParTest\Core\Fixtures\GenericHashable;
+use Par\CoreTest\Fixtures\GenericHashable;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 
@@ -52,12 +52,12 @@ final class HashableEqualsTest extends TestCase
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessage(
-            'Failed asserting that ParTest\Core\Fixtures\GenericHashable@bar equals ParTest\Core\Fixtures\GenericHashable@foo.
+            'Failed asserting that Par\CoreTest\Fixtures\GenericHashable@bar equals Par\CoreTest\Fixtures\GenericHashable@foo.
 --- Expected
 +++ Actual
 @@ @@
--ParTest\Core\Fixtures\GenericHashable@foo
-+ParTest\Core\Fixtures\GenericHashable@bar'
+-Par\CoreTest\Fixtures\GenericHashable@foo
++Par\CoreTest\Fixtures\GenericHashable@bar'
         );
         $constraint->evaluate(new GenericHashable('bar'));
     }
@@ -72,11 +72,11 @@ final class HashableEqualsTest extends TestCase
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessage(
-            'Failed asserting that \'foo\' equals ParTest\Core\Fixtures\GenericHashable@foo.
+            'Failed asserting that \'foo\' equals Par\CoreTest\Fixtures\GenericHashable@foo.
 --- Expected
 +++ Actual
 @@ @@
--ParTest\Core\Fixtures\GenericHashable@foo
+-Par\CoreTest\Fixtures\GenericHashable@foo
 +\'foo\''
         );
         $constraint->evaluate('foo');

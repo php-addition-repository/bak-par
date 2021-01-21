@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit\Values;
+namespace Par\CoreTest\Unit\Values;
 
 use Par\Core\Hashable;
 use Par\Core\Values;

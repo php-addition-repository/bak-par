@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Fixtures;
+namespace Par\CoreTest\Fixtures;
 
 use Par\Core\Hashable;
 

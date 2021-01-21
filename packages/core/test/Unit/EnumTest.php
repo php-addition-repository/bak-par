@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit;
+namespace Par\CoreTest\Unit;
 
 use BadMethodCallException;
 use Par\Core\Enum;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use Par\Core\PHPUnit\HashableAssertions;
-use ParTest\Core\Fixtures\Planet;
+use Par\CoreTest\Fixtures\Planet;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 

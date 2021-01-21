@@ -30,7 +30,7 @@
     "autoload-dev": {
         "psr-4": {
             "App\\": "src/",
-            "ParTest\\Core\\": "packages/core/test/"
+            "Par\\CoreTest\\": "packages/core/test/"
         }
     },
     "replace": {
