@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit;
+namespace Par\CoreTest\Unit;
 
 use Par\Core\HashCode;
-use ParTest\Core\Fixtures\GenericHashable;
-use ParTest\Core\Traits\ResourceTrait;
+use Par\CoreTest\Fixtures\GenericHashable;
+use Par\CoreTest\Traits\ResourceTrait;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use TypeError;

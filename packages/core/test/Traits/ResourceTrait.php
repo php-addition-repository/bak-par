@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Traits;
+namespace Par\CoreTest\Traits;
 
 use RuntimeException;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit\Values;
+namespace Par\CoreTest\Unit\Values;
 
 use Par\Core\Values;
-use ParTest\Core\Traits\ResourceTrait;
+use Par\CoreTest\Traits\ResourceTrait;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 

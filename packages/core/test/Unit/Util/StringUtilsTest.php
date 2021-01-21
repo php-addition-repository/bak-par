@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParTest\Core\Unit\Util;
+namespace Par\CoreTest\Unit\Util;
 
 use Par\Core\Util\StringUtils;
 use PHPUnit\Framework\TestCase;
