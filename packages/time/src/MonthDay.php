@@ -7,13 +7,24 @@ namespace Par\Time;
 use DateTimeInterface;
 use Par\Core\Hashable;
 use Par\Time\Exception\InvalidArgumentException;
+use Stringable;
 
 /**
- * A month-day in the ISO-8601 calendar system, such as 'December 3th'
+ * A month-day in the ISO-8601 calendar system, such as '--12-03'.
+ *
+ * MonthDay is an immutable date-time object that represents the combination of a month and day-of-month. Any field
+ * that can be derived from a month and day, such as quarter-of-year, can be obtained.
+ *
+ * This class does not store or represent a year, time or time-zone. For example, the value "December 3rd" can be
+ * stored in a MonthDay.
+ *
+ * This class does not store or represent a year, time or time-zone. For example, the value "December 3rd" can be
+ * stored in a MonthDay. Since a MonthDay does not possess a year, the leap day of February 29th is considered valid.
+ *
  *
  * @psalm-immutable
  */
-final class MonthDay implements Hashable
+final class MonthDay implements Hashable, Stringable
 {
     private const DAY_OF_MONTH_FORMAT = 'd';
 
@@ -38,6 +49,8 @@ final class MonthDay implements Hashable
      */
     public static function of(int|Month $month, int $dayOfMonth): self
     {
+        $month = is_int($month) ? Month::of($month) : $month;
+
         return new self($month, $dayOfMonth);
     }
 
@@ -68,15 +81,41 @@ final class MonthDay implements Hashable
         return self::of(Month::fromNative($dateTime), (int)$dateTime->format(self::DAY_OF_MONTH_FORMAT));
     }
 
+    /**
+     * Obtains an instance of MonthDay from a text string such as --12-03.
+     *
+     * The string must represent a valid month-day. The format is --MM-dd.
+     *
+     * @param string $text The text to parse such as "--12-03"
+     *
+     * @return self The parsed month-day
+     */
+    public static function parse(string $text): self
+    {
+        Assert::regex($text, '/^--\d{2}-\d{2}$/');
+
+        preg_match('/^--(\d{2})-(\d{2})$/', $text, $matches);
+
+        $month = Month::of((int)$matches[1]);
+
+        return self::of($month, (int)$matches[2]);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
-            return $this->hash() === $other->hash();
+            return $this->month->equals($other->month) && $this->dayOfMonth === $other->dayOfMonth;
         }
 
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function hash(): int
     {
         // 12-3 -> 1203
@@ -109,9 +148,78 @@ final class MonthDay implements Hashable
         return $this->dayOfMonth;
     }
 
-    private function __construct(int|Month $month, int $dayOfMonth)
+    /**
+     * Returns a copy of this MonthDay with the month-of-year altered.
+     *
+     * This returns a month-day with the specified month. If the day-of-month is invalid for the specified month, the
+     * day will be adjusted to the last valid day-of-month.
+     *
+     * @param Month $month The month-of-year to set in the returned month-day, from 1 (January) to 12 (December)
+     *
+     * @return self A MonthDay based on this month-day with the requested month
+     */
+    public function with(Month $month): self
     {
-        $this->month = is_int($month) ? Month::of($month) : $month;
+        return new self($month, $this->dayOfMonth);
+    }
+
+    /**
+     * Returns a copy of this MonthDay with the month-of-year altered.
+     *
+     * This returns a month-day with the specified month. If the day-of-month is invalid for the specified month, the
+     * day will be adjusted to the last valid day-of-month.
+     *
+     * @param int $month The month-of-year to set in the returned month-day
+     *
+     * @return self A MonthDay based on this month-day with the requested month
+     */
+    public function withMonth(int $month): self
+    {
+        return $this->with(Month::of($month));
+    }
+
+    /**
+     * Returns a copy of this MonthDay with the day-of-month altered.
+     *
+     * This returns a month-day with the specified day-of-month. If the day-of-month is invalid for the month, an
+     * exception is thrown.
+     *
+     * @param int $dayOfMonth The day-of-month to set in the return month-day, from 1 to 31
+     *
+     * @return self A MonthDay based on this month-day with the requested day
+     */
+    public function withDayOfMonth(int $dayOfMonth): self
+    {
+        return new self($this->month, $dayOfMonth);
+    }
+
+    /**
+     * Outputs this month-day as a String, such as --12-03.
+     *
+     * The output will be in the format --MM-dd.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return sprintf('--%02d-%02d', $this->month->value(), $this->dayOfMonth);
+    }
+
+    /**
+     * Outputs this month-day as a String, such as --12-03.
+     *
+     * The output will be in the format --MM-dd.
+     *
+     * @return string
+     */
+    public function toString(): string
+    {
+        return (string)$this;
+    }
+
+    private function __construct(Month $month, int $dayOfMonth)
+    {
+        $this->month = $month;
 
         Assert::range($dayOfMonth, 1, $this->month->length(true));
         $this->dayOfMonth = $dayOfMonth;
