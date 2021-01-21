@@ -10,6 +10,9 @@ use DateTimeZone;
 use Exception as GlobalException;
 use Par\Time\Exception\InvalidArgumentException;
 
+/**
+ * A factory for handling native date-time operations.
+ */
 final class Factory
 {
     public const NOW = 'now';
@@ -96,6 +99,8 @@ final class Factory
     }
 
     /**
+     * Get the internal value for "now".
+     *
      * @return DateTimeImmutable|null
      * @psalm-pure
      */
@@ -105,6 +110,13 @@ final class Factory
         return self::$testNow;
     }
 
+    /**
+     * Set the internal value for "now".
+     *
+     * @param DateTimeImmutable|null $dateTime
+     *
+     * @return void
+     */
     public static function setTestNow(?DateTimeImmutable $dateTime = null): void
     {
         self::$testNow = $dateTime;
