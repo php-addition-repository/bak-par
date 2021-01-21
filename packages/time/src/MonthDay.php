@@ -154,28 +154,15 @@ final class MonthDay implements Hashable, Stringable
      * This returns a month-day with the specified month. If the day-of-month is invalid for the specified month, the
      * day will be adjusted to the last valid day-of-month.
      *
-     * @param Month $month The month-of-year to set in the returned month-day, from 1 (January) to 12 (December)
+     * @param int|Month $month The month-of-year to set in the returned month-day
      *
      * @return self A MonthDay based on this month-day with the requested month
      */
-    public function with(Month $month): self
+    public function withMonth(int|Month $month): self
     {
-        return new self($month, $this->dayOfMonth);
-    }
+        $month = is_int($month) ? Month::of($month) : $month;
 
-    /**
-     * Returns a copy of this MonthDay with the month-of-year altered.
-     *
-     * This returns a month-day with the specified month. If the day-of-month is invalid for the specified month, the
-     * day will be adjusted to the last valid day-of-month.
-     *
-     * @param int $month The month-of-year to set in the returned month-day
-     *
-     * @return self A MonthDay based on this month-day with the requested month
-     */
-    public function withMonth(int $month): self
-    {
-        return $this->with(Month::of($month));
+        return new self($month, $this->dayOfMonth);
     }
 
     /**
@@ -196,7 +183,7 @@ final class MonthDay implements Hashable, Stringable
     /**
      * Outputs this month-day as a String, such as --12-03.
      *
-     * The output will be in the format --MM-dd.
+     * The output will be in the format --m-d.
      *
      * @return string
      */
@@ -208,7 +195,7 @@ final class MonthDay implements Hashable, Stringable
     /**
      * Outputs this month-day as a String, such as --12-03.
      *
-     * The output will be in the format --MM-dd.
+     * The output will be in the format --m-d.
      *
      * @return string
      */

@@ -144,12 +144,12 @@ class MonthDayTest extends TestCase
     {
         $monthDay = MonthDay::of(3, 12);
 
-        self::assertSame($monthDay->dayOfMonth(), $monthDay->with(Month::of(4))->dayOfMonth());
+        self::assertSame($monthDay->dayOfMonth(), $monthDay->withMonth(Month::of(4))->dayOfMonth());
         self::assertHashEquals(
             Month::of(4),
-            $monthDay->with(Month::of(4))->month()
+            $monthDay->withMonth(Month::of(4))->month()
         );
-        self::assertHashNotEquals($monthDay, $monthDay->with(Month::of(4)));
+        self::assertHashNotEquals($monthDay, $monthDay->withMonth(Month::of(4)));
 
         self::assertSame($monthDay->dayOfMonth(), $monthDay->withMonth(4)->dayOfMonth());
         self::assertHashEquals(Month::of(4), $monthDay->withMonth(4)->month());
@@ -166,5 +166,13 @@ class MonthDayTest extends TestCase
         self::assertSame(5, $monthDay->withDayOfMonth(5)->dayOfMonth());
         self::assertHashEquals(Month::of(3), $monthDay->withDayOfMonth(5)->month());
         self::assertHashNotEquals($monthDay, $monthDay->withDayOfMonth(5));
+    }
+
+    /**
+     * @test
+     */
+    public function itIsHashable(): void
+    {
+        self::assertSame(1203, MonthDay::of(12, 3)->hash());
     }
 }
