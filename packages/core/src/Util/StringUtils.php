@@ -6,6 +6,9 @@ namespace Par\Core\Util;
 
 use Stringable;
 
+/**
+ * @internal
+ */
 final class StringUtils
 {
     /**
