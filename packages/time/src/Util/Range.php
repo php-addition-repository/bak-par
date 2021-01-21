@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Par\Time\Util;
 
+/**
+ * @internal
+ */
 final class Range
 {
     /**
