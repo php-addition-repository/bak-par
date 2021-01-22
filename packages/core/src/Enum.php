@@ -14,8 +14,10 @@ use Stringable;
 /**
  * This is the common base class of all enumerations.
  *
- * @example "packages/core/test/Fixtures/Planet.php" Implementation example
+ * @example                                   "packages/core/test/Fixtures/Planet.php" Implementation example
  * @psalm-immutable
+ *
+ * @template-covariant                        T of Enum
  */
 abstract class Enum implements Hashable, Stringable
 {
@@ -30,7 +32,7 @@ abstract class Enum implements Hashable, Stringable
     private static array $allInstancesLoaded = [];
 
     /**
-     * @var array<string, array<string, Enum>>
+     * @psalm-var array<string, array<string, Enum>>
      */
     private static array $instances = [];
 
@@ -152,31 +154,32 @@ abstract class Enum implements Hashable, Stringable
     /**
      * @param EnumDefinition $definition
      *
-     * @return Enum
+     * @return static
      * @psalm-pure
      * @psalm-suppress ImpureStaticProperty
      */
-    private static function createFromDefinition(EnumDefinition $definition): Enum
+    private static function createFromDefinition(EnumDefinition $definition): static
     {
         $className = static::class;
-        if (isset(self::$instances[$className][$definition->name()])) {
-            return self::$instances[$className][$definition->name()];
-        }
 
-        $instance = new static($definition->ordinal(), $definition->name());
+        /** @var T $instance */
+        $instance = self::$instances[$className][$definition->name()] ?? new static(
+                $definition->ordinal(),
+                $definition->name()
+            );
 
         return self::rememberInstance($definition->name(), $instance);
     }
 
     /**
      * @param string $name
-     * @param Enum   $instance
+     * @param static $instance
      *
-     * @return Enum
+     * @return static
      * @psalm-pure
      * @psalm-suppress ImpureStaticProperty
      */
-    private static function rememberInstance(string $name, Enum $instance): Enum
+    private static function rememberInstance(string $name, Enum $instance): static
     {
         $className = static::class;
 
@@ -237,6 +240,7 @@ abstract class Enum implements Hashable, Stringable
 
     /**
      * @inheritDoc
+     * @psalm-assert-if-true T $other
      */
     final public function equals(mixed $other): bool
     {

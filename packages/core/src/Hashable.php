@@ -28,13 +28,14 @@ interface Hashable extends \Ds\Hashable
      * Determines if two objects should be considered equal. Both objects will be instances of the same class but may
      * not be the same instance.
      *
-     * @example      "packages/core/test/Fixtures/GenericHashable.php" 16 Implementation example
+     * @example              "packages/core/test/Fixtures/GenericHashable.php" 16 Implementation example
      *
      * @param mixed $other The referenced value with which to compare
      *
      * @return bool True if this object is the same as the other argument
      * @psalm-mutation-free
-     * @noinspection PhpParameterNameChangedDuringInheritanceInspection
+     * @noinspection         PhpParameterNameChangedDuringInheritanceInspection
+     * @psalm-assert-if-true static $other
      */
     public function equals(mixed $other): bool;
 }

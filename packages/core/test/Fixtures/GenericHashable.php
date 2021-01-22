@@ -8,6 +8,7 @@ use Par\Core\Hashable;
 
 /**
  * @internal
+ * @psalm-immutable
  */
 final class GenericHashable implements Hashable
 {
@@ -16,10 +17,8 @@ final class GenericHashable implements Hashable
     }
 
     /**
-     * @param mixed $other
-     *
-     * @return bool
-     * @psalm-mutation-free
+     * @inheritDoc
+     * @psalm-assert-if-true GenericHashable $other
      */
     public function equals(mixed $other): bool
     {
@@ -31,8 +30,7 @@ final class GenericHashable implements Hashable
     }
 
     /**
-     * @return int|string|bool|float|null
-     * @psalm-mutation-free
+     * @inheritDoc
      */
     public function hash(): int|string|bool|null|float
     {
