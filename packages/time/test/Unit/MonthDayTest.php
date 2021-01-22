@@ -175,4 +175,33 @@ class MonthDayTest extends TestCase
     {
         self::assertSame(1203, MonthDay::of(12, 3)->hash());
     }
+
+    /**
+     * @test
+     */
+    public function itCanBeNaturallySorted(): void
+    {
+        $list = [
+            MonthDay::of(3, 3),
+            MonthDay::of(5, 1),
+            MonthDay::of(3, 2),
+        ];
+
+        uasort(
+            $list,
+            static function (MonthDay $a, MonthDay $b): int {
+                return $a->compareTo($b);
+            }
+        );
+
+        $orderedList = [];
+        foreach ($list as $item) {
+            $orderedList[] = $item->toString();
+        }
+
+        self::assertSame(
+            ['--03-02', '--03-03', '--05-01'],
+            $orderedList
+        );
+    }
 }

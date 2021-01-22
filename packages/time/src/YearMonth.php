@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Par\Time;
 
 use DateTimeInterface;
+use Par\Core\Comparable;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Stringable;
 
@@ -18,8 +20,9 @@ use Stringable;
  * in a YearMonth.
  *
  * @psalm-immutable
+ * @template-implements Comparable<YearMonth>
  */
-final class YearMonth implements Hashable, Stringable
+final class YearMonth implements Hashable, Stringable, Comparable
 {
     private Year $year;
     private Month $month;
@@ -201,6 +204,21 @@ final class YearMonth implements Hashable, Stringable
     public function withYear(int|Year $year): self
     {
         return self::of($year, $this->month);
+    }
+
+    /**
+     * @@inheritDoc
+     */
+    public function compareTo(Comparable $other): int
+    {
+        if ($other instanceof static) {
+            $currentValue = ($this->yearValue() * 100) + $this->monthValue();
+            $otherValue = ($other->yearValue() * 100) + $other->monthValue();
+
+            return $currentValue <=> $otherValue;
+        }
+
+        throw ClassMismatch::forExpectedInstance($this, $other);
     }
 
     private function __construct(Year $year, Month $month)

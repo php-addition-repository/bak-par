@@ -186,4 +186,33 @@ class YearMonthTest extends TestCase
 
         YearMonth::parse('The year 2000');
     }
+
+    /**
+     * @test
+     */
+    public function itCanBeNaturallySorted(): void
+    {
+        $list = [
+            YearMonth::of(2001, 3),
+            YearMonth::of(2010, 1),
+            YearMonth::of(2001, 2),
+        ];
+
+        uasort(
+            $list,
+            static function (YearMonth $a, YearMonth $b): int {
+                return $a->compareTo($b);
+            }
+        );
+
+        $orderedList = [];
+        foreach ($list as $item) {
+            $orderedList[] = $item->toString();
+        }
+
+        self::assertSame(
+            ['2001-02', '2001-03', '2010-01'],
+            $orderedList
+        );
+    }
 }

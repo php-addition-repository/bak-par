@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Par\Time;
 
 use DateTimeInterface;
+use Par\Core\Comparable;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Exception\InvalidArgumentException;
 use Stringable;
@@ -13,8 +15,9 @@ use Stringable;
  * A year in the ISO-8601 calendar system, such as 2007.
  *
  * @psalm-immutable
+ * @template-implements Comparable<Year>
  */
-final class Year implements Hashable, Stringable
+final class Year implements Hashable, Stringable, Comparable
 {
     public const MIN_VALUE = -999999999;
     public const MAX_VALUE = 999999999;
@@ -151,14 +154,36 @@ final class Year implements Hashable, Stringable
         return static::isLeapYear($this->value);
     }
 
+    /**
+     * Outputs this year as a string.
+     *
+     * @return string A string representation of this year
+     */
     public function toString(): string
     {
         return (string)$this;
     }
 
+    /**
+     * Outputs this year as a string.
+     *
+     * @return string A string representation of this year
+     */
     public function __toString(): string
     {
         return (string)$this->value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function compareTo(Comparable $other): int
+    {
+        if ($other instanceof static) {
+            return $this->value <=> $other->value;
+        }
+
+        throw ClassMismatch::forExpectedInstance($this, $other);
     }
 
     /**

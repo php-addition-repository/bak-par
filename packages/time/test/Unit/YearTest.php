@@ -196,4 +196,33 @@ class YearTest extends TestCase
 
         self::assertFalse(Year::isLeapYear(0)); // not divisible at all
     }
+
+    /**
+     * @test
+     */
+    public function itCanBeNaturallySorted(): void
+    {
+        $list = [
+            Year::of(2001),
+            Year::of(2010),
+            Year::of(1999),
+        ];
+
+        uasort(
+            $list,
+            static function (Year $a, Year $b): int {
+                return $a->compareTo($b);
+            }
+        );
+
+        $orderedList = [];
+        foreach ($list as $year) {
+            $orderedList[] = $year->value();
+        }
+
+        self::assertSame(
+            [1999, 2001, 2010],
+            $orderedList
+        );
+    }
 }

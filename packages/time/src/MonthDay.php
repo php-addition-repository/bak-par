@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Par\Time;
 
 use DateTimeInterface;
+use Par\Core\Comparable;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Exception\InvalidArgumentException;
 use Stringable;
@@ -22,8 +24,9 @@ use Stringable;
  * stored in a MonthDay. Since a MonthDay does not possess a year, the leap day of February 29th is considered valid.
  *
  * @psalm-immutable
+ * @template-implements Comparable<MonthDay>
  */
-final class MonthDay implements Hashable, Stringable
+final class MonthDay implements Hashable, Stringable, Comparable
 {
     private const DAY_OF_MONTH_FORMAT = 'd';
 
@@ -202,6 +205,21 @@ final class MonthDay implements Hashable, Stringable
     public function toString(): string
     {
         return (string)$this;
+    }
+
+    /**
+     * @@inheritDoc
+     */
+    public function compareTo(Comparable $other): int
+    {
+        if ($other instanceof static) {
+            $currentValue = ($this->monthValue() * 100) + $this->dayOfMonth();
+            $otherValue = ($other->monthValue() * 100) + $other->dayOfMonth();
+
+            return $currentValue <=> $otherValue;
+        }
+
+        throw ClassMismatch::forExpectedInstance($this, $other);
     }
 
     private function __construct(Month $month, int $dayOfMonth)
