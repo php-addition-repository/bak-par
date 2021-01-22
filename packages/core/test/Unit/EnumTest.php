@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Par\CoreTest\Unit;
 
 use BadMethodCallException;
+use Par\Core\Comparable;
 use Par\Core\Enum;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
@@ -153,6 +154,53 @@ class EnumTest extends TestCase
 
         Planet::valueOf('sun');
     }
+
+    /**
+     * @test
+     */
+    public function itCanBeSorted(): void
+    {
+        $list = [
+            Planet::Uranus(),
+            Planet::Jupiter(),
+            Planet::Earth(),
+        ];
+
+        uasort(
+            $list,
+            static function (Planet $a, Planet $b): int {
+                return $a->compareTo($b);
+            }
+        );
+
+        self::assertSame(
+            [
+                Planet::Earth(),
+                Planet::Jupiter(),
+                Planet::Uranus(),
+            ],
+            array_values($list)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsErrorWhenComparingWithDifferentValue(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        $otherValue = new class() implements Comparable {
+            public function compareTo(Comparable $other): int
+            {
+                return 0;
+            }
+
+        };
+
+        Planet::Earth()->compareTo($otherValue);
+    }
+
 }
 
 /**

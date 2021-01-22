@@ -10,6 +10,7 @@ use Par\Core\Exception\InvalidEnumElement;
 use ReflectionClass;
 use ReflectionException;
 use Stringable;
+use TypeError;
 
 /**
  * This is the common base class of all enumerations.
@@ -19,7 +20,7 @@ use Stringable;
  *
  * @template-covariant                        T of Enum
  */
-abstract class Enum implements Hashable, Stringable
+abstract class Enum implements Hashable, Stringable, Comparable
 {
     /**
      * @var array<string, array<string, EnumDefinition>>
@@ -190,8 +191,8 @@ abstract class Enum implements Hashable, Stringable
         ) {
             uasort(
                 self::$instances[$className],
-                static function (self $a, self $b) {
-                    return $a->ordinal() <=> $b->ordinal();
+                static function (Enum $a, Enum $b): int {
+                    return $a->compareTo($b);
                 }
             );
 
@@ -199,6 +200,25 @@ abstract class Enum implements Hashable, Stringable
         }
 
         return $instance;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function compareTo(Comparable $other): int
+    {
+        if ($other instanceof static) {
+            return $this->ordinal <=> $other->ordinal;
+        }
+
+        throw new TypeError(
+            sprintf(
+                '%s(): Argument #1 ($other) must be of type %s, %s given.',
+                __METHOD__,
+                static::class,
+                get_class($other)
+            )
+        );
     }
 
     /**

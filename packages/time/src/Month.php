@@ -239,15 +239,4 @@ final class Month extends Enum
             default => 31
         };
     }
-
-    /**
-     * @param Month $other
-     *
-     * @return int
-     */
-    private function compareTo(Month $other): int
-    {
-        return $this->ordinal() <=> $other->ordinal();
-    }
-
 }
