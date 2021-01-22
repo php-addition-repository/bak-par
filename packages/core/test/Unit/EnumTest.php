@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Par\CoreTest\Unit;
 
 use BadMethodCallException;
-use Par\Core\Comparable;
 use Par\Core\Enum;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use Par\Core\PHPUnit\EnumTestCaseTrait;
 use Par\Core\PHPUnit\HashableAssertions;
+use Par\CoreTest\Fixtures\LightSwitch;
 use Par\CoreTest\Fixtures\Planet;
 use PHPUnit\Framework\TestCase;
 
@@ -186,17 +187,11 @@ class EnumTest extends TestCase
     /**
      * @test
      */
-    public function itThrowsErrorWhenComparingWithDifferentValue(): void
+    public function itThrowsErrorWhenComparingWithDifferentEnum(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(ClassMismatch::class);
 
-        $otherValue = new class() implements Comparable {
-            public function compareTo(Comparable $other): int
-            {
-                return 0;
-            }
-
-        };
+        $otherValue = LightSwitch::Off();
 
         Planet::Earth()->compareTo($otherValue);
     }

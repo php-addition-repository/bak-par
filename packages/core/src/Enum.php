@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Par\Core;
 
 use BadMethodCallException;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use ReflectionClass;
 use ReflectionException;
 use Stringable;
-use TypeError;
 
 /**
  * This is the common base class of all enumerations.
@@ -19,6 +19,7 @@ use TypeError;
  * @psalm-immutable
  *
  * @template-covariant                        T of Enum
+ * @template-implements                       Comparable<Enum>
  */
 abstract class Enum implements Hashable, Stringable, Comparable
 {
@@ -211,14 +212,7 @@ abstract class Enum implements Hashable, Stringable, Comparable
             return $this->ordinal <=> $other->ordinal;
         }
 
-        throw new TypeError(
-            sprintf(
-                '%s(): Argument #1 ($other) must be of type %s, %s given.',
-                __METHOD__,
-                static::class,
-                get_class($other)
-            )
-        );
+        throw ClassMismatch::forExpectedInstance($this, $other);
     }
 
     /**
