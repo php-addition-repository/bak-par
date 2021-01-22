@@ -114,7 +114,7 @@ class MonthDayTest extends TestCase
         $monthDay = MonthDay::of(11, 4);
         $otherMonthDay = MonthDay::of(5, 12);
 
-        self::assertTrue($monthDay->equals($monthDay));
+        self::assertTrue($monthDay->equals(clone $monthDay));
         self::assertFalse($monthDay->equals($otherMonthDay));
         self::assertFalse($monthDay->equals(null));
     }

@@ -102,6 +102,7 @@ final class YearMonth implements Hashable, Stringable
 
     /**
      * @inheritDoc
+     * @psalm-assert-if-true =YearMonth $other
      */
     public function equals(mixed $other): bool
     {

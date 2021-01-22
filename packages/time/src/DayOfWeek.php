@@ -18,6 +18,7 @@ use Par\Time\Util\Range;
  * int value to ensure code clarity.
  *
  * @psalm-immutable
+ * @extends Enum<DayOfWeek>
  *
  * @method static self Monday() The singleton instance for the day-of-week of Monday.
  * @method static self Tuesday() The singleton instance for the day-of-week of Tuesday.

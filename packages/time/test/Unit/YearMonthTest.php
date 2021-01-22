@@ -50,7 +50,7 @@ class YearMonthTest extends TestCase
         $yearMonth = YearMonth::of(2020, 1);
         $otherYearMonth = YearMonth::of(2021, 2);
 
-        self::assertTrue($yearMonth->equals($yearMonth));
+        self::assertTrue($yearMonth->equals(clone $yearMonth));
         self::assertFalse($yearMonth->equals($otherYearMonth));
         self::assertFalse($yearMonth->equals(null));
     }

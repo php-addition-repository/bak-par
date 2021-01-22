@@ -22,6 +22,7 @@ use Par\Time\Util\Range;
  * **Do not use ordinal() to obtain the numeric representation of Month. Use value() instead.**
  *
  * @psalm-immutable
+ * @extends Enum<Month>
  *
  * @method static self January() The singleton instance for the month of January with 31 days.
  * @method static self February() The singleton instance for the month of February with 28 days, or 29 in a leap year.
@@ -219,16 +220,6 @@ final class Month extends Enum
     }
 
     /**
-     * @param Month $other
-     *
-     * @return int
-     */
-    private function compareTo(Month $other): int
-    {
-        return $this->ordinal() <=> $other->ordinal();
-    }
-
-    /**
      * Gets the length of this month in days.
      *
      * This takes a flag to determine whether to return the length for a leap year or not.
@@ -247,6 +238,16 @@ final class Month extends Enum
             self::February() => $leapYear ? 29 : 28,
             default => 31
         };
+    }
+
+    /**
+     * @param Month $other
+     *
+     * @return int
+     */
+    private function compareTo(Month $other): int
+    {
+        return $this->ordinal() <=> $other->ordinal();
     }
 
 }

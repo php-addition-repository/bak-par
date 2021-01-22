@@ -21,7 +21,6 @@ use Stringable;
  * This class does not store or represent a year, time or time-zone. For example, the value "December 3rd" can be
  * stored in a MonthDay. Since a MonthDay does not possess a year, the leap day of February 29th is considered valid.
  *
- *
  * @psalm-immutable
  */
 final class MonthDay implements Hashable, Stringable
@@ -103,11 +102,12 @@ final class MonthDay implements Hashable, Stringable
 
     /**
      * @inheritDoc
+     * @psalm-assert-if-true =MonthDay $other
      */
     public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
-            return $this->month->equals($other->month) && $this->dayOfMonth === $other->dayOfMonth;
+            return $this->dayOfMonth === $other->dayOfMonth && $this->month->equals($other->month);
         }
 
         return false;

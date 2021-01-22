@@ -97,6 +97,10 @@ final class Year implements Hashable, Stringable
         return (int)$dt->format('L') === 1;
     }
 
+    /**
+     * @inheritDoc
+     * @psalm-assert-if-true =Year $other
+     */
     public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
@@ -106,6 +110,11 @@ final class Year implements Hashable, Stringable
         return false;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @return int
+     */
     public function hash(): int
     {
         return $this->value;
