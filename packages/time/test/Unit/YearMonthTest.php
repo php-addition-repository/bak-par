@@ -215,4 +215,40 @@ class YearMonthTest extends TestCase
             $orderedList
         );
     }
+
+    /**
+     * @test
+     */
+    public function itCanDetermineIfItIsAfterAnother(): void
+    {
+        $current = YearMonth::of(2000, 6);
+        $yearAfter = YearMonth::of(2001, 6);
+        $yearBefore = YearMonth::of(1999, 6);
+        $monthAfter = YearMonth::of(2000, 7);
+        $monthBefore = YearMonth::of(2000, 5);
+
+        self::assertTrue($current->isAfter($yearBefore));
+        self::assertTrue($current->isAfter($monthBefore));
+        self::assertFalse($current->isAfter($current));
+        self::assertFalse($current->isAfter($yearAfter));
+        self::assertFalse($current->isAfter($monthAfter));
+    }
+
+    /**
+     * @test
+     */
+    public function itCanDetermineIfItIsBeforeAnother(): void
+    {
+        $current = YearMonth::of(2000, 6);
+        $yearAfter = YearMonth::of(2001, 6);
+        $yearBefore = YearMonth::of(1999, 6);
+        $monthAfter = YearMonth::of(2000, 7);
+        $monthBefore = YearMonth::of(2000, 5);
+
+        self::assertTrue($current->isBefore($yearAfter));
+        self::assertTrue($current->isBefore($monthAfter));
+        self::assertFalse($current->isBefore($current));
+        self::assertFalse($current->isBefore($yearBefore));
+        self::assertFalse($current->isBefore($monthBefore));
+    }
 }

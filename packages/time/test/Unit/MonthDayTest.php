@@ -204,4 +204,40 @@ class MonthDayTest extends TestCase
             $orderedList
         );
     }
+
+    /**
+     * @test
+     */
+    public function itCanDetermineIfItIsAfterAnother(): void
+    {
+        $current = MonthDay::of(6, 6);
+        $monthAfter = MonthDay::of(7, 6);
+        $monthBefore = MonthDay::of(5, 6);
+        $dayAfter = MonthDay::of(6, 7);
+        $dayBefore = MonthDay::of(6, 5);
+
+        self::assertTrue($current->isAfter($monthBefore));
+        self::assertTrue($current->isAfter($dayBefore));
+        self::assertFalse($current->isAfter($current));
+        self::assertFalse($current->isAfter($monthAfter));
+        self::assertFalse($current->isAfter($dayAfter));
+    }
+
+    /**
+     * @test
+     */
+    public function itCanDetermineIfItIsBeforeAnother(): void
+    {
+        $current = MonthDay::of(6, 6);
+        $monthAfter = MonthDay::of(7, 6);
+        $monthBefore = MonthDay::of(5, 6);
+        $dayAfter = MonthDay::of(6, 7);
+        $dayBefore = MonthDay::of(6, 5);
+
+        self::assertTrue($current->isBefore($monthAfter));
+        self::assertTrue($current->isBefore($dayAfter));
+        self::assertFalse($current->isBefore($current));
+        self::assertFalse($current->isBefore($monthBefore));
+        self::assertFalse($current->isBefore($dayBefore));
+    }
 }

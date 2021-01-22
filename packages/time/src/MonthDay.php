@@ -222,6 +222,30 @@ final class MonthDay implements Hashable, Stringable, Comparable
         throw ClassMismatch::forExpectedInstance($this, $other);
     }
 
+    /**
+     * Checks if this month-day is after the specified month-day.
+     *
+     * @param MonthDay $other The other month-day to compare to
+     *
+     * @return bool
+     */
+    public function isAfter(MonthDay $other): bool
+    {
+        return $this->compareTo($other) > 0;
+    }
+
+    /**
+     * Checks if this month-day is before the specified month-day.
+     *
+     * @param MonthDay $other The other month-day to compare to
+     *
+     * @return bool
+     */
+    public function isBefore(MonthDay $other): bool
+    {
+        return $this->compareTo($other) < 0;
+    }
+
     private function __construct(Month $month, int $dayOfMonth)
     {
         $this->month = $month;

@@ -221,6 +221,30 @@ final class YearMonth implements Hashable, Stringable, Comparable
         throw ClassMismatch::forExpectedInstance($this, $other);
     }
 
+    /**
+     * Checks if this year-month is after the specified year-month.
+     *
+     * @param YearMonth $other The other year-month to compare to
+     *
+     * @return bool
+     */
+    public function isAfter(YearMonth $other): bool
+    {
+        return $this->compareTo($other) > 0;
+    }
+
+    /**
+     * Checks if this year-month is before the specified year-month.
+     *
+     * @param YearMonth $other The other year-month to compare to
+     *
+     * @return bool
+     */
+    public function isBefore(YearMonth $other): bool
+    {
+        return $this->compareTo($other) < 0;
+    }
+
     private function __construct(Year $year, Month $month)
     {
         $this->year = $year;

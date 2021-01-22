@@ -187,6 +187,30 @@ final class Year implements Hashable, Stringable, Comparable
     }
 
     /**
+     * Checks if this year is after the specified year.
+     *
+     * @param Year $other The other year to compare to
+     *
+     * @return bool
+     */
+    public function isAfter(Year $other): bool
+    {
+        return $this->compareTo($other) > 0;
+    }
+
+    /**
+     * Checks if this year is before the specified year.
+     *
+     * @param Year $year The other year to compare to
+     *
+     * @return bool
+     */
+    public function isBefore(Year $year): bool
+    {
+        return $this->compareTo($year) < 0;
+    }
+
+    /**
      * @throws InvalidArgumentException If year is outside of range
      */
     private function __construct(int $year)

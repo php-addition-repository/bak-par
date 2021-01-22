@@ -225,4 +225,24 @@ class YearTest extends TestCase
             $orderedList
         );
     }
+
+    /**
+     * @test
+     */
+    public function itCanDetermineIfItIsAfterAnother(): void
+    {
+        self::assertTrue(Year::of(2000)->isAfter(Year::of(1995)));
+        self::assertFalse(Year::of(2000)->isAfter(Year::of(2000)));
+        self::assertFalse(Year::of(2000)->isAfter(Year::of(2010)));
+    }
+
+    /**
+     * @test
+     */
+    public function itCanDetermineIfItIsBeforeAnother(): void
+    {
+        self::assertTrue(Year::of(2000)->isBefore(Year::of(2009)));
+        self::assertFalse(Year::of(2000)->isBefore(Year::of(2000)));
+        self::assertFalse(Year::of(2000)->isBefore(Year::of(1995)));
+    }
 }
