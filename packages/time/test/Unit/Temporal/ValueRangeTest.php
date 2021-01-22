@@ -83,6 +83,9 @@ final class ValueRangeTest extends TestCase
         ValueRange::ofVariable(1, 0, 3, 4);
     }
 
+    /**
+     * @return array<array-key, array{int, int, int, int, string}>
+     */
     public function provideForStringTransforming(): array
     {
         return [

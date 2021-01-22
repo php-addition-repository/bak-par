@@ -34,9 +34,9 @@ final class ChronoField extends Enum implements TemporalField
     public function getBaseUnit(): TemporalUnit
     {
         return match ($this) {
-            self::DayOfWeek(), self::DayOfMonth() => ChronoUnit::DAYS(),
-            self::MonthOfYear() => ChronoUnit::MONTHS(),
-            self::Year() => ChronoUnit::YEARS(),
+            self::DayOfWeek(), self::DayOfMonth() => ChronoUnit::Days(),
+            self::MonthOfYear() => ChronoUnit::Months(),
+            self::Year() => ChronoUnit::Years(),
         };
     }
 
@@ -61,10 +61,10 @@ final class ChronoField extends Enum implements TemporalField
     public function getRangeUnit(): TemporalUnit
     {
         return match ($this) {
-            self::DayOfWeek() => ChronoUnit::WEEKS(),
-            self::DayOfMonth() => ChronoUnit::MONTHS(),
-            self::MonthOfYear() => ChronoUnit::YEARS(),
-            self::Year() => ChronoUnit::FOREVER(),
+            self::DayOfWeek() => ChronoUnit::Weeks(),
+            self::DayOfMonth() => ChronoUnit::Months(),
+            self::MonthOfYear() => ChronoUnit::Years(),
+            self::Year() => ChronoUnit::Forever(),
         };
     }
 
@@ -74,7 +74,7 @@ final class ChronoField extends Enum implements TemporalField
     public function isDateBased(): bool
     {
         return $this->getBaseUnit()->isDateBased()
-            && ($this->getRangeUnit()->isDateBased() || $this->getRangeUnit()->equals(ChronoUnit::FOREVER()));
+            && ($this->getRangeUnit()->isDateBased() || $this->getRangeUnit()->equals(ChronoUnit::Forever()));
     }
 
     /**
@@ -91,7 +91,7 @@ final class ChronoField extends Enum implements TemporalField
     public function isTimeBased(): bool
     {
         return $this->getBaseUnit()->isTimeBased()
-            && ($this->getRangeUnit()->isTimeBased() || $this->getRangeUnit()->equals(ChronoUnit::FOREVER()));
+            && ($this->getRangeUnit()->isTimeBased() || $this->getRangeUnit()->equals(ChronoUnit::Forever()));
     }
 
     /**

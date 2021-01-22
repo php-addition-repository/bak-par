@@ -49,6 +49,7 @@ interface TemporalUnit extends Hashable
      * @param Temporal $temporal The temporal object to check
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isSupportedBy(Temporal $temporal): bool;
 

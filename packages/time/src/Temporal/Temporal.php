@@ -30,7 +30,7 @@ interface Temporal extends TemporalAccessor
      * @return static
      * @psalm-mutation-free
      */
-    public function minus(int $amountToSubtract, TemporalUnit $unit): static;
+    public function minus(int $amountToSubtract, TemporalUnit $unit): self;
 
     /**
      * Returns an object of the same type as this object with an amount subtracted.
@@ -43,7 +43,7 @@ interface Temporal extends TemporalAccessor
      * @return static
      * @psalm-mutation-free
      */
-    public function minusAmount(TemporalAmount $amount): static;
+    public function minusAmount(TemporalAmount $amount): self;
 
     /**
      * Returns an object of the same type as this object with the specified period added.
@@ -54,10 +54,10 @@ interface Temporal extends TemporalAccessor
      * @param int          $amountToAdd The amount of the specified unit to add
      * @param TemporalUnit $unit        The unit of the amount to add
      *
-     * @return static
+     * @return self
      * @psalm-mutation-free
      */
-    public function plus(int $amountToAdd, TemporalUnit $unit): static;
+    public function plus(int $amountToAdd, TemporalUnit $unit): self;
 
     /**
      * Returns an object of the same type as this object with an amount added.
@@ -67,10 +67,10 @@ interface Temporal extends TemporalAccessor
      *
      * @param TemporalAmount $amount The amount to add
      *
-     * @return static
+     * @return self
      * @psalm-mutation-free
      */
-    public function plusAmount(TemporalAmount $amount): static;
+    public function plusAmount(TemporalAmount $amount): self;
 
     /**
      * Checks if the specified unit is supported.

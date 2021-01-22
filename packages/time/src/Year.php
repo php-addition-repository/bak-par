@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace Par\Time;
 
 use DateTimeInterface;
+use Ds\Map;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Chrono\ChronoField;
+use Par\Time\Chrono\ChronoUnit;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Exception\UnsupportedTemporalType;
+use Par\Time\Temporal\Temporal;
+use Par\Time\Temporal\TemporalAmount;
+use Par\Time\Temporal\TemporalField;
+use Par\Time\Temporal\TemporalUnit;
 use Stringable;
 
 /**
@@ -18,8 +25,9 @@ use Stringable;
  * @psalm-immutable
  * @template-implements Comparable<Year>
  */
-final class Year implements Hashable, Stringable, Comparable
+final class Year implements Hashable, Stringable, Comparable, Temporal
 {
+    private static ?Map $units = null;
     private int $value;
 
     /**
@@ -208,6 +216,141 @@ final class Year implements Hashable, Stringable, Comparable
     }
 
     /**
+     * @inheritDoc
+     */
+    public function minus(int $amountToSubtract, TemporalUnit $unit): self
+    {
+        return $this->plus($amountToSubtract * -1, $unit);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function minusAmount(TemporalAmount $amount): self
+    {
+        /** @var static $temporal */
+        $temporal = $amount->subtractFrom($this);
+
+        return $temporal;
+    }
+
+    /**
+     * Returns a copy of this Year with the specified number of years subtracted.
+     *
+     * @param int $years The years to subtract, may be negative
+     *
+     * @return self
+     */
+    public function minusYears(int $years): self
+    {
+        return $this->minus($years, ChronoUnit::Years());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function plus(int $amountToAdd, TemporalUnit $unit): self
+    {
+        if (!$this->supportsUnit($unit)) {
+            throw UnsupportedTemporalType::forUnit($unit);
+        }
+
+        $years = $amountToAdd;
+        $years *= match ($unit) {
+            ChronoUnit::Years() => 1,
+            ChronoUnit::Decades() => 10,
+            ChronoUnit::Centuries() => 100,
+            ChronoUnit::Millennia() => 1000,
+        };
+
+        return self::of($this->value + $years);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function plusAmount(TemporalAmount $amount): self
+    {
+        /** @var static $temporal */
+        $temporal = $amount->addTo($this);
+
+        return $temporal;
+    }
+
+    /**
+     * Returns a copy of this Year with the specified number of years added.
+     *
+     * @param int $years The years to add, may be negative
+     *
+     * @return self
+     */
+    public function plusYears(int $years): self
+    {
+        return $this->plus($years, ChronoUnit::Years());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsUnit(TemporalUnit $unit): bool
+    {
+        if ($unit instanceof ChronoUnit) {
+            return $this->getUnitMap()->hasKey($unit);
+        }
+
+        return $unit->isSupportedBy($this);
+    }
+
+    /**
+     * Checks if the specified field is supported.
+     *
+     * Supported:
+     * - ChronoField::YEAR()
+     *
+     * @param TemporalField $field The field to check
+     *
+     * @return bool
+     */
+    public function supportsField(TemporalField $field): bool
+    {
+        return ChronoField::Year()->equals($field);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(TemporalField $field): int
+    {
+        if ($this->supportsField($field)) {
+            return $this->value;
+        }
+
+        throw UnsupportedTemporalType::forField($field);
+    }
+
+    /**
+     * @return Map
+     * @psalm-mutation-free
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress ImpureMethodCall
+     */
+    private function getUnitMap(): Map
+    {
+        if (null === self::$units) {
+            /** @var Map<ChronoUnit, bool> $map */
+            $map = new Map();
+            $map->put(ChronoUnit::Years(), true);
+            $map->put(ChronoUnit::Decades(), true);
+            $map->put(ChronoUnit::Centuries(), true);
+            $map->put(ChronoUnit::Millennia(), true);
+
+            self::$units = $map;
+        }
+
+        return self::$units;
+    }
+
+    /**
      * @throws InvalidArgumentException If year is outside of range
      */
     private function __construct(int $year)
@@ -216,4 +359,5 @@ final class Year implements Hashable, Stringable, Comparable
 
         $this->value = $year;
     }
+
 }

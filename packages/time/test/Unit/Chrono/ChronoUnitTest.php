@@ -17,7 +17,7 @@ class ChronoUnitTest extends TestCase
 
     public function testCanDetermineSupportOfTemporal(): void
     {
-        $unit = ChronoUnit::SECONDS();
+        $unit = ChronoUnit::Seconds();
 
         $temporal = $this->createMock(Temporal::class);
         $temporal->method('supportsUnit')->with($unit)->willReturn(true);
@@ -51,76 +51,76 @@ class ChronoUnitTest extends TestCase
 
     public function testIsDateBased(): void
     {
-        self::assertFalse(ChronoUnit::MICROS()->isDateBased());
-        self::assertFalse(ChronoUnit::MILLIS()->isDateBased());
-        self::assertFalse(ChronoUnit::SECONDS()->isDateBased());
-        self::assertFalse(ChronoUnit::MINUTES()->isDateBased());
-        self::assertFalse(ChronoUnit::HOURS()->isDateBased());
-        self::assertFalse(ChronoUnit::HALF_DAYS()->isDateBased());
-        self::assertTrue(ChronoUnit::DAYS()->isDateBased());
-        self::assertTrue(ChronoUnit::WEEKS()->isDateBased());
-        self::assertTrue(ChronoUnit::MONTHS()->isDateBased());
-        self::assertTrue(ChronoUnit::YEARS()->isDateBased());
-        self::assertTrue(ChronoUnit::DECADES()->isDateBased());
-        self::assertTrue(ChronoUnit::CENTURIES()->isDateBased());
-        self::assertTrue(ChronoUnit::MILLENNIA()->isDateBased());
-        self::assertFalse(ChronoUnit::FOREVER()->isDateBased());
+        self::assertFalse(ChronoUnit::Micros()->isDateBased());
+        self::assertFalse(ChronoUnit::Millis()->isDateBased());
+        self::assertFalse(ChronoUnit::Seconds()->isDateBased());
+        self::assertFalse(ChronoUnit::Minutes()->isDateBased());
+        self::assertFalse(ChronoUnit::Hours()->isDateBased());
+        self::assertFalse(ChronoUnit::HalfDays()->isDateBased());
+        self::assertTrue(ChronoUnit::Days()->isDateBased());
+        self::assertTrue(ChronoUnit::Weeks()->isDateBased());
+        self::assertTrue(ChronoUnit::Months()->isDateBased());
+        self::assertTrue(ChronoUnit::Years()->isDateBased());
+        self::assertTrue(ChronoUnit::Decades()->isDateBased());
+        self::assertTrue(ChronoUnit::Centuries()->isDateBased());
+        self::assertTrue(ChronoUnit::Millennia()->isDateBased());
+        self::assertFalse(ChronoUnit::Forever()->isDateBased());
     }
 
     public function testIsDurationEstimated(): void
     {
-        self::assertFalse(ChronoUnit::MICROS()->isDurationEstimated());
-        self::assertFalse(ChronoUnit::MILLIS()->isDurationEstimated());
-        self::assertFalse(ChronoUnit::SECONDS()->isDurationEstimated());
-        self::assertFalse(ChronoUnit::MINUTES()->isDurationEstimated());
-        self::assertFalse(ChronoUnit::HOURS()->isDurationEstimated());
-        self::assertFalse(ChronoUnit::HALF_DAYS()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::DAYS()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::WEEKS()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::MONTHS()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::YEARS()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::DECADES()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::CENTURIES()->isDurationEstimated());
-        self::assertTrue(ChronoUnit::MILLENNIA()->isDurationEstimated());
-        self::assertFalse(ChronoUnit::FOREVER()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::Micros()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::Millis()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::Seconds()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::Minutes()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::Hours()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::HalfDays()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Days()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Weeks()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Months()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Years()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Decades()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Centuries()->isDurationEstimated());
+        self::assertTrue(ChronoUnit::Millennia()->isDurationEstimated());
+        self::assertFalse(ChronoUnit::Forever()->isDurationEstimated());
     }
 
     public function testIsTimeBased(): void
     {
-        self::assertTrue(ChronoUnit::MICROS()->isTimeBased());
-        self::assertTrue(ChronoUnit::MILLIS()->isTimeBased());
-        self::assertTrue(ChronoUnit::SECONDS()->isTimeBased());
-        self::assertTrue(ChronoUnit::MINUTES()->isTimeBased());
-        self::assertTrue(ChronoUnit::HOURS()->isTimeBased());
-        self::assertTrue(ChronoUnit::HALF_DAYS()->isTimeBased());
-        self::assertFalse(ChronoUnit::DAYS()->isTimeBased());
-        self::assertFalse(ChronoUnit::WEEKS()->isTimeBased());
-        self::assertFalse(ChronoUnit::MONTHS()->isTimeBased());
-        self::assertFalse(ChronoUnit::YEARS()->isTimeBased());
-        self::assertFalse(ChronoUnit::DECADES()->isTimeBased());
-        self::assertFalse(ChronoUnit::CENTURIES()->isTimeBased());
-        self::assertFalse(ChronoUnit::MILLENNIA()->isTimeBased());
-        self::assertFalse(ChronoUnit::FOREVER()->isTimeBased());
+        self::assertTrue(ChronoUnit::Micros()->isTimeBased());
+        self::assertTrue(ChronoUnit::Millis()->isTimeBased());
+        self::assertTrue(ChronoUnit::Seconds()->isTimeBased());
+        self::assertTrue(ChronoUnit::Minutes()->isTimeBased());
+        self::assertTrue(ChronoUnit::Hours()->isTimeBased());
+        self::assertTrue(ChronoUnit::HalfDays()->isTimeBased());
+        self::assertFalse(ChronoUnit::Days()->isTimeBased());
+        self::assertFalse(ChronoUnit::Weeks()->isTimeBased());
+        self::assertFalse(ChronoUnit::Months()->isTimeBased());
+        self::assertFalse(ChronoUnit::Years()->isTimeBased());
+        self::assertFalse(ChronoUnit::Decades()->isTimeBased());
+        self::assertFalse(ChronoUnit::Centuries()->isTimeBased());
+        self::assertFalse(ChronoUnit::Millennia()->isTimeBased());
+        self::assertFalse(ChronoUnit::Forever()->isTimeBased());
     }
 
     public function testValues(): void
     {
         self::assertSame(
             [
-                ChronoUnit::MICROS(),
-                ChronoUnit::MILLIS(),
-                ChronoUnit::SECONDS(),
-                ChronoUnit::MINUTES(),
-                ChronoUnit::HOURS(),
-                ChronoUnit::HALF_DAYS(),
-                ChronoUnit::DAYS(),
-                ChronoUnit::WEEKS(),
-                ChronoUnit::MONTHS(),
-                ChronoUnit::YEARS(),
-                ChronoUnit::DECADES(),
-                ChronoUnit::CENTURIES(),
-                ChronoUnit::MILLENNIA(),
-                ChronoUnit::FOREVER(),
+                ChronoUnit::Micros(),
+                ChronoUnit::Millis(),
+                ChronoUnit::Seconds(),
+                ChronoUnit::Minutes(),
+                ChronoUnit::Hours(),
+                ChronoUnit::HalfDays(),
+                ChronoUnit::Days(),
+                ChronoUnit::Weeks(),
+                ChronoUnit::Months(),
+                ChronoUnit::Years(),
+                ChronoUnit::Decades(),
+                ChronoUnit::Centuries(),
+                ChronoUnit::Millennia(),
+                ChronoUnit::Forever(),
             ],
             ChronoUnit::values()
         );

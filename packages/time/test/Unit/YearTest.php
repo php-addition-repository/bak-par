@@ -9,8 +9,12 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Par\Core\PHPUnit\HashableAssertions;
+use Par\Time\Chrono\ChronoField;
+use Par\Time\Chrono\ChronoUnit;
+use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
+use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -245,4 +249,95 @@ class YearTest extends TestCase
         self::assertFalse(Year::of(2000)->isBefore(Year::of(2000)));
         self::assertFalse(Year::of(2000)->isBefore(Year::of(1995)));
     }
+
+    public function testAddingUnsupportedUnitThrowsException(): void
+    {
+        $this->expectException(UnsupportedTemporalType::class);
+
+        Year::of(2000)->plus(1, ChronoUnit::Months());
+    }
+
+    public function testCanAddAmount(): void
+    {
+        $year = Year::of(2000);
+
+        $amount = $this->createMock(TemporalAmount::class);
+        $amount->method('addTo')
+               ->with($year)
+               ->willReturn(Year::of(2010));
+
+        $result = $year->plusAmount($amount);
+        self::assertNotSame($year, $result);
+    }
+
+    public function testCanAddUnit(): void
+    {
+        self::assertHashEquals(Year::of(2001), Year::of(2000)->plus(1, ChronoUnit::Years()));
+        self::assertHashEquals(Year::of(2010), Year::of(2000)->plus(1, ChronoUnit::Decades()));
+        self::assertHashEquals(Year::of(2100), Year::of(2000)->plus(1, ChronoUnit::Centuries()));
+        self::assertHashEquals(Year::of(3000), Year::of(2000)->plus(1, ChronoUnit::Millennia()));
+    }
+
+    public function testCanAddYears(): void
+    {
+        self::assertHashEquals(Year::of(2003), Year::of(2000)->plusYears(3));
+        self::assertHashEquals(Year::of(1997), Year::of(2000)->plusYears(-3));
+    }
+
+    public function testCanSubtractAmount(): void
+    {
+        $year = Year::of(2010);
+
+        $amount = $this->createMock(TemporalAmount::class);
+        $amount->method('subtractFrom')
+               ->with($year)
+               ->willReturn(Year::of(2000));
+
+        $result = $year->minusAmount($amount);
+        self::assertNotSame($year, $result);
+    }
+
+    public function testCanSubtractUnit(): void
+    {
+        self::assertHashEquals(Year::of(1999), Year::of(2000)->minus(1, ChronoUnit::Years()));
+        self::assertHashEquals(Year::of(1990), Year::of(2000)->minus(1, ChronoUnit::Decades()));
+        self::assertHashEquals(Year::of(1900), Year::of(2000)->minus(1, ChronoUnit::Centuries()));
+        self::assertHashEquals(Year::of(1000), Year::of(2000)->minus(1, ChronoUnit::Millennia()));
+    }
+
+    public function testCanSubtractYears(): void
+    {
+        self::assertHashEquals(Year::of(1997), Year::of(2000)->minusYears(3));
+        self::assertHashEquals(Year::of(2003), Year::of(2000)->minusYears(-3));
+    }
+
+    /**
+     * @dataProvider provideSupportedFields
+     *
+     * @param ChronoField $field
+     * @param bool        $expected
+     */
+    public function testCanRetrieveListOfSupportedUnits(ChronoField $field, bool $expected): void
+    {
+        $year = Year::of(2000);
+
+        self::assertSame($expected, $year->supportsField($field));
+    }
+
+    public function testCanRetrieveValueOfUnit(): void
+    {
+        $expected = 2015;
+        $year = Year::of($expected);
+
+        self::assertSame($expected, $year->get(ChronoField::Year()));
+    }
+
+    public function provideSupportedFields(): array
+    {
+        return [
+            [ChronoField::Year(), true],
+            [ChronoField::DayOfMonth(), false],
+        ];
+    }
+
 }

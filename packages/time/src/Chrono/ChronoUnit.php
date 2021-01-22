@@ -12,20 +12,20 @@ use Par\Time\Temporal\TemporalUnit;
  * @psalm-immutable
  * @extends Enum<ChronoUnit>
  *
- * @method static self MICROS()
- * @method static self MILLIS()
- * @method static self SECONDS()
- * @method static self MINUTES()
- * @method static self HOURS()
- * @method static self HALF_DAYS()
- * @method static self DAYS()
- * @method static self WEEKS()
- * @method static self MONTHS()
- * @method static self YEARS()
- * @method static self DECADES()
- * @method static self CENTURIES()
- * @method static self MILLENNIA()
- * @method static self FOREVER()
+ * @method static self Micros()
+ * @method static self Millis()
+ * @method static self Seconds()
+ * @method static self Minutes()
+ * @method static self Hours()
+ * @method static self HalfDays()
+ * @method static self Days()
+ * @method static self Weeks()
+ * @method static self Months()
+ * @method static self Years()
+ * @method static self Decades()
+ * @method static self Centuries()
+ * @method static self Millennia()
+ * @method static self Forever()
  */
 final class ChronoUnit extends Enum implements TemporalUnit
 {
@@ -50,8 +50,8 @@ final class ChronoUnit extends Enum implements TemporalUnit
     public function isDateBased(): bool
     {
         return match ($this) {
-            self::MICROS(), self::MILLIS(), self::SECONDS(), self::MINUTES(), self::HOURS(), self::HALF_DAYS(
-            ), self::FOREVER() => false,
+            self::Micros(), self::Millis(), self::Seconds(), self::Minutes(), self::Hours(), self::HalfDays(
+            ), self::Forever() => false,
             default => true,
         };
     }
@@ -78,7 +78,7 @@ final class ChronoUnit extends Enum implements TemporalUnit
     public function isTimeBased(): bool
     {
         return match ($this) {
-            self::MICROS(), self::MILLIS(), self::SECONDS(), self::MINUTES(), self::HOURS(), self::HALF_DAYS() => true,
+            self::Micros(), self::Millis(), self::Seconds(), self::Minutes(), self::Hours(), self::HalfDays() => true,
             default => false,
         };
     }

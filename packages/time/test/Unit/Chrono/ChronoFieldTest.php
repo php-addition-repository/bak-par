@@ -24,8 +24,8 @@ class ChronoFieldTest extends TestCase
 
         $native = Factory::create(2018, 3, 4, 5, 6, 7);
 
-        self::assertHashEquals(ChronoUnit::DAYS(), $field->getBaseUnit());
-        self::assertHashEquals(ChronoUnit::MONTHS(), $field->getRangeUnit());
+        self::assertHashEquals(ChronoUnit::Days(), $field->getBaseUnit());
+        self::assertHashEquals(ChronoUnit::Months(), $field->getRangeUnit());
         self::assertSame((int)$native->format('j'), $field->getFromNative($native));
         self::assertHashEquals(ValueRange::ofVariableMax(1, 28, 31), $field->range());
         self::assertTrue($field->isDateBased());
@@ -38,8 +38,8 @@ class ChronoFieldTest extends TestCase
 
         $native = Factory::create(2018, 3, 4, 5, 6, 7);
 
-        self::assertHashEquals(ChronoUnit::DAYS(), $field->getBaseUnit());
-        self::assertHashEquals(ChronoUnit::WEEKS(), $field->getRangeUnit());
+        self::assertHashEquals(ChronoUnit::Days(), $field->getBaseUnit());
+        self::assertHashEquals(ChronoUnit::Weeks(), $field->getRangeUnit());
         self::assertSame((int)$native->format('N'), $field->getFromNative($native));
         self::assertHashEquals(ValueRange::ofFixed(1, 7), $field->range());
         self::assertTrue($field->isDateBased());
@@ -63,8 +63,8 @@ class ChronoFieldTest extends TestCase
 
         $native = Factory::create(2018, 3, 4, 5, 6, 7);
 
-        self::assertHashEquals(ChronoUnit::MONTHS(), $field->getBaseUnit());
-        self::assertHashEquals(ChronoUnit::YEARS(), $field->getRangeUnit());
+        self::assertHashEquals(ChronoUnit::Months(), $field->getBaseUnit());
+        self::assertHashEquals(ChronoUnit::Years(), $field->getRangeUnit());
         self::assertSame((int)$native->format('n'), $field->getFromNative($native));
         self::assertHashEquals(ValueRange::ofFixed(1, 12), $field->range());
         self::assertTrue($field->isDateBased());
@@ -90,8 +90,8 @@ class ChronoFieldTest extends TestCase
 
         $native = Factory::create(2018, 3, 4, 5, 6, 7);
 
-        self::assertHashEquals(ChronoUnit::YEARS(), $field->getBaseUnit());
-        self::assertHashEquals(ChronoUnit::FOREVER(), $field->getRangeUnit());
+        self::assertHashEquals(ChronoUnit::Years(), $field->getBaseUnit());
+        self::assertHashEquals(ChronoUnit::Forever(), $field->getRangeUnit());
         self::assertSame((int)$native->format('Y'), $field->getFromNative($native));
         self::assertHashEquals(ValueRange::ofFixed(-999999999, 999999999), $field->range());
         self::assertTrue($field->isDateBased());
