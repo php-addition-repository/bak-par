@@ -9,6 +9,7 @@ use Par\Core\Enum;
 /**
  * @internal
  * @psalm-immutable
+ * @extends Enum<Planet>
  *
  * @method static self Mercury()
  * @method static self Venus()
