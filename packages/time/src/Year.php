@@ -8,6 +8,7 @@ use DateTimeInterface;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
+use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
 use Stringable;
 
@@ -19,11 +20,6 @@ use Stringable;
  */
 final class Year implements Hashable, Stringable, Comparable
 {
-    public const MIN_VALUE = -999999999;
-    public const MAX_VALUE = 999999999;
-
-    private const DATE_FORMAT = 'Y';
-
     private int $value;
 
     /**
@@ -49,8 +45,9 @@ final class Year implements Hashable, Stringable, Comparable
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
-        /** @psalm-suppress ImpureMethodCall */
-        return self::of((int)$dateTime->format(self::DATE_FORMAT));
+        return self::of(
+            ChronoField::Year()->getFromNative($dateTime)
+        );
     }
 
     /**
@@ -215,7 +212,7 @@ final class Year implements Hashable, Stringable, Comparable
      */
     private function __construct(int $year)
     {
-        Assert::range($year, self::MIN_VALUE, self::MAX_VALUE);
+        ChronoField::Year()->checkValidValue($year);
 
         $this->value = $year;
     }

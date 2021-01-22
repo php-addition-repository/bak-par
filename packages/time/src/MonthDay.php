@@ -8,6 +8,7 @@ use DateTimeInterface;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
+use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
 use Stringable;
 
@@ -28,9 +29,7 @@ use Stringable;
  */
 final class MonthDay implements Hashable, Stringable, Comparable
 {
-    private const DAY_OF_MONTH_FORMAT = 'd';
-
-    private Month $month;
+    private int $month;
     private int $dayOfMonth;
 
     /**
@@ -51,7 +50,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
      */
     public static function of(int|Month $month, int $dayOfMonth): self
     {
-        $month = is_int($month) ? Month::of($month) : $month;
+        $month = is_int($month) ? $month : $month->value();
 
         return new self($month, $dayOfMonth);
     }
@@ -79,8 +78,10 @@ final class MonthDay implements Hashable, Stringable, Comparable
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
-        /** @psalm-suppress ImpureMethodCall */
-        return self::of(Month::fromNative($dateTime), (int)$dateTime->format(self::DAY_OF_MONTH_FORMAT));
+        return self::of(
+            ChronoField::MonthOfYear()->getFromNative($dateTime),
+            ChronoField::DayOfMonth()->getFromNative($dateTime)
+        );
     }
 
     /**
@@ -110,7 +111,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
     public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
-            return $this->dayOfMonth === $other->dayOfMonth && $this->month->equals($other->month);
+            return $this->dayOfMonth === $other->dayOfMonth && $this->month === $other->month;
         }
 
         return false;
@@ -122,7 +123,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
     public function hash(): int
     {
         // 12-3 -> 1203
-        return ($this->month->value() * 100) + $this->dayOfMonth;
+        return ($this->month * 100) + $this->dayOfMonth;
     }
 
     /**
@@ -130,7 +131,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
      */
     public function month(): Month
     {
-        return $this->month;
+        return Month::of($this->month);
     }
 
     /**
@@ -140,7 +141,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
      */
     public function monthValue(): int
     {
-        return $this->month->value();
+        return $this->month;
     }
 
     /**
@@ -163,7 +164,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
      */
     public function withMonth(int|Month $month): self
     {
-        $month = is_int($month) ? Month::of($month) : $month;
+        $month = is_int($month) ? $month : $month->value();
 
         return new self($month, $this->dayOfMonth);
     }
@@ -192,7 +193,7 @@ final class MonthDay implements Hashable, Stringable, Comparable
      */
     public function __toString(): string
     {
-        return sprintf('--%02d-%02d', $this->month->value(), $this->dayOfMonth);
+        return sprintf('--%02d-%02d', $this->month, $this->dayOfMonth);
     }
 
     /**
@@ -213,8 +214,8 @@ final class MonthDay implements Hashable, Stringable, Comparable
     public function compareTo(Comparable $other): int
     {
         if ($other instanceof static) {
-            $currentValue = ($this->monthValue() * 100) + $this->dayOfMonth();
-            $otherValue = ($other->monthValue() * 100) + $other->dayOfMonth();
+            $currentValue = ($this->month * 100) + $this->dayOfMonth;
+            $otherValue = ($other->month * 100) + $other->dayOfMonth;
 
             return $currentValue <=> $otherValue;
         }
@@ -246,11 +247,14 @@ final class MonthDay implements Hashable, Stringable, Comparable
         return $this->compareTo($other) < 0;
     }
 
-    private function __construct(Month $month, int $dayOfMonth)
+    private function __construct(int $month, int $dayOfMonth)
     {
+        ChronoField::MonthOfYear()->checkValidValue($month);
         $this->month = $month;
 
-        Assert::range($dayOfMonth, 1, $this->month->length(true));
+        ChronoField::DayOfMonth()->checkValidValue($dayOfMonth);
+        Assert::range($dayOfMonth, 1, Month::of($month)->length(true));
+
         $this->dayOfMonth = $dayOfMonth;
     }
 }

@@ -8,6 +8,7 @@ use DateTimeInterface;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
+use Par\Time\Chrono\ChronoField;
 use Stringable;
 
 /**
@@ -24,8 +25,8 @@ use Stringable;
  */
 final class YearMonth implements Hashable, Stringable, Comparable
 {
-    private Year $year;
-    private Month $month;
+    private int $year;
+    private int $month;
 
     /**
      * Obtains an instance of YearMonth from a year and month.
@@ -38,8 +39,8 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public static function of(int|Year $year, int|Month $month): self
     {
-        $year = is_int($year) ? Year::of($year) : $year;
-        $month = is_int($month) ? Month::of($month) : $month;
+        $year = is_int($year) ? $year : $year->value();
+        $month = is_int($month) ? $month : $month->value();
 
         return new self($year, $month);
     }
@@ -54,8 +55,10 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
-        /** @psalm-suppress ImpureMethodCall */
-        return self::of(Year::fromNative($dateTime), Month::fromNative($dateTime));
+        return self::of(
+            ChronoField::Year()->getFromNative($dateTime),
+            ChronoField::MonthOfYear()->getFromNative($dateTime)
+        );
     }
 
     /**
@@ -86,10 +89,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
 
         preg_match('/^(-?\d{1,9})-(\d{2})$/', $text, $matches);
 
-        $year = Year::of((int)$matches[1]);
-        $month = Month::of((int)$matches[2]);
-
-        return new self($year, $month);
+        return new self((int)$matches[1], (int)$matches[2]);
     }
 
     /**
@@ -100,7 +100,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
     public function hash(): int
     {
         // 12-3 -> 1203
-        return ($this->year->value() * 100) + $this->month->value();
+        return ($this->year * 100) + $this->month;
     }
 
     /**
@@ -110,7 +110,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
     public function equals(mixed $other): bool
     {
         if ($other instanceof static) {
-            return $this->year->equals($other->year) && $this->month->equals($other->month);
+            return $this->year === $other->year && $this->month === $other->month;
         }
 
         return false;
@@ -125,7 +125,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public function __toString(): string
     {
-        return sprintf('%d-%02d', $this->year->value(), $this->month->value());
+        return sprintf('%d-%02d', $this->year, $this->month);
     }
 
     /**
@@ -147,7 +147,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public function year(): Year
     {
-        return $this->year;
+        return Year::of($this->year);
     }
 
     /**
@@ -158,7 +158,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public function yearValue(): int
     {
-        return $this->year->value();
+        return $this->year;
     }
 
     /**
@@ -168,7 +168,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public function month(): Month
     {
-        return $this->month;
+        return Month::of($this->month);
     }
 
     /**
@@ -179,7 +179,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
      */
     public function monthValue(): int
     {
-        return $this->month->value();
+        return $this->month;
     }
 
     /**
@@ -197,7 +197,7 @@ final class YearMonth implements Hashable, Stringable, Comparable
     /**
      * Returns a copy of this YearMonth with the year altered.
      *
-     * @param int|Year $year The year to set in the returned year-month, from MIN_YEAR to MAX_YEAR
+     * @param int|Year $year The year to set in the returned year-month
      *
      * @return self A YearMonth based on this year-month with the requested year
      */
@@ -245,8 +245,11 @@ final class YearMonth implements Hashable, Stringable, Comparable
         return $this->compareTo($other) < 0;
     }
 
-    private function __construct(Year $year, Month $month)
+    private function __construct(int $year, int $month)
     {
+        ChronoField::Year()->checkValidValue($year);
+        ChronoField::MonthOfYear()->checkValidValue($month);
+
         $this->year = $year;
         $this->month = $month;
     }

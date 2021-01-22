@@ -6,6 +6,7 @@ namespace Par\Time;
 
 use DateTimeInterface;
 use Par\Core\Enum;
+use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Util\Range;
 
@@ -39,9 +40,6 @@ use Par\Time\Util\Range;
  */
 final class Month extends Enum
 {
-    private const MIN_VALUE = 1;
-    private const MAX_VALUE = 12;
-
     /**
      * @var array<int, string>
      */
@@ -74,15 +72,16 @@ final class Month extends Enum
     /**
      * Obtains an instance of DayOfWeek from an implementation of the DateTimeInterface.
      *
-     * @param DateTimeInterface $native The datetime to convert
+     * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return self
      * @psalm-pure
      */
-    public static function fromNative(DateTimeInterface $native): self
+    public static function fromNative(DateTimeInterface $dateTime): self
     {
-        /** @psalm-suppress ImpureMethodCall */
-        return self::of((int)$native->format('m'));
+        return self::of(
+            ChronoField::MonthOfYear()->getFromNative($dateTime)
+        );
     }
 
     /**
@@ -96,7 +95,7 @@ final class Month extends Enum
      */
     public static function of(int $month): self
     {
-        Assert::range($month, self::MIN_VALUE, self::MAX_VALUE);
+        ChronoField::MonthOfYear()->checkValidValue($month);
 
         return self::valueOf(self::VALUE_MAP[$month]);
     }
@@ -150,7 +149,8 @@ final class Month extends Enum
     public function plus(int $months): self
     {
         $currentValue = $this->value();
-        $newValue = Range::calculateOverflow($currentValue, $months, self::MIN_VALUE, self::MAX_VALUE);
+        $range = ChronoField::MonthOfYear()->range();
+        $newValue = Range::calculateOverflow($currentValue, $months, $range->getMinimum(), $range->getMaximum());
 
         if ($newValue === $currentValue) {
             return $this;

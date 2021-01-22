@@ -170,7 +170,7 @@ class YearTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        Year::of(Year::MAX_VALUE + 1);
+        Year::of(PHP_INT_MAX);
     }
 
     /**
@@ -180,7 +180,7 @@ class YearTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        Year::of(Year::MIN_VALUE - 1);
+        Year::of(PHP_INT_MIN);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Par\Time;
 
 use DateTimeInterface;
 use Par\Core\Enum;
+use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Util\Range;
 
@@ -30,9 +31,6 @@ use Par\Time\Util\Range;
  */
 final class DayOfWeek extends Enum
 {
-    private const MIN_VALUE = 1;
-    private const MAX_VALUE = 7;
-
     /**
      * @var array<int, string>
      */
@@ -67,8 +65,9 @@ final class DayOfWeek extends Enum
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
-        /** @psalm-suppress ImpureMethodCall */
-        return self::of((int)$dateTime->format('N'));
+        return self::of(
+            ChronoField::DayOfWeek()->getFromNative($dateTime)
+        );
     }
 
     /**
@@ -82,7 +81,7 @@ final class DayOfWeek extends Enum
      */
     public static function of(int $dayOfWeek): self
     {
-        Assert::range($dayOfWeek, self::MIN_VALUE, self::MAX_VALUE);
+        ChronoField::DayOfWeek()->checkValidValue($dayOfWeek);
 
         return self::valueOf(self::VALUE_MAP[$dayOfWeek]);
     }
@@ -135,7 +134,8 @@ final class DayOfWeek extends Enum
     public function plus(int $days): self
     {
         $currentValue = $this->value();
-        $newValue = Range::calculateOverflow($currentValue, $days, self::MIN_VALUE, self::MAX_VALUE);
+        $range = ChronoField::DayOfWeek()->range();
+        $newValue = Range::calculateOverflow($currentValue, $days, $range->getMinimum(), $range->getMaximum());
 
         if ($newValue === $currentValue) {
             return $this;
