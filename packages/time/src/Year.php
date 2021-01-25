@@ -14,6 +14,8 @@ use Par\Time\Chrono\ChronoUnit;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Temporal\Temporal;
+use Par\Time\Temporal\TemporalAdjuster;
+use Par\Time\Temporal\TemporalAdjusters;
 use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
@@ -24,7 +26,7 @@ use Par\Time\Temporal\TemporalUnit;
  * @psalm-immutable
  * @template-implements Comparable<Year>
  */
-final class Year implements Hashable, Comparable, Temporal
+final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
 {
     private int $value;
 
@@ -239,19 +241,40 @@ final class Year implements Hashable, Comparable, Temporal
      */
     public function plus(int $amountToAdd, TemporalUnit $unit): self
     {
-        if (!$this->supportsUnit($unit)) {
-            throw UnsupportedTemporalType::forUnit($unit);
+        /** @psalm-var TemporalAdjuster<YearMonth> $adjuster */
+        $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
+
+        return self::with($adjuster);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function with(TemporalAdjuster $adjuster): self
+    {
+        return $adjuster->adjustInto($this);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withField(TemporalField $field, int $newValue): static
+    {
+        if (!$this->supportsField($field)) {
+            throw UnsupportedTemporalType::forField($field);
         }
 
-        $years = $amountToAdd;
-        $years *= match ($unit) {
-            ChronoUnit::Years() => 1,
-            ChronoUnit::Decades() => 10,
-            ChronoUnit::Centuries() => 100,
-            ChronoUnit::Millennia() => 1000,
-        };
+        return self::of($newValue);
+    }
 
-        return self::of($this->value + $years);
+    /**
+     * @inheritDoc
+     */
+    public function adjustInto(Temporal $temporal): Temporal
+    {
+        $field = ChronoField::Year();
+
+        return $temporal->withField($field, $this->value);
     }
 
     /**

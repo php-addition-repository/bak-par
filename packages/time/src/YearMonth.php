@@ -13,6 +13,8 @@ use Par\Time\Chrono\ChronoField;
 use Par\Time\Chrono\ChronoUnit;
 use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Temporal\Temporal;
+use Par\Time\Temporal\TemporalAdjuster;
+use Par\Time\Temporal\TemporalAdjusters;
 use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
@@ -294,14 +296,30 @@ final class YearMonth implements Hashable, Comparable, Temporal
      */
     public function plus(int $amountToAdd, TemporalUnit $unit): self
     {
-        if (!$this->supportsUnit($unit)) {
-            throw UnsupportedTemporalType::forUnit($unit);
+        /** @psalm-var TemporalAdjuster<YearMonth> $adjuster */
+        $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
+
+        return self::with($adjuster);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function with(TemporalAdjuster $adjuster): self
+    {
+        return $adjuster->adjustInto($this);
+    }
+
+    public function withField(TemporalField $field, int $newValue): Temporal
+    {
+        if (!$this->supportsField($field)) {
+            throw UnsupportedTemporalType::forField($field);
         }
 
-        $native = $this->toNative();
-        $modifiedNative = $native->modify(sprintf('%d %s', $amountToAdd, $unit->toString()));
-
-        return self::fromNative($modifiedNative);
+        return match ($field) {
+            ChronoField::Year() => self::of($newValue, $this->month),
+            ChronoField::MonthOfYear() => self::of($this->year, $newValue)
+        };
     }
 
     /**

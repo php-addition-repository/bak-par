@@ -91,4 +91,27 @@ interface Temporal extends TemporalAccessor
      * @psalm-mutation-free
      */
     public function supportsUnit(TemporalUnit $unit): bool;
+
+    /**
+     * Returns an adjusted object of the same type as this object with the adjustment made.
+     *
+     * @param TemporalAdjuster $adjuster The adjuster to use
+     *
+     * @return static An object of the same type with the specified adjustment made
+     */
+    public function with(TemporalAdjuster $adjuster): self;
+
+    /**
+     * Returns an object of the same type as this object with the specified field altered.
+     *
+     * This returns a new object based on this one with the value for the specified field changed. For example, on a
+     * LocalDate, this could be used to set the year, month or day-of-month. The returned object will have the same
+     * observable type as this object.
+     *
+     * @param TemporalField $field    The field to set in the result
+     * @param int           $newValue The new value of the field in the result
+     *
+     * @return static An object of the same type with the specified field set
+     */
+    public function withField(TemporalField $field, int $newValue): self;
 }

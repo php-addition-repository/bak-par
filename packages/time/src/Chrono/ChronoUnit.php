@@ -40,9 +40,11 @@ final class ChronoUnit extends Enum implements TemporalUnit
     private const CENTURY_IN_YEARS = 100;
     private const MILLENNIUM_IN_YEARS = 1000;
 
+    private const HALF_DAY_IN_HOURS = self::DAY_IN_HOURS / 2;
     private const HOUR_IN_SECONDS = self::MINUTE_IN_SECONDS * self::HOUR_IN_MINUTES;
     private const DAY_IN_MINUTES = self::DAY_IN_HOURS * self::HOUR_IN_MINUTES;
     private const DAY_IN_SECONDS = self::DAY_IN_MINUTES * self::MINUTE_IN_SECONDS;
+
 
     /**
      * @inheritDoc
@@ -81,6 +83,24 @@ final class ChronoUnit extends Enum implements TemporalUnit
             self::Micros(), self::Millis(), self::Seconds(), self::Minutes(), self::Hours(), self::HalfDays() => true,
             default => false,
         };
+    }
+
+    public function toNativeModifier(int $amount): string
+    {
+        [$unit, $amount] = match ($this) {
+            ChronoUnit::Forever() => [$this, 0],
+            ChronoUnit::Millennia() => [ChronoUnit::Years(), $amount * self::MILLENNIUM_IN_YEARS],
+            ChronoUnit::Centuries() => [ChronoUnit::Years(), $amount * self::CENTURY_IN_YEARS],
+            ChronoUnit::Decades() => [ChronoUnit::Years(), $amount * self::DECADE_IN_YEARS],
+            ChronoUnit::HalfDays() => [ChronoUnit::Hours(), $amount * self::HALF_DAY_IN_HOURS],
+            default => [$this, $amount],
+        };
+
+        $sign = '';
+        if ($amount >= -1) {
+            $sign = '+';
+        }
+        return sprintf('%s%d %s', $sign, $amount, $unit->toString());
     }
 
 }
