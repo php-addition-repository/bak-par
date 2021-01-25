@@ -259,56 +259,106 @@ class YearTest extends TestCase
 
     public function testCanAddAmount(): void
     {
-        $year = Year::of(2000);
+        $source = Year::of(2015);
 
         $amount = $this->createMock(TemporalAmount::class);
-        $amount->method('addTo')
-               ->with($year)
-               ->willReturn(Year::of(2010));
+        $amount->expects($this->once())
+               ->method('addTo')
+               ->with($source)
+               ->willReturn($source);
 
-        $result = $year->plusAmount($amount);
-        self::assertNotSame($year, $result);
-    }
-
-    public function testCanAddUnit(): void
-    {
-        self::assertHashEquals(Year::of(2001), Year::of(2000)->plus(1, ChronoUnit::Years()));
-        self::assertHashEquals(Year::of(2010), Year::of(2000)->plus(1, ChronoUnit::Decades()));
-        self::assertHashEquals(Year::of(2100), Year::of(2000)->plus(1, ChronoUnit::Centuries()));
-        self::assertHashEquals(Year::of(3000), Year::of(2000)->plus(1, ChronoUnit::Millennia()));
-    }
-
-    public function testCanAddYears(): void
-    {
-        self::assertHashEquals(Year::of(2003), Year::of(2000)->plusYears(3));
-        self::assertHashEquals(Year::of(1997), Year::of(2000)->plusYears(-3));
+        $source->plusAmount($amount);
     }
 
     public function testCanSubtractAmount(): void
     {
-        $year = Year::of(2010);
+        $source = Year::of(2015);
 
         $amount = $this->createMock(TemporalAmount::class);
-        $amount->method('subtractFrom')
-               ->with($year)
-               ->willReturn(Year::of(2000));
+        $amount->expects($this->once())
+               ->method('subtractFrom')
+               ->with($source)
+               ->willReturn($source);
 
-        $result = $year->minusAmount($amount);
-        self::assertNotSame($year, $result);
+        $source->minusAmount($amount);
     }
 
-    public function testCanSubtractUnit(): void
+    public function provideForUnitMath(): array
     {
-        self::assertHashEquals(Year::of(1999), Year::of(2000)->minus(1, ChronoUnit::Years()));
-        self::assertHashEquals(Year::of(1990), Year::of(2000)->minus(1, ChronoUnit::Decades()));
-        self::assertHashEquals(Year::of(1900), Year::of(2000)->minus(1, ChronoUnit::Centuries()));
-        self::assertHashEquals(Year::of(1000), Year::of(2000)->minus(1, ChronoUnit::Millennia()));
+        return [
+            'positive-years' => [Year::of(2015), 2, ChronoUnit::Years(), Year::of(2017)],
+            'negative-years' => [Year::of(2015), -2, ChronoUnit::Years(), Year::of(2013)],
+            'positive-decades' => [Year::of(2015), 2, ChronoUnit::Decades(), Year::of(2035)],
+            'negative-decades' => [Year::of(2015), -2, ChronoUnit::Decades(), Year::of(1995)],
+            'positive-centuries' => [Year::of(2015), 2, ChronoUnit::Centuries(), Year::of(2215)],
+            'negative-centuries' => [Year::of(2015), -2, ChronoUnit::Centuries(), Year::of(1815)],
+            'positive-millennia' => [Year::of(2015), 2, ChronoUnit::Millennia(), Year::of(4015)],
+            'negative-millennia' => [Year::of(2015), -2, ChronoUnit::Millennia(), Year::of(15)],
+        ];
     }
 
-    public function testCanSubtractYears(): void
+    /**
+     * @dataProvider provideForUnitMath
+     *
+     * @param Year       $expected
+     * @param int        $amountToSubtract
+     * @param ChronoUnit $unitToSubtract
+     * @param Year       $source
+     */
+    public function testCanAddUnit(Year $source,
+                                   int $amountToSubtract,
+                                   ChronoUnit $unitToSubtract,
+                                   Year $expected): void
     {
-        self::assertHashEquals(Year::of(1997), Year::of(2000)->minusYears(3));
-        self::assertHashEquals(Year::of(2003), Year::of(2000)->minusYears(-3));
+        self::assertHashEquals($expected, $source->plus($amountToSubtract, $unitToSubtract));
+    }
+
+    /**
+     * @dataProvider provideForUnitMath
+     *
+     * @param Year       $expected
+     * @param int        $amountToSubtract
+     * @param ChronoUnit $unitToSubtract
+     * @param Year       $source
+     */
+    public function testCanSubtractUnit(Year $expected,
+                                        int $amountToSubtract,
+                                        ChronoUnit $unitToSubtract,
+                                        Year $source): void
+    {
+        self::assertHashEquals($expected, $source->minus($amountToSubtract, $unitToSubtract));
+    }
+
+    public function provideForYearMath(): array
+    {
+        return [
+            'positive' => [Year::of(2015), 2, Year::of(2017)],
+            'negative' => [Year::of(2015), -2, Year::of(2013)],
+        ];
+    }
+
+    /**
+     * @dataProvider provideForYearMath
+     *
+     * @param Year $source
+     * @param int  $amountToSubtract
+     * @param Year $expected
+     */
+    public function testCanSubtractYears(Year $expected, int $amountToSubtract, Year $source): void
+    {
+        self::assertHashEquals($expected, $source->minusYears($amountToSubtract));
+    }
+
+    /**
+     * @dataProvider provideForYearMath
+     *
+     * @param Year $source
+     * @param int  $amountToAdd
+     * @param Year $expected
+     */
+    public function testCanAddYears(Year $source, int $amountToAdd, Year $expected): void
+    {
+        self::assertHashEquals($expected, $source->plusYears($amountToAdd));
     }
 
     /**
