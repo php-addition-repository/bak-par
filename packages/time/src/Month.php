@@ -8,6 +8,9 @@ use DateTimeInterface;
 use Par\Core\Enum;
 use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Exception\UnsupportedTemporalType;
+use Par\Time\Temporal\TemporalAccessor;
+use Par\Time\Temporal\TemporalField;
 use Par\Time\Util\Range;
 
 /**
@@ -38,7 +41,7 @@ use Par\Time\Util\Range;
  * @method static self November() The singleton instance for the month of November with 30 days.
  * @method static self December() The singleton instance for the month of December with 31 days.
  */
-final class Month extends Enum
+final class Month extends Enum implements TemporalAccessor
 {
     /**
      * @var array<int, string>
@@ -239,4 +242,25 @@ final class Month extends Enum
             default => 31
         };
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsField(TemporalField $field): bool
+    {
+        return ChronoField::MonthOfYear()->equals($field);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(TemporalField $field): int
+    {
+        if ($this->supportsField($field)) {
+            return $this->value();
+        }
+
+        throw UnsupportedTemporalType::forField($field);
+    }
+
 }

@@ -9,7 +9,9 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Par\Core\PHPUnit\EnumTestCaseTrait;
 use Par\Core\PHPUnit\HashableAssertions;
+use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\Month;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
@@ -17,6 +19,31 @@ use PHPUnit\Framework\TestCase;
 
 class MonthTest extends TestCase
 {
+    public function testItCanDetermineIfFieldIsSupported(): void
+    {
+        $source = Month::March();
+        self::assertTrue($source->supportsField(ChronoField::MonthOfYear()));
+        self::assertFalse($source->supportsField(ChronoField::DayOfMonth()));
+    }
+
+    public function testItCanGetValueOfField(): void
+    {
+        $source = Month::July();
+
+        self::assertSame($source->value(), $source->get(ChronoField::MonthOfYear()));
+    }
+
+    public function testItWillThrowExceptionWhenGettingUnsupportedField(): void
+    {
+        $unsupportedField = ChronoField::DayOfMonth();
+
+        $this->expectExceptionObject(UnsupportedTemporalType::forField($unsupportedField));
+
+        $source = Month::May();
+
+        $source->get($unsupportedField);
+    }
+
     /**
      * @test
      */
