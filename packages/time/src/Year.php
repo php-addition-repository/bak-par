@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Par\Time;
 
 use DateTimeInterface;
-use Ds\Map;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
@@ -26,7 +25,6 @@ use Par\Time\Temporal\TemporalUnit;
  */
 final class Year implements Hashable, Comparable, Temporal
 {
-    private static ?Map $units = null;
     private int $value;
 
     /**
@@ -284,7 +282,10 @@ final class Year implements Hashable, Comparable, Temporal
     public function supportsUnit(TemporalUnit $unit): bool
     {
         if ($unit instanceof ChronoUnit) {
-            return $this->getUnitMap()->hasKey($unit);
+            return match ($unit) {
+                ChronoUnit::Years(), ChronoUnit::Decades(), ChronoUnit::Centuries(), ChronoUnit::Millennia() => true,
+                default => false
+            };
         }
 
         return $unit->isSupportedBy($this);
@@ -315,28 +316,6 @@ final class Year implements Hashable, Comparable, Temporal
         }
 
         throw UnsupportedTemporalType::forField($field);
-    }
-
-    /**
-     * @return Map
-     * @psalm-mutation-free
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress ImpureMethodCall
-     */
-    private function getUnitMap(): Map
-    {
-        if (null === self::$units) {
-            /** @var Map<ChronoUnit, bool> $map */
-            $map = new Map();
-            $map->put(ChronoUnit::Years(), true);
-            $map->put(ChronoUnit::Decades(), true);
-            $map->put(ChronoUnit::Centuries(), true);
-            $map->put(ChronoUnit::Millennia(), true);
-
-            self::$units = $map;
-        }
-
-        return self::$units;
     }
 
     /**
