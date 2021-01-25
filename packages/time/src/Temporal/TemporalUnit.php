@@ -21,9 +21,10 @@ interface TemporalUnit extends Hashable
     /**
      * Checks if this unit is a date unit.
      *
-     * All units from days to millenia inclusive are date-based. Time-based units and FOREVER return false.
+     * All units from days to millennia inclusive are date-based. Time-based units and FOREVER return false.
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isDateBased(): bool;
 
@@ -37,6 +38,7 @@ interface TemporalUnit extends Hashable
      * different lengths.
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isDurationEstimated(): bool;
 
@@ -59,6 +61,13 @@ interface TemporalUnit extends Hashable
      * All units from micros to half-days inclusive are time-based. Date-based units and FOREVER return false.
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isTimeBased(): bool;
+
+    /**
+     * @return string
+     * @psalm-mutation-free
+     */
+    public function toString(): string;
 }

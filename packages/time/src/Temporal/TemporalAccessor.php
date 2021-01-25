@@ -20,6 +20,7 @@ interface TemporalAccessor
      * @param TemporalField $field The field to check
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function supportsField(TemporalField $field): bool;
 

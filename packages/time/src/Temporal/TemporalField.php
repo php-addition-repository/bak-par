@@ -26,7 +26,7 @@ interface TemporalField
      *
      * @return TemporalUnit
      * @see TemporalField::getRangeUnit
-     *
+     * @psalm-mutation-free
      */
     public function getBaseUnit(): TemporalUnit;
 
@@ -36,6 +36,7 @@ interface TemporalField
      * @param DateTimeInterface $dateTime The DateTimeInterface object to obtain value from
      *
      * @return int
+     * @psalm-mutation-free
      */
     public function getFromNative(DateTimeInterface $dateTime): int;
 
@@ -47,7 +48,7 @@ interface TemporalField
      *
      * @return TemporalUnit
      * @see TemporalField::getBaseUnit
-     *
+     * @psalm-mutation-free
      */
     public function getRangeUnit(): TemporalUnit;
 
@@ -58,6 +59,7 @@ interface TemporalField
      * isTimeBased() to return false, such as when representing a field like minute-of-week.
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isDateBased(): bool;
 
@@ -67,6 +69,7 @@ interface TemporalField
      * @param TemporalAccessor $temporalAccessor
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isSupportedBy(TemporalAccessor $temporalAccessor): bool;
 
@@ -77,6 +80,7 @@ interface TemporalField
      * isTimeBased() to return false, such as when representing a field like minute-of-week.
      *
      * @return bool
+     * @psalm-mutation-free
      */
     public function isTimeBased(): bool;
 
@@ -84,6 +88,7 @@ interface TemporalField
      * Gets the range of valid values for the field.
      *
      * @return ValueRange
+     * @psalm-mutation-free
      */
     public function range(): ValueRange;
 
@@ -94,6 +99,7 @@ interface TemporalField
      * only the base unit is mentioned, such as 'Year' or 'Era'.
      *
      * @return string
+     * @psalm-mutation-free
      */
     public function toString(): string;
 }

@@ -332,6 +332,9 @@ class YearTest extends TestCase
         self::assertSame($expected, $year->get(ChronoField::Year()));
     }
 
+    /**
+     * @return array<array-key, array{ChronoField, bool}>
+     */
     public function provideSupportedFields(): array
     {
         return [

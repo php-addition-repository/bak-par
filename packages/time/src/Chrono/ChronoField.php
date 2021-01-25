@@ -52,6 +52,9 @@ final class ChronoField extends Enum implements TemporalField
             self::Year() => 'Y',
         };
 
+        /**
+         * @psalm-suppress ImpureMethodCall
+         */
         return (int)$dateTime->format($format);
     }
 
