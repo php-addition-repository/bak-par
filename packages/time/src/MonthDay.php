@@ -10,6 +10,9 @@ use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Exception\UnsupportedTemporalType;
+use Par\Time\Temporal\TemporalAccessor;
+use Par\Time\Temporal\TemporalField;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as '--12-03'.
@@ -26,7 +29,7 @@ use Par\Time\Exception\InvalidArgumentException;
  * @psalm-immutable
  * @template-implements Comparable<MonthDay>
  */
-final class MonthDay implements Hashable, Comparable
+final class MonthDay implements Hashable, Comparable, TemporalAccessor
 {
     private int $month;
     private int $dayOfMonth;
@@ -232,6 +235,29 @@ final class MonthDay implements Hashable, Comparable
     public function isBefore(MonthDay $other): bool
     {
         return $this->compareTo($other) < 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsField(TemporalField $field): bool
+    {
+        return match ($field) {
+            ChronoField::DayOfMonth(), ChronoField::MonthOfYear() => true,
+            default => false
+        };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(TemporalField $field): int
+    {
+        return match ($field) {
+            ChronoField::DayOfMonth() => $this->dayOfMonth,
+            ChronoField::MonthOfYear() => $this->month,
+            default => throw UnsupportedTemporalType::forField($field),
+        };
     }
 
     private function __construct(int $month, int $dayOfMonth)

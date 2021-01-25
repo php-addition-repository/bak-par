@@ -9,6 +9,8 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Par\Core\PHPUnit\HashableAssertions;
+use Par\Time\Chrono\ChronoField;
+use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\Month;
 use Par\Time\MonthDay;
@@ -19,6 +21,33 @@ class MonthDayTest extends TestCase
 {
     use TimeTestCaseTrait;
     use HashableAssertions;
+
+    public function testItCanDetermineIfFieldIsSupported(): void
+    {
+        $source = MonthDay::of(Month::January(), 1);
+        self::assertTrue($source->supportsField(ChronoField::MonthOfYear()));
+        self::assertTrue($source->supportsField(ChronoField::DayOfMonth()));
+        self::assertFalse($source->supportsField(ChronoField::Year()));
+    }
+
+    public function testItCanGetValueOfField(): void
+    {
+        $source = MonthDay::of(Month::January(), 1);
+
+        self::assertSame($source->monthValue(), $source->get(ChronoField::MonthOfYear()));
+        self::assertSame($source->dayOfMonth(), $source->get(ChronoField::DayOfMonth()));
+    }
+
+    public function testItWillThrowExceptionWhenGettingUnsupportedField(): void
+    {
+        $unsupportedField = ChronoField::Year();
+
+        $this->expectExceptionObject(UnsupportedTemporalType::forField($unsupportedField));
+
+        $source = MonthDay::of(Month::January(), 1);
+
+        $source->get($unsupportedField);
+    }
 
     /**
      * @return array<string, array{string, MonthDay}>
