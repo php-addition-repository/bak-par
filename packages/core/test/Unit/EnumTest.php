@@ -34,16 +34,6 @@ class EnumTest extends TestCase
     /**
      * @test
      */
-    public function itCanBeCastToString(): void
-    {
-        $element = Planet::Earth();
-
-        self::assertSame(Planet::class . '::Earth', (string)$element);
-    }
-
-    /**
-     * @test
-     */
     public function itCanBeTransformedToString(): void
     {
         $element = Planet::Earth();

@@ -43,13 +43,13 @@ final class Values
      * "textually represents" this value. The result should be a concise but informative representation that
      * is easy for a person to read.
      *
-     * It will transform a value implementing `\Par\Core\Hashable` to string. Other values become:
+     * It will transform a value implementing `\Stringable` to string. Other values become:
      * - `'null'` for a __NULL__ value.
      * - `'value'` for a native __integer__.
      * - `'value'` for a native __float__ or __double__.
      * - `'true'` or `'false'` for a native __boolean__.
      * - `'value'` for a native __string__.
-     * - `'[el1, el2, elN]'` for a native __array__ list or `'{key1=el1, key2=el2, keyN=elN}'` for native a __array__
+     * - `'[el1, el2, elN]'` for a native __array__ list or `'{key1=el1, key2=el2, keyN=elN}'` for a native __array__
      *   map. Where __elN__ and __keyN__ are textual representations of its value, except when its value is an array
      *   then `'[...]'` is used.
      * - `'className@hash'` for an __object__. `get_class($value)` is used for all objects except for anonymous

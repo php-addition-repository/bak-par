@@ -10,7 +10,6 @@ use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use ReflectionClass;
 use ReflectionException;
-use Stringable;
 
 /**
  * This is the common base class of all enumerations.
@@ -21,7 +20,7 @@ use Stringable;
  * @template-covariant                        T of Enum
  * @template-implements                       Comparable<Enum>
  */
-abstract class Enum implements Hashable, Stringable, Comparable
+abstract class Enum implements Hashable, Comparable
 {
     /**
      * @var array<string, array<string, EnumDefinition>>
@@ -235,21 +234,14 @@ abstract class Enum implements Hashable, Stringable, Comparable
     /**
      * Returns the name of this enum constant, as contained in the declaration.
      *
+     * This method may be overridden, though it typically isn't necessary or desirable. An enum type should override
+     * this method when a more "programmer-friendly" string form exists.
+     *
      * @return string The name of this enum constant
      */
     public function toString(): string
     {
         return $this->name;
-    }
-
-    /**
-     * Returns the name of this enum constant, as contained in the declaration.
-     *
-     * @return string The name of this enum constant
-     */
-    final public function __toString(): string
-    {
-        return sprintf("%s::%s", static::class, $this->name);
     }
 
     /**

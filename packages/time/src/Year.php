@@ -17,7 +17,6 @@ use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
-use Stringable;
 
 /**
  * A year in the ISO-8601 calendar system, such as 2007.
@@ -25,7 +24,7 @@ use Stringable;
  * @psalm-immutable
  * @template-implements Comparable<Year>
  */
-final class Year implements Hashable, Stringable, Comparable, Temporal
+final class Year implements Hashable, Comparable, Temporal
 {
     private static ?Map $units = null;
     private int $value;
@@ -165,16 +164,6 @@ final class Year implements Hashable, Stringable, Comparable, Temporal
      * @return string A string representation of this year
      */
     public function toString(): string
-    {
-        return (string)$this;
-    }
-
-    /**
-     * Outputs this year as a string.
-     *
-     * @return string A string representation of this year
-     */
-    public function __toString(): string
     {
         return (string)$this->value;
     }

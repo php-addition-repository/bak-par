@@ -10,7 +10,6 @@ use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
-use Stringable;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as '--12-03'.
@@ -27,7 +26,7 @@ use Stringable;
  * @psalm-immutable
  * @template-implements Comparable<MonthDay>
  */
-final class MonthDay implements Hashable, Stringable, Comparable
+final class MonthDay implements Hashable, Comparable
 {
     private int $month;
     private int $dayOfMonth;
@@ -191,21 +190,9 @@ final class MonthDay implements Hashable, Stringable, Comparable
      *
      * @return string
      */
-    public function __toString(): string
-    {
-        return sprintf('--%02d-%02d', $this->month, $this->dayOfMonth);
-    }
-
-    /**
-     * Outputs this month-day as a String, such as --12-03.
-     *
-     * The output will be in the format --m-d.
-     *
-     * @return string
-     */
     public function toString(): string
     {
-        return (string)$this;
+        return sprintf('--%02d-%02d', $this->month, $this->dayOfMonth);
     }
 
     /**

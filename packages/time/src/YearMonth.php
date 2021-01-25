@@ -9,7 +9,6 @@ use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Chrono\ChronoField;
-use Stringable;
 
 /**
  * A year-month in the ISO-8601 calendar system, such as 2007-12.
@@ -23,7 +22,7 @@ use Stringable;
  * @psalm-immutable
  * @template-implements Comparable<YearMonth>
  */
-final class YearMonth implements Hashable, Stringable, Comparable
+final class YearMonth implements Hashable, Comparable
 {
     private int $year;
     private int $month;
@@ -123,21 +122,9 @@ final class YearMonth implements Hashable, Stringable, Comparable
      *
      * @return string
      */
-    public function __toString(): string
-    {
-        return sprintf('%d-%02d', $this->year, $this->month);
-    }
-
-    /**
-     * Outputs this year-month as a String, such as 2007-12.
-     *
-     * The output will be in the format Y-m.
-     *
-     * @return string
-     */
     public function toString(): string
     {
-        return (string)$this;
+        return sprintf('%d-%02d', $this->year, $this->month);
     }
 
     /**
