@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Par\Time;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
@@ -274,6 +275,14 @@ final class Year implements Hashable, Comparable, Temporal
     public function plusYears(int $years): self
     {
         return $this->plus($years, ChronoUnit::Years());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNative(): DateTimeImmutable
+    {
+        return Factory::createDate($this->value);
     }
 
     /**

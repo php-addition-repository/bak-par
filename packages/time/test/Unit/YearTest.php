@@ -332,6 +332,13 @@ class YearTest extends TestCase
         self::assertSame($expected, $year->get(ChronoField::Year()));
     }
 
+    public function testItCanBeTransformedToNativeDateTime(): void
+    {
+        $source = Year::of(2012);
+
+        self::assertEquals(DateTimeImmutable::createFromFormat('Y', '2012'), $source->toNative());
+    }
+
     /**
      * @return array<array-key, array{ChronoField, bool}>
      */

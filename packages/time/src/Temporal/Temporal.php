@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Par\Time\Temporal;
 
+use DateTimeImmutable;
+
 /**
  * Framework-level interface defining read-write access to a temporal object, such as a date, time, offset or some
  * combination of these. This is the base interface type for date, time and offset objects that are complete enough to
@@ -18,6 +20,14 @@ namespace Par\Time\Temporal;
  */
 interface Temporal extends TemporalAccessor
 {
+    /**
+     * Transforms this temporal to an immutable native representation.
+     *
+     * @return DateTimeImmutable
+     * @psalm-mutation-free
+     */
+    public function toNative(): DateTimeImmutable;
+
     /**
      * Returns an object of the same type as this object with the specified period added.
      *
@@ -54,7 +64,7 @@ interface Temporal extends TemporalAccessor
      * @param int          $amountToAdd The amount of the specified unit to add
      * @param TemporalUnit $unit        The unit of the amount to add
      *
-     * @return self
+     * @return static
      * @psalm-mutation-free
      */
     public function plus(int $amountToAdd, TemporalUnit $unit): self;
@@ -67,7 +77,7 @@ interface Temporal extends TemporalAccessor
      *
      * @param TemporalAmount $amount The amount to add
      *
-     * @return self
+     * @return static
      * @psalm-mutation-free
      */
     public function plusAmount(TemporalAmount $amount): self;
