@@ -24,10 +24,7 @@ class YearMonthTest extends TestCase
     use TimeTestCaseTrait;
     use HashableAssertions;
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedFromValue(): void
+    public function testItCanBeCreatedFromValue(): void
     {
         $expectedYear = 2011;
         $expectedMonth = 7;
@@ -37,18 +34,12 @@ class YearMonthTest extends TestCase
         self::assertSame($expectedMonth, $monthDay->monthValue());
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeTransformedToString(): void
+    public function testItCanBeTransformedToString(): void
     {
         self::assertSame(YearMonth::of(2020, 1)->toString(), '2020-01');
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineEqualityWithOther(): void
+    public function testItCanDetermineEqualityWithOther(): void
     {
         $yearMonth = YearMonth::of(2020, 1);
         $otherYearMonth = YearMonth::of(2021, 2);
@@ -58,10 +49,7 @@ class YearMonthTest extends TestCase
         self::assertFalse($yearMonth->equals(null));
     }
 
-    /**
-     * @test
-     */
-    public function itCanUpdateMonth(): void
+    public function testItCanUpdateMonth(): void
     {
         $yearMonth = YearMonth::of(2020, 1);
 
@@ -77,10 +65,7 @@ class YearMonthTest extends TestCase
         self::assertHashNotEquals($yearMonth, $yearMonth->withMonth(4));
     }
 
-    /**
-     * @test
-     */
-    public function itCanUpdateYear(): void
+    public function testItCanUpdateYear(): void
     {
         $yearMonth = YearMonth::of(2020, 1);
 
@@ -96,10 +81,7 @@ class YearMonthTest extends TestCase
         self::assertHashNotEquals($yearMonth, $yearMonth->withYear(1995));
     }
 
-    /**
-     * @test
-     */
-    public function itIsHashable(): void
+    public function testItIsHashable(): void
     {
         self::assertSame(200103, YearMonth::of(2001, 3)->hash());
     }
@@ -122,7 +104,6 @@ class YearMonthTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideNative
      *
      * @param YearMonth         $expected
@@ -130,15 +111,12 @@ class YearMonthTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeCreatedFromNativeDateTime(YearMonth $expected, DateTimeInterface $native): void
+    public function testItCanBeCreatedFromNativeDateTime(YearMonth $expected, DateTimeInterface $native): void
     {
         self::assertHashEquals($expected, YearMonth::fromNative($native));
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedForCurrentYear(): void
+    public function testItCanBeCreatedForCurrentYear(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -172,28 +150,20 @@ class YearMonthTest extends TestCase
      *
      * @param string    $text
      * @param YearMonth $expected
-     *
-     * @test
      */
-    public function itCanBeCreatedFromString(string $text, YearMonth $expected): void
+    public function testItCanBeCreatedFromString(string $text, YearMonth $expected): void
     {
         self::assertHashEquals($expected, YearMonth::parse($text));
     }
 
-    /**
-     * @test
-     */
-    public function ItWillThrowExceptionWhenCreatingFromInvalidString(): void
+    public function testItWillThrowExceptionWhenCreatingFromInvalidString(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         YearMonth::parse('The year 2000');
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeNaturallySorted(): void
+    public function testItCanBeNaturallySorted(): void
     {
         $list = [
             YearMonth::of(2001, 3),
@@ -219,10 +189,7 @@ class YearMonthTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfItIsAfterAnother(): void
+    public function testItCanDetermineIfItIsAfterAnother(): void
     {
         $current = YearMonth::of(2000, 6);
         $yearAfter = YearMonth::of(2001, 6);
@@ -237,10 +204,7 @@ class YearMonthTest extends TestCase
         self::assertFalse($current->isAfter($monthAfter));
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfItIsBeforeAnother(): void
+    public function testItCanDetermineIfItIsBeforeAnother(): void
     {
         $current = YearMonth::of(2000, 6);
         $yearAfter = YearMonth::of(2001, 6);

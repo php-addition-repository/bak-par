@@ -44,10 +44,7 @@ class MonthTest extends TestCase
         $source->get($unsupportedField);
     }
 
-    /**
-     * @test
-     */
-    public function itWillReturnValue(): void
+    public function testItWillReturnValue(): void
     {
         self::assertSame(2, Month::February()->value());
     }
@@ -61,20 +58,14 @@ class MonthTest extends TestCase
         TimeTestCaseTrait::setUp as timeSetup;
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedFromValue(): void
+    public function testItCanBeCreatedFromValue(): void
     {
         $expected = Month::March();
 
         self::assertHashEquals($expected, Month::of(3));
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowInvalidArgumentExceptionWhenCreateFromOutOfRangeValue(): void
+    public function testItWillThrowInvalidArgumentExceptionWhenCreateFromOutOfRangeValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -99,7 +90,6 @@ class MonthTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideNative
      *
      * @param Month             $expected
@@ -107,15 +97,12 @@ class MonthTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeCreatedFromNativeDateTime(Month $expected, DateTimeInterface $native): void
+    public function testItCanBeCreatedFromNativeDateTime(Month $expected, DateTimeInterface $native): void
     {
         self::assertSame($expected, Month::fromNative($native));
     }
 
-    /**
-     * @test
-     */
-    public function itWillContainAllDaysOfWeek(): void
+    public function testItWillContainAllDaysOfWeek(): void
     {
         self::assertSame(
             [
@@ -136,10 +123,7 @@ class MonthTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeMovedViaAddition(): void
+    public function testItCanBeMovedViaAddition(): void
     {
         self::assertSame(Month::February(), Month::January()->plus(1));
         self::assertSame(Month::March(), Month::January()->plus(14));
@@ -148,10 +132,7 @@ class MonthTest extends TestCase
         self::assertSame(Month::March(), Month::January()->plus(14));
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeMovedViaSubtraction(): void
+    public function testItCanBeMovedViaSubtraction(): void
     {
         self::assertSame(Month::December(), Month::January()->minus(1));
         self::assertSame(Month::April(), Month::January()->minus(9));
@@ -182,22 +163,18 @@ class MonthTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideMonthLengths
      *
      * @param int   $expected
      * @param Month $month
      * @param bool  $leapYear
      */
-    public function itCanReturnLengthInDays(int $expected, Month $month, bool $leapYear): void
+    public function testItCanReturnLengthInDays(int $expected, Month $month, bool $leapYear): void
     {
         self::assertSame($expected, $month->length($leapYear));
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheFirstMonthOfTheQuarterOfProvidedMonth(): void
+    public function testItCanReturnTheFirstMonthOfTheQuarterOfProvidedMonth(): void
     {
         self::assertSame(Month::January(), Month::January()->firstMonthOfQuarter());
         self::assertSame(Month::January(), Month::February()->firstMonthOfQuarter());
@@ -213,10 +190,7 @@ class MonthTest extends TestCase
         self::assertSame(Month::October(), Month::December()->firstMonthOfQuarter());
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheMonthForToday(): void
+    public function testItCanReturnTheMonthForToday(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -226,10 +200,7 @@ class MonthTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheMonthForTomorrow(): void
+    public function testItCanReturnTheMonthForTomorrow(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -239,10 +210,7 @@ class MonthTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheMonthForYesterday(): void
+    public function testItCanReturnTheMonthForYesterday(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -286,16 +254,15 @@ class MonthTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideFirstDayOfYearValues
      *
      * @param Month $month
      * @param bool  $leapYear
      * @param int   $expected
      */
-    public function itCanDetermineAmountOfDaysInYearUntilFirstDayOfMonth(Month $month,
-                                                                         bool $leapYear,
-                                                                         int $expected): void
+    public function testItCanDetermineAmountOfDaysInYearUntilFirstDayOfMonth(Month $month,
+                                                                             bool $leapYear,
+                                                                             int $expected): void
     {
         self::assertSame($expected, $month->firstDayOfYear($leapYear));
     }

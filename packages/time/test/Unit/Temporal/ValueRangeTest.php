@@ -11,10 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 final class ValueRangeTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function itCanCreateRangeWithFixedValues(): void
+
+    public function testItCanCreateRangeWithFixedValues(): void
     {
         $min = 0;
         $max = 10;
@@ -24,20 +22,14 @@ final class ValueRangeTest extends TestCase
         self::assertSame($max, $range->getMaximum());
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowInvalidArgumentExceptionWithFixedWhenMaxIsLessThanMin(): void
+    public function testItWillThrowInvalidArgumentExceptionWithFixedWhenMaxIsLessThanMin(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         ValueRange::ofFixed(1, 0);
     }
 
-    /**
-     * @test
-     */
-    public function itCanCreateRangeWithVariableMax(): void
+    public function testItCanCreateRangeWithVariableMax(): void
     {
         $min = 0;
         $smallestMax = 28;
@@ -49,20 +41,14 @@ final class ValueRangeTest extends TestCase
         self::assertSame($largestMax, $range->getMaximum());
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowInvalidArgumentExceptionWithVariableMaxWhenMaxLessThanMin(): void
+    public function testItWillThrowInvalidArgumentExceptionWithVariableMaxWhenMaxLessThanMin(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         ValueRange::ofVariableMax(1, 0, 1);
     }
 
-    /**
-     * @test
-     */
-    public function itCanCreateVariable(): void
+    public function testItCanCreateVariable(): void
     {
         $smallestMin = 0;
         $largestMin = 1;
@@ -76,7 +62,7 @@ final class ValueRangeTest extends TestCase
         self::assertSame($largestMax, $range->getMaximum());
     }
 
-    public function itWillThrowInvalidArgumentExceptionWithVariableWhenSmallestMinGreaterThanLargestMin(): void
+    public function testItWillThrowInvalidArgumentExceptionWithVariableWhenSmallestMinGreaterThanLargestMin(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -98,7 +84,6 @@ final class ValueRangeTest extends TestCase
 
     /**
      * @dataProvider provideForStringTransforming
-     * @test
      *
      * @param int    $smallestMin
      * @param int    $largestMin
@@ -106,20 +91,17 @@ final class ValueRangeTest extends TestCase
      * @param int    $largestMax
      * @param string $expected
      */
-    public function itCanTransformToString(int $smallestMin,
-                                           int $largestMin,
-                                           int $smallestMax,
-                                           int $largestMax,
-                                           string $expected): void
+    public function testItCanTransformToString(int $smallestMin,
+                                               int $largestMin,
+                                               int $smallestMax,
+                                               int $largestMax,
+                                               string $expected): void
     {
         $range = ValueRange::ofVariable($smallestMin, $largestMin, $smallestMax, $largestMax);
         self::assertSame($expected, $range->toString());
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineEquality(): void
+    public function testItCanDetermineEquality(): void
     {
         $expected = ValueRange::ofVariable(0, 1, 2, 3);
 
@@ -128,20 +110,14 @@ final class ValueRangeTest extends TestCase
         self::assertFalse($expected->equals(null));
     }
 
-    /**
-     * @test
-     */
-    public function itIsHashable(): void
+    public function testItIsHashable(): void
     {
         $range = ValueRange::ofVariable(0, 1, 2, 3);
 
         self::assertSame('0/1-2/3', $range->hash());
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfValueIsValid(): void
+    public function testItCanDetermineIfValueIsValid(): void
     {
         $range = ValueRange::ofVariable(0, 1, 2, 3);
 
@@ -153,10 +129,7 @@ final class ValueRangeTest extends TestCase
         self::assertFalse($range->isValidValue(4));
     }
 
-    /**
-     * @test
-     */
-    public function itWillContinueWhenCheckingValidValue(): void
+    public function testItWillContinueWhenCheckingValidValue(): void
     {
         $range = ValueRange::ofFixed(0, 5);
 
@@ -167,10 +140,7 @@ final class ValueRangeTest extends TestCase
         self::assertSame($expected, $range->checkValidValue($expected, $field));
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowInvalidArgumentExceptionWhenCheckingInvalidValue(): void
+    public function testItWillThrowInvalidArgumentExceptionWhenCheckingInvalidValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

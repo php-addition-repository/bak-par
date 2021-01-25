@@ -53,28 +53,19 @@ class DayOfWeekTest extends TestCase
         $source->get($unsupportedField);
     }
 
-    /**
-     * @test
-     */
-    public function itWillReturnValue(): void
+    public function testItWillReturnValue(): void
     {
         self::assertSame(2, DayOfWeek::Tuesday()->value());
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedFromValue(): void
+    public function testItCanBeCreatedFromValue(): void
     {
         $expected = DayOfWeek::Thursday();
 
         self::assertHashEquals($expected, DayOfWeek::of(4));
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowInvalidArgumentExceptionWhenCreateFromOutOfRangeValue(): void
+    public function testItWillThrowInvalidArgumentExceptionWhenCreateFromOutOfRangeValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -99,7 +90,6 @@ class DayOfWeekTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideNative
      *
      * @param DayOfWeek         $expected
@@ -107,15 +97,12 @@ class DayOfWeekTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeCreatedFromNativeDateTime(DayOfWeek $expected, DateTimeInterface $native): void
+    public function testItCanBeCreatedFromNativeDateTime(DayOfWeek $expected, DateTimeInterface $native): void
     {
         self::assertSame($expected, DayOfWeek::fromNative($native));
     }
 
-    /**
-     * @test
-     */
-    public function itWillContainAllDaysOfWeek(): void
+    public function testItWillContainAllDaysOfWeek(): void
     {
         self::assertSame(
             [
@@ -131,10 +118,7 @@ class DayOfWeekTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeMovedViaSubtraction(): void
+    public function testItCanBeMovedViaSubtraction(): void
     {
         self::assertSame(DayOfWeek::Sunday(), DayOfWeek::Monday()->minus(1));
         self::assertSame(DayOfWeek::Saturday(), DayOfWeek::Monday()->minus(9));
@@ -143,10 +127,7 @@ class DayOfWeekTest extends TestCase
         self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->minus(14));
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeMovedViaAddition(): void
+    public function testItCanBeMovedViaAddition(): void
     {
         self::assertSame(DayOfWeek::Tuesday(), DayOfWeek::Monday()->plus(1));
         self::assertSame(DayOfWeek::Wednesday(), DayOfWeek::Monday()->plus(9));
@@ -155,10 +136,7 @@ class DayOfWeekTest extends TestCase
         self::assertSame(DayOfWeek::Monday(), DayOfWeek::Monday()->plus(14));
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheDayOfWeekForToday(): void
+    public function testItCanReturnTheDayOfWeekForToday(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -168,10 +146,7 @@ class DayOfWeekTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheDayOfWeekForTomorrow(): void
+    public function testItCanReturnTheDayOfWeekForTomorrow(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -181,10 +156,7 @@ class DayOfWeekTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanReturnTheDayOfWeekForYesterday(): void
+    public function testItCanReturnTheDayOfWeekForYesterday(): void
     {
         $this->wrapWithTestNow(
             static function () {

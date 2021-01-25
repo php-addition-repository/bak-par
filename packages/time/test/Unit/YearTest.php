@@ -36,10 +36,7 @@ class YearTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedFromValue(): void
+    public function testItCanBeCreatedFromValue(): void
     {
         $expected = 2019;
         $year = Year::of($expected);
@@ -47,10 +44,7 @@ class YearTest extends TestCase
         self::assertSame($expected, $year->value());
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedForCurrentYear(): void
+    public function testItCanBeCreatedForCurrentYear(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -68,10 +62,8 @@ class YearTest extends TestCase
      *
      * @param string $text
      * @param Year   $expectedYear
-     *
-     * @test
      */
-    public function itCanBeCreatedFromString(string $text, Year $expectedYear): void
+    public function testItCanBeCreatedFromString(string $text, Year $expectedYear): void
     {
         self::assertHashEquals($expectedYear, Year::parse($text));
     }
@@ -94,7 +86,6 @@ class YearTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideNative
      *
      * @param Year              $expected
@@ -102,15 +93,12 @@ class YearTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeCreatedFromNativeDateTime(Year $expected, DateTimeInterface $native): void
+    public function testItCanBeCreatedFromNativeDateTime(Year $expected, DateTimeInterface $native): void
     {
         self::assertHashEquals($expected, Year::fromNative($native));
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineEqualityWithOther(): void
+    public function testItCanDetermineEqualityWithOther(): void
     {
         $year = Year::of(2001);
         $otherYear = Year::of(2012);
@@ -120,18 +108,12 @@ class YearTest extends TestCase
         self::assertFalse($year->equals(null));
     }
 
-    /**
-     * @test
-     */
-    public function itWillReturnValue(): void
+    public function testItWillReturnValue(): void
     {
         self::assertSame(2001, Year::of(2001)->value());
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfYearIsLeapYear(): void
+    public function testItCanDetermineIfYearIsLeapYear(): void
     {
         self::assertTrue(Year::of(1904)->isLeap()); // divisible by 4
         self::assertTrue(Year::of(2000)->isLeap()); // divisible by 400
@@ -140,57 +122,39 @@ class YearTest extends TestCase
         self::assertFalse(Year::of(1901)->isLeap()); // not divisible by 4
     }
 
-    /**
-     * @test
-     */
-    public function itCanProvideTheLengthInDays(): void
+    public function testItCanProvideTheLengthInDays(): void
     {
         self::assertSame(365, Year::of(1995)->length());
         self::assertSame(366, Year::of(2000)->length());
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeTransformedToString(): void
+    public function testItCanBeTransformedToString(): void
     {
         self::assertSame(Year::of(2012)->toString(), '2012');
     }
 
-    /**
-     * @test
-     */
-    public function ItWillThrowExceptionWhenCreatingFromInvalidString(): void
+    public function testItWillThrowExceptionWhenCreatingFromInvalidString(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         Year::parse('The year 2000');
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowExceptionWhenCreatingFromIntegerGreaterThanMax(): void
+    public function testItWillThrowExceptionWhenCreatingFromIntegerGreaterThanMax(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         Year::of(PHP_INT_MAX);
     }
 
-    /**
-     * @test
-     */
-    public function itWillThrowExceptionWhenCreatingFromIntegerLessThanMin(): void
+    public function testItWillThrowExceptionWhenCreatingFromIntegerLessThanMin(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         Year::of(PHP_INT_MIN);
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfIntegerIsLeapYear(): void
+    public function testItCanDetermineIfIntegerIsLeapYear(): void
     {
         self::assertTrue(Year::isLeapYear(1904)); // divisible by 4
         self::assertTrue(Year::isLeapYear(2000)); // divisible by 400
@@ -201,10 +165,7 @@ class YearTest extends TestCase
         self::assertFalse(Year::isLeapYear(0)); // not divisible at all
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeNaturallySorted(): void
+    public function testItCanBeNaturallySorted(): void
     {
         $list = [
             Year::of(2001),
@@ -230,20 +191,14 @@ class YearTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfItIsAfterAnother(): void
+    public function testItCanDetermineIfItIsAfterAnother(): void
     {
         self::assertTrue(Year::of(2000)->isAfter(Year::of(1995)));
         self::assertFalse(Year::of(2000)->isAfter(Year::of(2000)));
         self::assertFalse(Year::of(2000)->isAfter(Year::of(2010)));
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfItIsBeforeAnother(): void
+    public function testItCanDetermineIfItIsBeforeAnother(): void
     {
         self::assertTrue(Year::of(2000)->isBefore(Year::of(2009)));
         self::assertFalse(Year::of(2000)->isBefore(Year::of(2000)));

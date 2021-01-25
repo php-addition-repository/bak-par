@@ -61,10 +61,7 @@ class MonthDayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedFromValue(): void
+    public function testItCanBeCreatedFromValue(): void
     {
         $expectedMonth = 7;
         $expectedDayOfMonth = 4;
@@ -74,10 +71,7 @@ class MonthDayTest extends TestCase
         self::assertSame($expectedDayOfMonth, $monthDay->dayOfMonth());
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeCreatedForCurrentYear(): void
+    public function testItCanBeCreatedForCurrentYear(): void
     {
         $this->wrapWithTestNow(
             static function () {
@@ -96,10 +90,8 @@ class MonthDayTest extends TestCase
      *
      * @param string   $text
      * @param MonthDay $expected
-     *
-     * @test
      */
-    public function itCanBeCreatedFromString(string $text, MonthDay $expected): void
+    public function testItCanBeCreatedFromString(string $text, MonthDay $expected): void
     {
         self::assertHashEquals($expected, MonthDay::parse($text));
     }
@@ -122,7 +114,6 @@ class MonthDayTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider provideNative
      *
      * @param MonthDay          $expected
@@ -130,15 +121,12 @@ class MonthDayTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeCreatedFromNativeDateTime(MonthDay $expected, DateTimeInterface $native): void
+    public function testItCanBeCreatedFromNativeDateTime(MonthDay $expected, DateTimeInterface $native): void
     {
         self::assertHashEquals($expected, MonthDay::fromNative($native));
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineEqualityWithOther(): void
+    public function testItCanDetermineEqualityWithOther(): void
     {
         $monthDay = MonthDay::of(11, 4);
         $otherMonthDay = MonthDay::of(5, 12);
@@ -148,28 +136,19 @@ class MonthDayTest extends TestCase
         self::assertFalse($monthDay->equals(null));
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeTransformedToString(): void
+    public function testItCanBeTransformedToString(): void
     {
         self::assertSame(MonthDay::of(5, 1)->toString(), '--05-01');
     }
 
-    /**
-     * @test
-     */
-    public function ItWillThrowExceptionWhenCreatingFromInvalidString(): void
+    public function testItWillThrowExceptionWhenCreatingFromInvalidString(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         MonthDay::parse('The year 2000');
     }
 
-    /**
-     * @test
-     */
-    public function itCanUpdateMonth(): void
+    public function testItCanUpdateMonth(): void
     {
         $monthDay = MonthDay::of(3, 12);
 
@@ -185,10 +164,7 @@ class MonthDayTest extends TestCase
         self::assertHashNotEquals($monthDay, $monthDay->withMonth(4));
     }
 
-    /**
-     * @test
-     */
-    public function itCanUpdateDayOfMonth(): void
+    public function testItCanUpdateDayOfMonth(): void
     {
         $monthDay = MonthDay::of(3, 12);
 
@@ -197,18 +173,12 @@ class MonthDayTest extends TestCase
         self::assertHashNotEquals($monthDay, $monthDay->withDayOfMonth(5));
     }
 
-    /**
-     * @test
-     */
-    public function itIsHashable(): void
+    public function testItIsHashable(): void
     {
         self::assertSame(1203, MonthDay::of(12, 3)->hash());
     }
 
-    /**
-     * @test
-     */
-    public function itCanBeNaturallySorted(): void
+    public function testItCanBeNaturallySorted(): void
     {
         $list = [
             MonthDay::of(3, 3),
@@ -234,10 +204,7 @@ class MonthDayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfItIsAfterAnother(): void
+    public function testItCanDetermineIfItIsAfterAnother(): void
     {
         $current = MonthDay::of(6, 6);
         $monthAfter = MonthDay::of(7, 6);
@@ -252,10 +219,7 @@ class MonthDayTest extends TestCase
         self::assertFalse($current->isAfter($dayAfter));
     }
 
-    /**
-     * @test
-     */
-    public function itCanDetermineIfItIsBeforeAnother(): void
+    public function testItCanDetermineIfItIsBeforeAnother(): void
     {
         $current = MonthDay::of(6, 6);
         $monthAfter = MonthDay::of(7, 6);
