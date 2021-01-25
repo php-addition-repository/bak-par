@@ -9,8 +9,10 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Par\Core\PHPUnit\EnumTestCaseTrait;
 use Par\Core\PHPUnit\HashableAssertions;
+use Par\Time\Chrono\ChronoField;
 use Par\Time\DayOfWeek;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
 use PHPUnit\Framework\TestCase;
@@ -26,14 +28,34 @@ class DayOfWeekTest extends TestCase
         TimeTestCaseTrait::setUp as timeSetup;
     }
 
-    protected function setUp(): void
+    public function testItCanDetermineIfFieldIsSupported(): void
     {
-        parent::setUp();
-
-        $this->enumSetup();
-        $this->timeSetup();
+        $source = DayOfWeek::Friday();
+        self::assertTrue($source->supportsField(ChronoField::DayOfWeek()));
+        self::assertFalse($source->supportsField(ChronoField::DayOfMonth()));
     }
 
+    public function testItCanGetValueOfField(): void
+    {
+        $source = DayOfWeek::Friday();
+
+        self::assertSame($source->value(), $source->get(ChronoField::DayOfWeek()));
+    }
+
+    public function testItWillThrowExceptionWhenGettingUnsupportedField(): void
+    {
+        $unsupportedField = ChronoField::DayOfMonth();
+
+        $this->expectExceptionObject(UnsupportedTemporalType::forField($unsupportedField));
+
+        $source = DayOfWeek::Monday();
+
+        $source->get($unsupportedField);
+    }
+
+    /**
+     * @test
+     */
     public function itWillReturnValue(): void
     {
         self::assertSame(2, DayOfWeek::Tuesday()->value());
@@ -170,5 +192,13 @@ class DayOfWeekTest extends TestCase
             },
             Factory::createDate(2021, 1, 15)
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->enumSetup();
+        $this->timeSetup();
     }
 }
