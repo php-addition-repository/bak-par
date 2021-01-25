@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace Par\Time;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Par\Core\Comparable;
 use Par\Core\Exception\ClassMismatch;
 use Par\Core\Hashable;
 use Par\Time\Chrono\ChronoField;
+use Par\Time\Chrono\ChronoUnit;
+use Par\Time\Exception\UnsupportedTemporalType;
+use Par\Time\Temporal\Temporal;
+use Par\Time\Temporal\TemporalAmount;
+use Par\Time\Temporal\TemporalField;
+use Par\Time\Temporal\TemporalUnit;
 
 /**
  * A year-month in the ISO-8601 calendar system, such as 2007-12.
@@ -22,7 +29,7 @@ use Par\Time\Chrono\ChronoField;
  * @psalm-immutable
  * @template-implements Comparable<YearMonth>
  */
-final class YearMonth implements Hashable, Comparable
+final class YearMonth implements Hashable, Comparable, Temporal
 {
     private int $year;
     private int $month;
@@ -230,6 +237,114 @@ final class YearMonth implements Hashable, Comparable
     public function isBefore(YearMonth $other): bool
     {
         return $this->compareTo($other) < 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsField(TemporalField $field): bool
+    {
+        return match ($field) {
+            ChronoField::Year(), ChronoField::MonthOfYear() => true,
+            default => false
+        };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(TemporalField $field): int
+    {
+        return match ($field) {
+            ChronoField::Year() => $this->year,
+            ChronoField::MonthOfYear() => $this->month,
+            default => throw UnsupportedTemporalType::forField($field),
+        };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function minus(int $amountToSubtract, TemporalUnit $unit): self
+    {
+        return $this->plus($amountToSubtract * -1, $unit);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function minusAmount(TemporalAmount $amount): self
+    {
+        /** @var static $temporal */
+        $temporal = $amount->subtractFrom($this);
+
+        return $temporal;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNative(): DateTimeImmutable
+    {
+        return Factory::createDate($this->year, $this->month);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function plus(int $amountToAdd, TemporalUnit $unit): self
+    {
+        if (!$this->supportsUnit($unit)) {
+            throw UnsupportedTemporalType::forUnit($unit);
+        }
+
+        $native = $this->toNative();
+        $modifiedNative = $native->modify(sprintf('%d %s', $amountToAdd, $unit->toString()));
+
+        return self::fromNative($modifiedNative);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function plusAmount(TemporalAmount $amount): self
+    {
+        /** @var static $temporal */
+        $temporal = $amount->addTo($this);
+
+        return $temporal;
+    }
+
+    public function plusYears(int $amountToAdd): self
+    {
+        return $this->plus($amountToAdd, ChronoUnit::Years());
+    }
+
+    public function minusYears(int $amountToSubtract): self
+    {
+        return $this->minus($amountToSubtract, ChronoUnit::Years());
+    }
+
+    public function plusMonths(int $amountToAdd): self
+    {
+        return $this->plus($amountToAdd, ChronoUnit::Months());
+    }
+
+    public function minusMonths(int $amountToSubtract): self
+    {
+        return $this->minus($amountToSubtract, ChronoUnit::Months());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsUnit(TemporalUnit $unit): bool
+    {
+        return match ($unit) {
+            ChronoUnit::Months(), ChronoUnit::Years(), ChronoUnit::Decades(), ChronoUnit::Centuries(
+            ), ChronoUnit::Millennia() => true,
+            default => false
+        };
     }
 
     private function __construct(int $year, int $month)
