@@ -6,8 +6,9 @@ namespace Par\Time\Exception;
 
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
+use RuntimeException;
 
-final class UnsupportedTemporalType extends \RuntimeException implements ExceptionInterface
+final class UnsupportedTemporalType extends RuntimeException implements ExceptionInterface
 {
     public static function forField(TemporalField $field): self
     {
