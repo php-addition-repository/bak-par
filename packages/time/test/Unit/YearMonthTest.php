@@ -302,6 +302,9 @@ class YearMonthTest extends TestCase
         $source->minusAmount($amount);
     }
 
+    /**
+     * @return array<string, array{YearMonth, int, ChronoUnit, YearMonth}>
+     */
     public function provideForUnitMath(): array
     {
         return [
@@ -346,6 +349,9 @@ class YearMonthTest extends TestCase
         self::assertHashEquals($expected, $source->minus($amountToSubtract, $unitToSubtract));
     }
 
+    /**
+     * @return array<string, array{YearMonth, int, YearMonth}>
+     */
     public function provideForYearMath(): array
     {
         return [
@@ -378,6 +384,9 @@ class YearMonthTest extends TestCase
         self::assertHashEquals($expected, $source->plusYears($amountToAdd));
     }
 
+    /**
+     * @return array<string, array{YearMonth, int, YearMonth}>
+     */
     public function provideForMonthMath(): array
     {
         return [
@@ -424,6 +433,9 @@ class YearMonthTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, array{YearMonth, ChronoField, int, YearMonth}>
+     */
     public function provideForFieldChange(): array
     {
         $source = YearMonth::of(2015, 3);

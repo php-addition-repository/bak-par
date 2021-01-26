@@ -241,10 +241,9 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      */
     public function plus(int $amountToAdd, TemporalUnit $unit): self
     {
-        /** @psalm-var TemporalAdjuster<YearMonth> $adjuster */
         $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
 
-        return self::with($adjuster);
+        return $this->with($adjuster);
     }
 
     /**
@@ -252,16 +251,24 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      */
     public function with(TemporalAdjuster $adjuster): self
     {
+        if ($adjuster instanceof self) {
+            return $adjuster;
+        }
+
         return $adjuster->adjustInto($this);
     }
 
     /**
      * @inheritDoc
      */
-    public function withField(TemporalField $field, int $newValue): static
+    public function withField(TemporalField $field, int $newValue): self
     {
         if (!$this->supportsField($field)) {
             throw UnsupportedTemporalType::forField($field);
+        }
+
+        if ($newValue === $this->value) {
+            return $this;
         }
 
         return self::of($newValue);
@@ -272,10 +279,6 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      */
     public function adjustInto(Temporal $temporal): Temporal
     {
-        if ($temporal instanceof self) {
-            return $this;
-        }
-
         $field = ChronoField::Year();
 
         return $temporal->withField($field, $this->value);

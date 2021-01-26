@@ -296,7 +296,6 @@ final class YearMonth implements Hashable, Comparable, Temporal
      */
     public function plus(int $amountToAdd, TemporalUnit $unit): self
     {
-        /** @psalm-var TemporalAdjuster<YearMonth> $adjuster */
         $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
 
         return $this->with($adjuster);
@@ -310,6 +309,9 @@ final class YearMonth implements Hashable, Comparable, Temporal
         return $adjuster->adjustInto($this);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withField(TemporalField $field, int $newValue): Temporal
     {
         if (!$this->supportsField($field)) {

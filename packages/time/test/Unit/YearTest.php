@@ -219,7 +219,7 @@ class YearTest extends TestCase
         $source = Year::of(2015);
 
         $amount = $this->createMock(TemporalAmount::class);
-        $amount->expects($this->once())
+        $amount->expects(self::once())
                ->method('addTo')
                ->with($source)
                ->willReturn($source);
@@ -232,7 +232,7 @@ class YearTest extends TestCase
         $source = Year::of(2015);
 
         $amount = $this->createMock(TemporalAmount::class);
-        $amount->expects($this->once())
+        $amount->expects(self::once())
                ->method('subtractFrom')
                ->with($source)
                ->willReturn($source);
@@ -240,6 +240,9 @@ class YearTest extends TestCase
         $source->minusAmount($amount);
     }
 
+    /**
+     * @return array<string, array{Year, int, ChronoUnit, Year}>
+     */
     public function provideForUnitMath(): array
     {
         return [
@@ -286,6 +289,9 @@ class YearTest extends TestCase
         self::assertHashEquals($expected, $source->minus($amountToSubtract, $unitToSubtract));
     }
 
+    /**
+     * @return array<string, array{Year, int, Year}>
+     */
     public function provideForYearMath(): array
     {
         return [
@@ -357,6 +363,9 @@ class YearTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, array{Year, ChronoField, int, Year}>
+     */
     public function provideForFieldChange(): array
     {
         $source = Year::of(2015);

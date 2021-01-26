@@ -8,8 +8,6 @@ namespace Par\Time\Temporal;
  * Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment,
  * permitting different approaches, as per the strategy design pattern. Examples might be an adjuster that sets the
  * date avoiding weekends, or one that sets the date to the last day of the month.
- *
- * @template T
  */
 interface TemporalAdjuster
 {
@@ -22,10 +20,12 @@ interface TemporalAdjuster
      *
      * @param Temporal $temporal The temporal object to adjust
      *
-     * @psalm-param T  $temporal
-     *
      * @return Temporal An object of the same observable type with the adjustment made
+     *
+     * @template T of Temporal
+     * @psalm-param T  $temporal
      * @psalm-return T
+     * @psalm-mutation-free
      */
     public function adjustInto(Temporal $temporal): Temporal;
 }

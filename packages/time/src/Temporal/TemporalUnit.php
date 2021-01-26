@@ -78,6 +78,7 @@ interface TemporalUnit extends Hashable
      *
      * @return string The string that can be passed to DateTimeInterface::modify
      * @internal
+     * @psalm-mutation-free
      */
     public function toNativeModifier(int $amount): string;
 }
