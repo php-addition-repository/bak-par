@@ -299,7 +299,7 @@ final class YearMonth implements Hashable, Comparable, Temporal
         /** @psalm-var TemporalAdjuster<YearMonth> $adjuster */
         $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
 
-        return self::with($adjuster);
+        return $this->with($adjuster);
     }
 
     /**

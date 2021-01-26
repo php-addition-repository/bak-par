@@ -272,6 +272,10 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      */
     public function adjustInto(Temporal $temporal): Temporal
     {
+        if ($temporal instanceof self) {
+            return $this;
+        }
+
         $field = ChronoField::Year();
 
         return $temporal->withField($field, $this->value);

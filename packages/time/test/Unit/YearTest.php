@@ -15,7 +15,9 @@ use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
 use Par\Time\Temporal\TemporalAmount;
+use Par\Time\Temporal\TemporalField;
 use Par\Time\Year;
+use Par\Time\YearMonth;
 use PHPUnit\Framework\TestCase;
 
 class YearTest extends TestCase
@@ -353,6 +355,59 @@ class YearTest extends TestCase
             [ChronoField::Year(), true],
             [ChronoField::DayOfMonth(), false],
         ];
+    }
+
+    public function provideForFieldChange(): array
+    {
+        $source = Year::of(2015);
+
+        return [
+            'year-change' => [$source, ChronoField::Year(), 2017, Year::of(2017)],
+            'year-same' => [$source, ChronoField::Year(), 2015, $source],
+        ];
+    }
+
+    /**
+     * @dataProvider provideForFieldChange
+     *
+     * @param Year          $source
+     * @param TemporalField $field
+     * @param int           $newValue
+     * @param Year          $expected
+     *
+     * @return void
+     */
+    public function testItCanChangeField(Year $source,
+                                         TemporalField $field,
+                                         int $newValue,
+                                         Year $expected): void
+    {
+        self::assertHashEquals($expected, $source->withField($field, $newValue));
+    }
+
+    public function testItWillThrowExceptionWhenChangingUnsupportedField(): void
+    {
+        $field = ChronoField::DayOfMonth();
+
+        $this->expectExceptionObject(UnsupportedTemporalType::forField($field));
+
+        Year::of(2015)->withField($field, 3);
+    }
+
+    public function testItCanBeUsedToAdjustDifferentTemporal(): void
+    {
+        $year = Year::of(2015);
+        $temporal = YearMonth::of(2017, 3);
+
+        self::assertHashEquals($year, $temporal->with($year)->year());
+    }
+
+    public function testItWillReturnSelfWhenUsedOnSameObject(): void
+    {
+        $year = Year::of(2015);
+        $temporal = Year::of(2017);
+
+        self::assertSame($year, $temporal->with($year));
     }
 
 }

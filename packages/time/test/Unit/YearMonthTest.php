@@ -11,10 +11,12 @@ use Par\Core\PHPUnit\HashableAssertions;
 use Par\Time\Chrono\ChronoField;
 use Par\Time\Chrono\ChronoUnit;
 use Par\Time\Exception\InvalidArgumentException;
+use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\Month;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
 use Par\Time\Temporal\TemporalAmount;
+use Par\Time\Temporal\TemporalField;
 use Par\Time\Year;
 use Par\Time\YearMonth;
 use PHPUnit\Framework\TestCase;
@@ -247,12 +249,39 @@ class YearMonthTest extends TestCase
         self::assertEquals(DateTimeImmutable::createFromFormat('Y-m', '2015-02'), $source->toNative());
     }
 
+    /**
+     * @dataProvider provideForFieldChange
+     *
+     * @param YearMonth     $source
+     * @param TemporalField $field
+     * @param int           $newValue
+     * @param YearMonth     $expected
+     *
+     * @return void
+     */
+    public function testItCanChangeField(YearMonth $source,
+                                         TemporalField $field,
+                                         int $newValue,
+                                         YearMonth $expected): void
+    {
+        self::assertHashEquals($expected, $source->withField($field, $newValue));
+    }
+
+    public function testItWillThrowExceptionWhenChangingUnsupportedField(): void
+    {
+        $field = ChronoField::DayOfMonth();
+
+        $this->expectExceptionObject(UnsupportedTemporalType::forField($field));
+
+        YearMonth::of(2015, 3)->withField($field, 3);
+    }
+
     public function testCanAddAmount(): void
     {
         $source = YearMonth::of(2015, 2);
 
         $amount = $this->createMock(TemporalAmount::class);
-        $amount->expects($this->once())
+        $amount->expects(self::once())
                ->method('addTo')
                ->with($source)
                ->willReturn($source);
@@ -265,7 +294,7 @@ class YearMonthTest extends TestCase
         $source = YearMonth::of(2015, 2);
 
         $amount = $this->createMock(TemporalAmount::class);
-        $amount->expects($this->once())
+        $amount->expects(self::once())
                ->method('subtractFrom')
                ->with($source)
                ->willReturn($source);
@@ -392,6 +421,18 @@ class YearMonthTest extends TestCase
             [ChronoField::Year(), true],
             [ChronoField::MonthOfYear(), true],
             [ChronoField::DayOfMonth(), false],
+        ];
+    }
+
+    public function provideForFieldChange(): array
+    {
+        $source = YearMonth::of(2015, 3);
+
+        return [
+            'year-change' => [$source, ChronoField::Year(), 2017, YearMonth::of(2017, 3)],
+            'month-change' => [$source, ChronoField::MonthOfYear(), 2, YearMonth::of(2015, 2)],
+            'year-same' => [$source, ChronoField::Year(), 2015, $source],
+            'month-same' => [$source, ChronoField::MonthOfYear(), 3, $source],
         ];
     }
 }
