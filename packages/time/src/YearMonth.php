@@ -30,7 +30,7 @@ use Par\Time\Temporal\TemporalUnit;
  *
  * @template-implements Comparable<YearMonth>
  */
-final class YearMonth implements Hashable, Comparable, Temporal
+final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuster
 {
     private int $year;
     private int $month;
@@ -363,6 +363,15 @@ final class YearMonth implements Hashable, Comparable, Temporal
         };
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function adjustInto(Temporal $temporal): Temporal
+    {
+        return $temporal->withField(ChronoField::Year(), $this->year)
+                        ->withField(ChronoField::MonthOfYear(), $this->month);
+    }
+
     private function __construct(int $year, int $month)
     {
         ChronoField::Year()->checkValidValue($year);
@@ -371,5 +380,4 @@ final class YearMonth implements Hashable, Comparable, Temporal
         $this->year = $year;
         $this->month = $month;
     }
-
 }

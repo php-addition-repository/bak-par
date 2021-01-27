@@ -15,6 +15,7 @@ use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\Month;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
+use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Year;
@@ -449,5 +450,19 @@ class YearMonthTest extends TestCase
             'year-same' => [$source, ChronoField::Year(), 2015, $source],
             'month-same' => [$source, ChronoField::MonthOfYear(), 3, $source],
         ];
+    }
+
+    public function testItCanBeUsedToAdjustDifferentTemporal(): void
+    {
+        $source = YearMonth::of(2015, 3);
+
+        $temporal = $this->createMock(Temporal::class);
+        $temporal->expects(self::exactly(2))->method('withField')
+                 ->withConsecutive(
+                     [ChronoField::Year(), $source->yearValue()],
+                     [ChronoField::MonthOfYear(), $source->monthValue()]
+                 )->willReturnSelf();
+
+        self::assertSame($temporal, $source->adjustInto($temporal));
     }
 }

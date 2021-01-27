@@ -414,7 +414,7 @@ class YearTest extends TestCase
         $year = Year::of(2015);
         $temporal = YearMonth::of(2017, 3);
 
-        self::assertHashEquals($year, $temporal->with($year)->year());
+        self::assertHashEquals($year, $year->adjustInto($temporal)->year());
     }
 
     public function testItWillReturnSelfWhenUsedOnSameObject(): void

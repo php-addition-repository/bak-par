@@ -11,7 +11,9 @@ use Par\Core\Hashable;
 use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Exception\UnsupportedTemporalType;
+use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAccessor;
+use Par\Time\Temporal\TemporalAdjuster;
 use Par\Time\Temporal\TemporalField;
 
 /**
@@ -28,7 +30,7 @@ use Par\Time\Temporal\TemporalField;
  *
  * @template-implements Comparable<MonthDay>
  */
-final class MonthDay implements Hashable, Comparable, TemporalAccessor
+final class MonthDay implements Hashable, Comparable, TemporalAccessor, TemporalAdjuster
 {
     private int $month;
     private int $dayOfMonth;
@@ -253,6 +255,15 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor
             ChronoField::MonthOfYear() => $this->month,
             default => throw UnsupportedTemporalType::forField($field),
         };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function adjustInto(Temporal $temporal): Temporal
+    {
+        return $temporal->withField(ChronoField::MonthOfYear(), $this->month)
+                        ->withField(ChronoField::DayOfMonth(), $this->dayOfMonth);
     }
 
     private function __construct(int $month, int $dayOfMonth)

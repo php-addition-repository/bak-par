@@ -15,6 +15,7 @@ use Par\Time\Factory;
 use Par\Time\Month;
 use Par\Time\MonthDay;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
+use Par\Time\Temporal\Temporal;
 use PHPUnit\Framework\TestCase;
 
 class MonthDayTest extends TestCase
@@ -232,5 +233,19 @@ class MonthDayTest extends TestCase
         self::assertFalse($current->isBefore($current));
         self::assertFalse($current->isBefore($monthBefore));
         self::assertFalse($current->isBefore($dayBefore));
+    }
+
+    public function testItCanBeUsedToAdjustDifferentTemporal(): void
+    {
+        $source = MonthDay::of(3, 12);
+
+        $temporal = $this->createMock(Temporal::class);
+        $temporal->expects(self::exactly(2))->method('withField')
+                 ->withConsecutive(
+                     [ChronoField::MonthOfYear(), $source->monthValue()],
+                     [ChronoField::DayOfMonth(), $source->dayOfMonth()]
+                 )->willReturnSelf();
+
+        self::assertSame($temporal, $source->adjustInto($temporal));
     }
 }
