@@ -16,7 +16,6 @@ final class Range
      * @param int $max
      *
      * @return int
-     * @psalm-pure
      */
     public static function calculateOverflow(int $current, int $change, int $min, int $max): int
     {

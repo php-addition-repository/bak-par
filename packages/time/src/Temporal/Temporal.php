@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Par\Time\Temporal;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 
 /**
  * Framework-level interface defining read-write access to a temporal object, such as a date, time, offset or some
@@ -21,10 +22,18 @@ use DateTimeImmutable;
 interface Temporal extends TemporalAccessor
 {
     /**
+     * Obtains an instance of this temporal from an implementation of the DateTimeInterface.
+     *
+     * @param DateTimeInterface $dateTime The datetime to convert
+     *
+     * @return static
+     */
+    public static function fromNative(DateTimeInterface $dateTime): self;
+
+    /**
      * Transforms this temporal to an immutable native representation.
      *
      * @return DateTimeImmutable
-     * @psalm-mutation-free
      */
     public function toNative(): DateTimeImmutable;
 
@@ -38,8 +47,6 @@ interface Temporal extends TemporalAccessor
      * @param TemporalUnit $unit             The unit of the amount to add
      *
      * @return static An object of the same type with the specified period subtracted
-     *
-     * @psalm-mutation-free
      */
     public function minus(int $amountToSubtract, TemporalUnit $unit): self;
 
@@ -52,8 +59,6 @@ interface Temporal extends TemporalAccessor
      * @param TemporalAmount $amount The amount to subtract
      *
      * @return static An object of the same type with the specified amount subtracted
-     *
-     * @psalm-mutation-free
      */
     public function minusAmount(TemporalAmount $amount): self;
 
@@ -67,8 +72,6 @@ interface Temporal extends TemporalAccessor
      * @param TemporalUnit $unit        The unit of the amount to add
      *
      * @return static An object of the same type with the specified amount of unit added
-     *
-     * @psalm-mutation-free
      */
     public function plus(int $amountToAdd, TemporalUnit $unit): self;
 
@@ -81,8 +84,6 @@ interface Temporal extends TemporalAccessor
      * @param TemporalAmount $amount The amount to add
      *
      * @return static An object of the same type with the specified amount added
-     *
-     * @psalm-mutation-free
      */
     public function plusAmount(TemporalAmount $amount): self;
 
@@ -92,8 +93,6 @@ interface Temporal extends TemporalAccessor
      * @param TemporalUnit $unit
      *
      * @return bool
-     *
-     * @psalm-mutation-free
      */
     public function supportsUnit(TemporalUnit $unit): bool;
 
@@ -103,8 +102,6 @@ interface Temporal extends TemporalAccessor
      * @param TemporalAdjuster $adjuster The adjuster to use
      *
      * @return static An object of the same type with the specified adjustment made
-     *
-     * @psalm-mutation-free
      */
     public function with(TemporalAdjuster $adjuster): self;
 
@@ -119,8 +116,6 @@ interface Temporal extends TemporalAccessor
      * @param int           $newValue The new value of the field in the result
      *
      * @return static An object of the same type with the specified field set
-     *
-     * @psalm-mutation-free
      */
     public function withField(TemporalField $field, int $newValue): self;
 }

@@ -28,7 +28,6 @@ use Par\Time\Temporal\TemporalUnit;
  * This class does not store or represent a day, time or time-zone. For example, the value "October 2007" can be stored
  * in a YearMonth.
  *
- * @psalm-immutable
  * @template-implements Comparable<YearMonth>
  */
 final class YearMonth implements Hashable, Comparable, Temporal
@@ -43,7 +42,6 @@ final class YearMonth implements Hashable, Comparable, Temporal
      * @param int|Month $month The month-of-year to represent
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function of(int|Year $year, int|Month $month): self
     {
@@ -59,7 +57,6 @@ final class YearMonth implements Hashable, Comparable, Temporal
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
@@ -73,7 +70,6 @@ final class YearMonth implements Hashable, Comparable, Temporal
      * Obtains the current year-month from the system clock in the default time-zone.
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function now(): self
     {

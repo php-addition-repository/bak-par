@@ -190,7 +190,7 @@ class EnumTest extends TestCase
 
 /**
  * @internal
- * @psalm-immutable
+ * @extends Enum<NoMethodTagsEnum>
  */
 final class NoMethodTagsEnum extends Enum
 {

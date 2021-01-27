@@ -15,6 +15,7 @@ use Par\Core\Hashable;
  * The unit works using double dispatch. Client code calls methods on a date-time like LocalDateTime which check if the
  * unit is a ChronoUnit. If it is, then the date-time must handle it. Otherwise, the method call is re-dispatched to
  * the matching method in this interface.
+ *
  */
 interface TemporalUnit extends Hashable
 {
@@ -24,7 +25,6 @@ interface TemporalUnit extends Hashable
      * All units from days to millennia inclusive are date-based. Time-based units and FOREVER return false.
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public function isDateBased(): bool;
 
@@ -38,7 +38,6 @@ interface TemporalUnit extends Hashable
      * different lengths.
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public function isDurationEstimated(): bool;
 
@@ -51,7 +50,6 @@ interface TemporalUnit extends Hashable
      * @param Temporal $temporal The temporal object to check
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public function isSupportedBy(Temporal $temporal): bool;
 
@@ -61,13 +59,11 @@ interface TemporalUnit extends Hashable
      * All units from micros to half-days inclusive are time-based. Date-based units and FOREVER return false.
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public function isTimeBased(): bool;
 
     /**
      * @return string
-     * @psalm-mutation-free
      */
     public function toString(): string;
 
@@ -78,7 +74,6 @@ interface TemporalUnit extends Hashable
      *
      * @return string The string that can be passed to DateTimeInterface::modify
      * @internal
-     * @psalm-mutation-free
      */
     public function toNativeModifier(int $amount): string;
 }

@@ -23,7 +23,6 @@ final class Values
      * @param mixed $b The referenced value with which to compare
      *
      * @return bool True if the arguments are equal to each other
-     * @psalm-mutation-free
      */
     public static function equals(mixed $a, mixed $b): bool
     {
@@ -63,7 +62,6 @@ final class Values
      * @param mixed $value The value for which to determine the textual representation
      *
      * @return string
-     * @psalm-mutation-free
      */
     public static function toString(mixed $value): string
     {
@@ -118,7 +116,6 @@ final class Values
      * @param mixed $value The value for which to determine the type
      *
      * @return string The type of value.
-     * @psalm-mutation-free
      */
     public static function typeOf(mixed $value): string
     {
@@ -148,7 +145,6 @@ final class Values
      * @param mixed $value The value to produce a hash for
      *
      * @return bool|float|int|string|null
-     * @psalm-mutation-free
      */
     public static function hash(mixed $value): bool|float|int|string|null
     {
@@ -169,15 +165,11 @@ final class Values
      * @param array<mixed> $value The array to transform
      *
      * @return string The resulting string
-     * @psalm-mutation-free
      */
     private static function arrayToString(array $value): string
     {
         if (array_values($value) === $value) {
             $tpl = '[%s]';
-            /**
-             * @psalm-suppress ImpureFunctionCall
-             */
             $elements = array_map(
                 static function ($value): string {
                     if (is_array($value)) {
@@ -190,9 +182,6 @@ final class Values
             );
         } else {
             $tpl = '{%s}';
-            /**
-             * @psalm-suppress ImpureFunctionCall
-             */
             $elements = array_map(
                 static function ($key, $value): string {
                     if (is_array($value)) {
@@ -220,7 +209,6 @@ final class Values
      * @param object $value The object to get the type for.
      *
      * @return string The objects type
-     * @psalm-mutation-free
      */
     private static function getObjectType(object $value): string
     {

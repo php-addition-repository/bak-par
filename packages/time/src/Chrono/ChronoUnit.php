@@ -9,7 +9,6 @@ use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalUnit;
 
 /**
- * @psalm-immutable
  * @extends Enum<ChronoUnit>
  *
  * @method static self Micros()

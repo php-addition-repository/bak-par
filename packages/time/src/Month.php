@@ -25,7 +25,6 @@ use Par\Time\Util\Range;
  *
  * **Do not use ordinal() to obtain the numeric representation of Month. Use value() instead.**
  *
- * @psalm-immutable
  * @extends Enum<Month>
  *
  * @method static self January() The singleton instance for the month of January with 31 days.
@@ -65,7 +64,6 @@ final class Month extends Enum implements TemporalAccessor
      * Obtains an instance of Month for today.
      *
      * @return self
-     * @psalm-pure
      */
     public static function today(): self
     {
@@ -78,7 +76,6 @@ final class Month extends Enum implements TemporalAccessor
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return self
-     * @psalm-pure
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
@@ -94,7 +91,6 @@ final class Month extends Enum implements TemporalAccessor
      *
      * @return self
      * @throws InvalidArgumentException If the month-of-year is invalid
-     * @psalm-pure
      */
     public static function of(int $month): self
     {
@@ -107,7 +103,6 @@ final class Month extends Enum implements TemporalAccessor
      * Obtains an instance of Month for tomorrow.
      *
      * @return self
-     * @psalm-pure
      */
     public static function tomorrow(): self
     {
@@ -118,7 +113,6 @@ final class Month extends Enum implements TemporalAccessor
      * Obtains an instance of Month for yesterday.
      *
      * @return self
-     * @psalm-pure
      */
     public static function yesterday(): self
     {

@@ -20,7 +20,6 @@ use Par\Time\Exception\InvalidArgumentException;
  *
  * Instances of this class are not tied to a specific field.
  *
- * @psalm-immutable
  */
 final class ValueRange implements Hashable
 {
@@ -40,7 +39,6 @@ final class ValueRange implements Hashable
      *
      * @return ValueRange
      * @throws InvalidArgumentException If the minimum is greater than the maximum.
-     * @psalm-mutation-free
      */
     public static function ofFixed(int $min, int $max): self
     {
@@ -60,7 +58,6 @@ final class ValueRange implements Hashable
      * @return ValueRange
      * @throws InvalidArgumentException If the smallest minimum is greater than the smallest maximum, or the smallest
      * maximum is greater than the largest maximum or the largest minimum is greater than the largest maximum.
-     * @psalm-mutation-free
      */
     public static function ofVariable(int $smallestMin, int $largestMin, int $smallestMax, int $largestMax): self
     {
@@ -80,7 +77,6 @@ final class ValueRange implements Hashable
      * @return ValueRange
      * @throws InvalidArgumentException If minimum is greater than the smallest maximum, or the smallest
      * maximum is greater than the largest maximum or the minimum is greater than the largest maximum.
-     * @psalm-mutation-free
      */
     public static function ofVariableMax(int $min, int $smallestMax, int $largestMax): self
     {

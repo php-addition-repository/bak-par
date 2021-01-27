@@ -23,7 +23,6 @@ final class HashCode
      *
      * @return int The resulting hash
      * @psalm-suppress MixedArgument
-     * @psalm-pure
      */
     public static function forAny(mixed $value, int $maxDepth = self::MAX_RECURSION_DEPTH): int
     {
@@ -46,7 +45,6 @@ final class HashCode
      * @param bool $value The boolean to transform
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forBool(bool $value): int
     {
@@ -59,7 +57,6 @@ final class HashCode
      * @param int $value The integer to transform
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forInt(int $value): int
     {
@@ -80,7 +77,6 @@ final class HashCode
      * @param float $value The float to transform
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forFloat(float $value): int
     {
@@ -96,7 +92,6 @@ final class HashCode
      * @param string $value The string to transform
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forString(string $value): int
     {
@@ -116,7 +111,6 @@ final class HashCode
      * @param int   $maxDepth The maximum recursion depth. Defaults to `static::MAX_RECURSION_DEPTH`
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forArray(array $values, int $maxDepth = self::MAX_RECURSION_DEPTH): int
     {
@@ -150,7 +144,6 @@ final class HashCode
      * @param object $value The object to transform
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forObject(object $value): int
     {
@@ -167,7 +160,6 @@ final class HashCode
      * @param mixed $value The resource to transform
      *
      * @return int The resulting hash
-     * @psalm-pure
      */
     public static function forResource(mixed $value): int
     {
@@ -192,7 +184,6 @@ final class HashCode
      * @param int $value
      *
      * @return int
-     * @psalm-pure
      */
     private static function handleOverflow(int $value): int
     {

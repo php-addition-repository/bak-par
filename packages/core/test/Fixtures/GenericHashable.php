@@ -8,7 +8,6 @@ use Par\Core\Hashable;
 
 /**
  * @internal
- * @psalm-immutable
  */
 final class GenericHashable implements Hashable
 {

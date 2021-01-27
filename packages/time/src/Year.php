@@ -23,7 +23,6 @@ use Par\Time\Temporal\TemporalUnit;
 /**
  * A year in the ISO-8601 calendar system, such as 2007.
  *
- * @psalm-immutable
  * @template-implements Comparable<Year>
  */
 final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
@@ -34,7 +33,6 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      * Obtains the current year from the system clock in the default time-zone.
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function now(): self
     {
@@ -49,7 +47,6 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
@@ -64,7 +61,6 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      * @param int $year The year to represent
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function of(int $year): self
     {
@@ -78,7 +74,6 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      *
      * @return self
      * @throws InvalidArgumentException If text could not be parsed or value is outside of range
-     * @psalm-mutation-free
      */
     public static function parse(string $text): self
     {
@@ -93,7 +88,6 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      * @param int $year
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public static function isLeapYear(int $year): bool
     {

@@ -21,7 +21,6 @@ use Par\Time\Util\Range;
  * ISO-8601 standard, from 1 (Monday) to 7 (Sunday). It is recommended that applications use the enum rather than the
  * int value to ensure code clarity.
  *
- * @psalm-immutable
  * @extends Enum<DayOfWeek>
  *
  * @method static self Monday() The singleton instance for the day-of-week of Monday.
@@ -51,7 +50,6 @@ final class DayOfWeek extends Enum implements TemporalAccessor
      * Obtains an instance of day-of-week for today.
      *
      * @return self
-     * @psalm-pure
      */
     public static function today(): self
     {
@@ -64,7 +62,6 @@ final class DayOfWeek extends Enum implements TemporalAccessor
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return self
-     * @psalm-pure
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
@@ -80,7 +77,6 @@ final class DayOfWeek extends Enum implements TemporalAccessor
      *
      * @return self
      * @throws InvalidArgumentException If the day-of-week is invalid
-     * @psalm-pure
      */
     public static function of(int $dayOfWeek): self
     {
@@ -93,7 +89,6 @@ final class DayOfWeek extends Enum implements TemporalAccessor
      * Obtains an instance of day-of-week for tomorrow.
      *
      * @return self
-     * @psalm-pure
      */
     public static function tomorrow(): self
     {
@@ -104,7 +99,6 @@ final class DayOfWeek extends Enum implements TemporalAccessor
      * Obtains an instance of day-of-week for yesterday.
      *
      * @return self
-     * @psalm-pure
      */
     public static function yesterday(): self
     {

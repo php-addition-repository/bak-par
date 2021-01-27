@@ -18,7 +18,6 @@ use Par\Time\Temporal\ValueRange;
  * This set of fields provide field-based access to manipulate a date, time or date-time. The standard set of fields
  * can be extended by implementing TemporalField.
  *
- * @psalm-immutable
  * @extends Enum<ChronoUnit>
  *
  * @method static self DayOfWeek()
@@ -52,9 +51,6 @@ final class ChronoField extends Enum implements TemporalField
             self::Year() => 'Y',
         };
 
-        /**
-         * @psalm-suppress ImpureMethodCall
-         */
         return (int)$dateTime->format($format);
     }
 

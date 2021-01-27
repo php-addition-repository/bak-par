@@ -15,7 +15,6 @@ use ReflectionException;
  * This is the common base class of all enumerations.
  *
  * @example                                   "packages/core/test/Fixtures/Planet.php" Implementation example
- * @psalm-immutable
  *
  * @template-covariant                        T of Enum
  * @template-implements                       Comparable<Enum>
@@ -33,7 +32,7 @@ abstract class Enum implements Hashable, Comparable
     private static array $allInstancesLoaded = [];
 
     /**
-     * @psalm-var array<string, array<string, Enum>>
+     * @var array<string, array<string, Enum>>
      */
     private static array $instances = [];
 
@@ -56,7 +55,6 @@ abstract class Enum implements Hashable, Comparable
      * @param string $name The name of the element to return
      *
      * @return static
-     * @psalm-pure
      */
     final public static function valueOf(string $name): static
     {
@@ -74,9 +72,6 @@ abstract class Enum implements Hashable, Comparable
      * Returns a list containing the elements of this enum type, in the order they are declared.
      *
      * @return static[]
-     * @psalm-mutation-free
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress ImpureMethodCall
      */
     final public static function values(): iterable
     {
@@ -100,7 +95,6 @@ abstract class Enum implements Hashable, Comparable
      * @param string $name
      *
      * @return EnumDefinition|null
-     * @psalm-pure
      */
     private static function findDefinition(string $name): ?EnumDefinition
     {
@@ -115,9 +109,6 @@ abstract class Enum implements Hashable, Comparable
 
     /**
      * @return array<string, EnumDefinition>
-     * @psalm-pure
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress ImpureMethodCall
      */
     private static function resolveDefinition(): array
     {
@@ -156,8 +147,6 @@ abstract class Enum implements Hashable, Comparable
      * @param EnumDefinition $definition
      *
      * @return static
-     * @psalm-pure
-     * @psalm-suppress ImpureStaticProperty
      */
     private static function createFromDefinition(EnumDefinition $definition): static
     {
@@ -177,8 +166,6 @@ abstract class Enum implements Hashable, Comparable
      * @param static $instance
      *
      * @return static
-     * @psalm-pure
-     * @psalm-suppress ImpureStaticProperty
      */
     private static function rememberInstance(string $name, Enum $instance): static
     {
@@ -246,7 +233,7 @@ abstract class Enum implements Hashable, Comparable
 
     /**
      * @inheritDoc
-     * @psalm-assert-if-true T $other
+     * @psalm-assert-if-true =T $other
      */
     final public function equals(mixed $other): bool
     {

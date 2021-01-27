@@ -26,7 +26,6 @@ use Par\Time\Temporal\TemporalField;
  * This class does not store or represent a year, time or time-zone. For example, the value "December 3rd" can be
  * stored in a MonthDay. Since a MonthDay does not possess a year, the leap day of February 29th is considered valid.
  *
- * @psalm-immutable
  * @template-implements Comparable<MonthDay>
  */
 final class MonthDay implements Hashable, Comparable, TemporalAccessor
@@ -47,8 +46,6 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor
      * @return self
      * @throws InvalidArgumentException If value of any field is out of range, or if the day-of-month is invalid for
      *                                  the month
-     *
-     * @psalm-mutation-free
      */
     public static function of(int|Month $month, int $dayOfMonth): self
     {
@@ -61,7 +58,6 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor
      * Obtains the current month-day from the system clock in the default time-zone.
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function now(): self
     {
@@ -76,7 +72,6 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor
      * @param DateTimeInterface $dateTime The datetime to convert
      *
      * @return self
-     * @psalm-mutation-free
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {

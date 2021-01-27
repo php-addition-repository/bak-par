@@ -17,7 +17,6 @@ final class StringUtils
      * @param array<string|Stringable> $list A list of string that will be quoted
      *
      * @return array<string> The quoted list of strings
-     * @psalm-pure
      */
     public static function quoteList(array $list): array
     {
@@ -40,7 +39,6 @@ final class StringUtils
      * @param array<string|Stringable> $list A list of strings
      *
      * @return string A string where all elements have been joined in a human readable way
-     * @psalm-pure
      */
     public static function listToHumanReadable(array $list): string
     {
