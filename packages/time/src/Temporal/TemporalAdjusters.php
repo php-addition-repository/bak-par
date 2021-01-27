@@ -16,6 +16,8 @@ use Par\Time\Exception\UnsupportedTemporalType;
 final class TemporalAdjusters
 {
     /**
+     * Adjust a Temporal using its toNative/fromNative construct
+     *
      * @param string   $modification
      * @param Temporal $temporal
      *
@@ -159,6 +161,59 @@ final class TemporalAdjusters
                 return TemporalAdjusters::modifyViaNative($modification, $temporal);
             }
 
+        };
+    }
+
+    /**
+     * Returns the "first day of month" adjuster, which returns a new date set to the first day of the current month.
+     *
+     * The ISO calendar system behaves as follows:
+     * The input 2011-01-15 will return 2011-01-01.
+     * The input 2011-02-15 will return 2011-02-01.
+     *
+     * @return TemporalAdjuster The first day-of-month adjuster
+     */
+    public static function firstDayOfMonth(): TemporalAdjuster
+    {
+        return new class() implements TemporalAdjuster {
+            /**
+             * @inheritDoc
+             */
+            public function adjustInto(Temporal $temporal): Temporal
+            {
+                return $temporal->withField(ChronoField::DayOfMonth(), 1);
+            }
+        };
+    }
+
+    /**
+     * Returns the "last day of month" adjuster, which returns a new date set to the last day of the current month.
+     *
+     * The ISO calendar system behaves as follows:
+     * The input 2011-01-15 will return 2011-01-31.
+     * The input 2011-02-15 will return 2011-02-28.
+     * The input 2012-02-15 will return 2012-02-29 (leap year).
+     * The input 2011-04-15 will return 2011-04-30.
+     *
+     * @return TemporalAdjuster The first day-of-month adjuster
+     */
+    public static function lastDayOfMonth(): TemporalAdjuster
+    {
+        return new class() implements TemporalAdjuster {
+            /**
+             * @inheritDoc
+             */
+            public function adjustInto(Temporal $temporal): Temporal
+            {
+                $field = ChronoField::DayOfMonth();
+                if (!$temporal->supportsField($field)) {
+                    throw UnsupportedTemporalType::forField($field);
+                }
+
+                $modification = 'last day of this month';
+
+                return TemporalAdjusters::modifyViaNative($modification, $temporal);
+            }
         };
     }
 
