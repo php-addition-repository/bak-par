@@ -245,15 +245,21 @@ class YearTest extends TestCase
      */
     public function provideForUnitMath(): array
     {
+        $source = Year::of(2015);
+
         return [
-            'positive-years' => [Year::of(2015), 2, ChronoUnit::Years(), Year::of(2017)],
-            'negative-years' => [Year::of(2015), -2, ChronoUnit::Years(), Year::of(2013)],
-            'positive-decades' => [Year::of(2015), 2, ChronoUnit::Decades(), Year::of(2035)],
-            'negative-decades' => [Year::of(2015), -2, ChronoUnit::Decades(), Year::of(1995)],
-            'positive-centuries' => [Year::of(2015), 2, ChronoUnit::Centuries(), Year::of(2215)],
-            'negative-centuries' => [Year::of(2015), -2, ChronoUnit::Centuries(), Year::of(1815)],
-            'positive-millennia' => [Year::of(2015), 2, ChronoUnit::Millennia(), Year::of(4015)],
-            'negative-millennia' => [Year::of(2015), -2, ChronoUnit::Millennia(), Year::of(15)],
+            'positive-years' => [$source, 2, ChronoUnit::Years(), Year::of(2017)],
+            'negative-years' => [$source, -2, ChronoUnit::Years(), Year::of(2013)],
+            'zero-years' => [$source, 0, ChronoUnit::Years(), $source],
+            'positive-decades' => [$source, 2, ChronoUnit::Decades(), Year::of(2035)],
+            'negative-decades' => [$source, -2, ChronoUnit::Decades(), Year::of(1995)],
+            'zero-decades' => [$source, 0, ChronoUnit::Decades(), $source],
+            'positive-centuries' => [$source, 2, ChronoUnit::Centuries(), Year::of(2215)],
+            'negative-centuries' => [$source, -2, ChronoUnit::Centuries(), Year::of(1815)],
+            'zero-centuries' => [$source, 0, ChronoUnit::Centuries(), $source],
+            'positive-millennia' => [$source, 2, ChronoUnit::Millennia(), Year::of(4015)],
+            'negative-millennia' => [$source, -2, ChronoUnit::Millennia(), Year::of(15)],
+            'zero-millennia' => [$source, 0, ChronoUnit::Millennia(), $source],
         ];
     }
 

@@ -354,9 +354,12 @@ class YearMonthTest extends TestCase
      */
     public function provideForYearMath(): array
     {
+        $source = YearMonth::of(2015, 3);
+
         return [
-            'positive' => [YearMonth::of(2015, 3), 2, YearMonth::of(2017, 3)],
-            'negative' => [YearMonth::of(2015, 3), -2, YearMonth::of(2013, 3)],
+            'positive' => [$source, 2, YearMonth::of(2017, 3)],
+            'negative' => [$source, -2, YearMonth::of(2013, 3)],
+            'zero' => [$source, 0, $source],
         ];
     }
 
