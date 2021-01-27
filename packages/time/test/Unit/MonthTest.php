@@ -15,6 +15,7 @@ use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\Month;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
+use Par\Time\Temporal\Temporal;
 use PHPUnit\Framework\TestCase;
 
 class MonthTest extends TestCase
@@ -265,6 +266,17 @@ class MonthTest extends TestCase
                                                                              int $expected): void
     {
         self::assertSame($expected, $month->firstDayOfYear($leapYear));
+    }
+
+    public function testItCanBeUsedToAdjustDifferentTemporal(): void
+    {
+        $source = Month::of(3);
+
+        $temporal = $this->createMock(Temporal::class);
+        $temporal->expects(self::once())->method('withField')
+                 ->with(ChronoField::MonthOfYear(), $source->value())->willReturnSelf();
+
+        self::assertSame($temporal, $source->adjustInto($temporal));
     }
 
     protected function setUp(): void

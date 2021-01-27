@@ -15,6 +15,7 @@ use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Factory;
 use Par\Time\PHPUnit\TimeTestCaseTrait;
+use Par\Time\Temporal\Temporal;
 use PHPUnit\Framework\TestCase;
 
 class DayOfWeekTest extends TestCase
@@ -172,5 +173,16 @@ class DayOfWeekTest extends TestCase
 
         $this->enumSetup();
         $this->timeSetup();
+    }
+
+    public function testItCanBeUsedToAdjustDifferentTemporal(): void
+    {
+        $source = DayOfWeek::of(3);
+
+        $temporal = $this->createMock(Temporal::class);
+        $temporal->expects(self::once())->method('withField')
+                 ->with(ChronoField::DayOfWeek(), $source->value())->willReturnSelf();
+
+        self::assertSame($temporal, $source->adjustInto($temporal));
     }
 }

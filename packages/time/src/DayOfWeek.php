@@ -9,7 +9,9 @@ use Par\Core\Enum;
 use Par\Time\Chrono\ChronoField;
 use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Exception\UnsupportedTemporalType;
+use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAccessor;
+use Par\Time\Temporal\TemporalAdjuster;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Util\Range;
 
@@ -31,7 +33,7 @@ use Par\Time\Util\Range;
  * @method static self Saturday() The singleton instance for the day-of-week of Saturday.
  * @method static self Sunday() The singleton instance for the day-of-week of Sunday.
  */
-final class DayOfWeek extends Enum implements TemporalAccessor
+final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
 {
     /**
      * @var array<int, string>
@@ -173,4 +175,11 @@ final class DayOfWeek extends Enum implements TemporalAccessor
         throw UnsupportedTemporalType::forField($field);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function adjustInto(Temporal $temporal): Temporal
+    {
+        return $temporal->withField(ChronoField::DayOfWeek(), $this->value());
+    }
 }
