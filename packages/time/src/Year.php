@@ -15,10 +15,9 @@ use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAdjuster;
-use Par\Time\Temporal\TemporalAdjusters;
-use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
+use Par\Time\Traits\TemporalMathTrait;
 
 /**
  * A year in the ISO-8601 calendar system, such as 2007.
@@ -27,6 +26,8 @@ use Par\Time\Temporal\TemporalUnit;
  */
 final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
 {
+    use TemporalMathTrait;
+
     private int $value;
 
     /**
@@ -200,44 +201,15 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
     }
 
     /**
-     * @inheritDoc
-     */
-    public function minus(int $amountToSubtract, TemporalUnit $unit): self
-    {
-        return $this->plus($amountToSubtract * -1, $unit);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function minusAmount(TemporalAmount $amount): self
-    {
-        /** @var static $temporal */
-        $temporal = $amount->subtractFrom($this);
-
-        return $temporal;
-    }
-
-    /**
      * Returns a copy of this Year with the specified number of years subtracted.
      *
      * @param int $years The years to subtract, may be negative
      *
-     * @return self
+     * @return static
      */
     public function minusYears(int $years): self
     {
         return $this->minus($years, ChronoUnit::Years());
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function plus(int $amountToAdd, TemporalUnit $unit): self
-    {
-        $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
-
-        return $this->with($adjuster);
     }
 
     /**
@@ -279,22 +251,11 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
     }
 
     /**
-     * @inheritDoc
-     */
-    public function plusAmount(TemporalAmount $amount): self
-    {
-        /** @var static $temporal */
-        $temporal = $amount->addTo($this);
-
-        return $temporal;
-    }
-
-    /**
      * Returns a copy of this Year with the specified number of years added.
      *
      * @param int $years The years to add, may be negative
      *
-     * @return self
+     * @return static
      */
     public function plusYears(int $years): self
     {

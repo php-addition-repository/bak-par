@@ -14,10 +14,9 @@ use Par\Time\Chrono\ChronoUnit;
 use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAdjuster;
-use Par\Time\Temporal\TemporalAdjusters;
-use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
+use Par\Time\Traits\TemporalMathTrait;
 
 /**
  * A year-month in the ISO-8601 calendar system, such as 2007-12.
@@ -28,10 +27,12 @@ use Par\Time\Temporal\TemporalUnit;
  * This class does not store or represent a day, time or time-zone. For example, the value "October 2007" can be stored
  * in a YearMonth.
  *
- * @template-implements Comparable<YearMonth>
+ * @implements Comparable<YearMonth>
  */
 final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuster
 {
+    use TemporalMathTrait;
+
     private int $year;
     private int $month;
 
@@ -56,7 +57,7 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
-     * @return self
+     * @return static
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
@@ -263,38 +264,9 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
     /**
      * @inheritDoc
      */
-    public function minus(int $amountToSubtract, TemporalUnit $unit): self
-    {
-        return $this->plus($amountToSubtract * -1, $unit);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function minusAmount(TemporalAmount $amount): self
-    {
-        /** @var static $temporal */
-        $temporal = $amount->subtractFrom($this);
-
-        return $temporal;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function toNative(): DateTimeImmutable
     {
         return Factory::createDate($this->year, $this->month);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function plus(int $amountToAdd, TemporalUnit $unit): self
-    {
-        $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
-
-        return $this->with($adjuster);
     }
 
     /**
@@ -318,17 +290,6 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
             ChronoField::Year() => self::of($newValue, $this->month),
             ChronoField::MonthOfYear() => self::of($this->year, $newValue)
         };
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function plusAmount(TemporalAmount $amount): self
-    {
-        /** @var static $temporal */
-        $temporal = $amount->addTo($this);
-
-        return $temporal;
     }
 
     public function plusYears(int $amountToAdd): self

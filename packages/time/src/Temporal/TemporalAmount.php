@@ -19,6 +19,10 @@ interface TemporalAmount
      * @param Temporal $temporal The temporal object to add the amount to
      *
      * @return Temporal An object of the same observable type with the addition made
+     *
+     * @template T of Temporal
+     * @psalm-param T  $temporal
+     * @psalm-return T
      */
     public function addTo(Temporal $temporal): Temporal;
 
@@ -26,6 +30,10 @@ interface TemporalAmount
      * @param Temporal $temporal
      *
      * @return Temporal An object of the same observable type with the addition made
+     *
+     * @template T of Temporal
+     * @psalm-param T  $temporal
+     * @psalm-return T
      */
     public function subtractFrom(Temporal $temporal): Temporal;
 
