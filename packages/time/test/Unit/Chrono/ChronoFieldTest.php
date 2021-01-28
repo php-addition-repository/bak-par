@@ -71,12 +71,27 @@ class ChronoFieldTest extends TestCase
         self::assertFalse($field->isTimeBased());
     }
 
+    public function testDayOfYear(): void
+    {
+        $field = ChronoField::DayOfYear();
+
+        $native = Factory::create(2018, 3, 4, 5, 6, 7);
+
+        self::assertHashEquals(ChronoUnit::Days(), $field->getBaseUnit());
+        self::assertHashEquals(ChronoUnit::Years(), $field->getRangeUnit());
+        self::assertSame((int)$native->format('z') + 1, $field->getFromNative($native));
+        self::assertHashEquals(ValueRange::ofFixed(1, 366), $field->range());
+        self::assertTrue($field->isDateBased());
+        self::assertFalse($field->isTimeBased());
+    }
+
     public function testValues(): void
     {
         self::assertSame(
             [
                 ChronoField::DayOfWeek(),
                 ChronoField::DayOfMonth(),
+                ChronoField::DayOfYear(),
                 ChronoField::MonthOfYear(),
                 ChronoField::Year(),
             ],

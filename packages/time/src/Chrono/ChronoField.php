@@ -22,6 +22,7 @@ use Par\Time\Temporal\ValueRange;
  *
  * @method static self DayOfWeek()
  * @method static self DayOfMonth()
+ * @method static self DayOfYear()
  * @method static self MonthOfYear()
  * @method static self Year()
  */
@@ -33,7 +34,7 @@ final class ChronoField extends Enum implements TemporalField
     public function getBaseUnit(): TemporalUnit
     {
         return match ($this) {
-            self::DayOfWeek(), self::DayOfMonth() => ChronoUnit::Days(),
+            self::DayOfWeek(), self::DayOfMonth(), self::DayOfYear() => ChronoUnit::Days(),
             self::MonthOfYear() => ChronoUnit::Months(),
             self::Year() => ChronoUnit::Years(),
         };
@@ -48,10 +49,16 @@ final class ChronoField extends Enum implements TemporalField
             self::DayOfWeek() => 'N',
             self::DayOfMonth() => 'j',
             self::MonthOfYear() => 'n',
-            self::Year() => 'Y',
+            self::DayOfYear() => 'z',
+            self::Year() => 'Y'
         };
 
-        return (int)$dateTime->format($format);
+        $value = (int)$dateTime->format($format);
+
+        return match ($this) {
+            self::DayOfYear() => $value + 1,
+            default => $value
+        };
     }
 
     /**
@@ -62,6 +69,7 @@ final class ChronoField extends Enum implements TemporalField
         return match ($this) {
             self::DayOfWeek() => ChronoUnit::Weeks(),
             self::DayOfMonth() => ChronoUnit::Months(),
+            self::DayOfYear() => ChronoUnit::Years(),
             self::MonthOfYear() => ChronoUnit::Years(),
             self::Year() => ChronoUnit::Forever(),
         };
@@ -101,6 +109,7 @@ final class ChronoField extends Enum implements TemporalField
         $rangeValues = match ($this) {
             self::DayOfWeek() => [1, 7],
             self::DayOfMonth() => [1, 28, 31],
+            self::DayOfYear() => [1, 365, 366],
             self::MonthOfYear() => [1, 12],
             self::Year() => [-999999999, 999999999],
             default => [PHP_INT_MIN, PHP_INT_MAX]
