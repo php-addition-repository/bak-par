@@ -47,20 +47,27 @@ final class AdaptationTest extends TestCase
      */
     public function provideForUnitMath(): array
     {
-        $source = LocalDate::of(2015, 3, 2);
+        $list = [];
 
-        return [
-            'positive-years' => [$source, 2, ChronoUnit::Years(), LocalDate::of(2017, 3, 2)],
-            'positive-month' => [$source, 2, ChronoUnit::Months(), LocalDate::of(2015, 5, 2)],
-            'positive-month-overflow' => [$source, 12, ChronoUnit::Months(), LocalDate::of(2016, 3, 2)],
-            'positive-day' => [$source, 2, ChronoUnit::Days(), LocalDate::of(2015, 3, 4)],
-            'positive-day-overflow' => [$source, 32, ChronoUnit::Days(), LocalDate::of(2015, 4, 3)],
-            'negative-years' => [$source, -2, ChronoUnit::Years(), LocalDate::of(2013, 3, 2)],
-            'negative-month' => [$source, -2, ChronoUnit::Months(), LocalDate::of(2015, 1, 2)],
-            'negative-month-overflow' => [$source, -12, ChronoUnit::Months(), LocalDate::of(2014, 3, 2)],
-            'negative-day' => [$source, -2, ChronoUnit::Days(), LocalDate::of(2015, 2, 28)],
-            'negative-day-overflow' => [$source, -32, ChronoUnit::Days(), LocalDate::of(2015, 1, 29)],
-        ];
+        $unit = ChronoUnit::Years();
+        foreach ($this->provideForYearMath() as $key => $arguments) {
+            [$source, $amount, $expected] = $arguments;
+            $list[$unit->toString() . ' ' . $key] = [$source, $amount, $unit, $expected];
+        }
+
+        $unit = ChronoUnit::Months();
+        foreach ($this->provideForMonthMath() as $key => $arguments) {
+            [$source, $amount, $expected] = $arguments;
+            $list[$unit->toString() . ' ' . $key] = [$source, $amount, $unit, $expected];
+        }
+
+        $unit = ChronoUnit::Days();
+        foreach ($this->provideForDayMath() as $key => $arguments) {
+            [$source, $amount, $expected] = $arguments;
+            $list[$unit->toString() . ' ' . $key] = [$source, $amount, $unit, $expected];
+        }
+
+        return $list;
     }
 
     /**
@@ -100,21 +107,12 @@ final class AdaptationTest extends TestCase
      */
     public function provideForYearMath(): array
     {
-        $filtered = array_filter(
-            $this->provideForUnitMath(),
-            static function ($provider) {
-                return $provider[2]->equals(ChronoUnit::Years());
-            }
-        );
+        $source = LocalDate::of(2015, 3, 2);
 
-        array_walk(
-            $filtered,
-            static function (&$provider) {
-                unset($provider[2]);
-            }
-        );
-
-        return $filtered;
+        return [
+            'positive' => [$source, 2, LocalDate::of(2017, 3, 2)],
+            'negative' => [$source, -2, LocalDate::of(2013, 3, 2)],
+        ];
     }
 
     /**
@@ -146,21 +144,14 @@ final class AdaptationTest extends TestCase
      */
     public function provideForMonthMath(): array
     {
-        $filtered = array_filter(
-            $this->provideForUnitMath(),
-            static function ($provider) {
-                return $provider[2]->equals(ChronoUnit::Months());
-            }
-        );
+        $source = LocalDate::of(2015, 3, 2);
 
-        array_walk(
-            $filtered,
-            static function (&$provider) {
-                unset($provider[2]);
-            }
-        );
-
-        return $filtered;
+        return [
+            'positive' => [$source, 2, LocalDate::of(2015, 5, 2)],
+            'positive-overflow' => [$source, 12, LocalDate::of(2016, 3, 2)],
+            'negative' => [$source, -2, LocalDate::of(2015, 1, 2)],
+            'negative-overflow' => [$source, -12, LocalDate::of(2014, 3, 2)],
+        ];
     }
 
     /**
@@ -192,21 +183,14 @@ final class AdaptationTest extends TestCase
      */
     public function provideForDayMath(): array
     {
-        $filtered = array_filter(
-            $this->provideForUnitMath(),
-            static function ($provider) {
-                return $provider[2]->equals(ChronoUnit::Days());
-            }
-        );
+        $source = LocalDate::of(2015, 3, 2);
 
-        array_walk(
-            $filtered,
-            static function (&$provider) {
-                unset($provider[2]);
-            }
-        );
-
-        return $filtered;
+        return [
+            'positive' => [$source, 2, LocalDate::of(2015, 3, 4)],
+            'positive-overflow' => [$source, 32, LocalDate::of(2015, 4, 3)],
+            'negative' => [$source, -2, LocalDate::of(2015, 2, 28)],
+            'negative-overflow' => [$source, -32, LocalDate::of(2015, 1, 29)],
+        ];
     }
 
     /**
