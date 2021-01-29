@@ -17,7 +17,7 @@ final class Assert extends \Webmozart\Assert\Assert
         if (!Factory::isValidDate($year, $month, $dayOfMonth)) {
             static::reportInvalidArgument(
                 \sprintf(
-                    $message ?: 'Expected a valid dayOfMonth for %d-%02d. Got %d',
+                    $message ?: 'Expected a valid date, got %d-%02d-%02d.',
                     $year,
                     $month,
                     $dayOfMonth

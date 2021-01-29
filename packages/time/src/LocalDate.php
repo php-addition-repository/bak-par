@@ -14,6 +14,7 @@ use Par\Time\Chrono\ChronoUnit;
 use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAdjuster;
+use Par\Time\Temporal\TemporalAdjusters;
 use Par\Time\Temporal\TemporalField;
 use Par\Time\Temporal\TemporalUnit;
 use Par\Time\Traits\TemporalMathTrait;
@@ -320,7 +321,37 @@ final class LocalDate implements Hashable, Comparable, Temporal
      */
     public function withField(TemporalField $field, int $newValue): Temporal
     {
-        // TODO: Implement withField() method.
+        if (!$this->supportsField($field)) {
+            throw UnsupportedTemporalType::forField($field);
+        }
+
+        return match ($field) {
+            ChronoField::Year() => $this->withYear($newValue),
+            ChronoField::MonthOfYear() => $this->withMonth($newValue),
+            ChronoField::DayOfMonth() => $this->withDayOfMonth($newValue),
+            ChronoField::DayOfYear() => $this->withDayOfYear($newValue),
+            ChronoField::DayOfWeek() => $this->with(TemporalAdjusters::nextOrSame(DayOfWeek::of($newValue))),
+        };
+    }
+
+    public function withYear(int|Year $year): self
+    {
+        return self::of($year, $this->month, $this->dayOfMonth);
+    }
+
+    public function withMonth(int|Month $month): self
+    {
+        return self::of($this->year, $month, $this->dayOfMonth);
+    }
+
+    public function withDayOfYear(int $dayOfYear): self
+    {
+        return self::ofYearDay($this->year, $dayOfYear);
+    }
+
+    public function withDayOfMonth(int $dayOfMonth): self
+    {
+        return self::of($this->year, $this->month, $dayOfMonth);
     }
 
     /**
@@ -336,12 +367,15 @@ final class LocalDate implements Hashable, Comparable, Temporal
      */
     public function get(TemporalField $field): int
     {
+        if (!$this->supportsField($field)) {
+            throw UnsupportedTemporalType::forField($field);
+        }
+
         return match ($field) {
             ChronoField::Year() => $this->year,
             ChronoField::MonthOfYear() => $this->month,
             ChronoField::DayOfMonth() => $this->dayOfMonth,
-            ChronoField::DayOfYear() => $field->getFromNative($this->toNative()),
-            default => throw UnsupportedTemporalType::forField($field),
+            default => $field->getFromNative($this->toNative()),
         };
     }
 
