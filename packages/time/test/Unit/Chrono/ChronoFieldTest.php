@@ -80,7 +80,7 @@ class ChronoFieldTest extends TestCase
         self::assertHashEquals(ChronoUnit::Days(), $field->getBaseUnit());
         self::assertHashEquals(ChronoUnit::Years(), $field->getRangeUnit());
         self::assertSame((int)$native->format('z') + 1, $field->getFromNative($native));
-        self::assertHashEquals(ValueRange::ofFixed(1, 366), $field->range());
+        self::assertHashEquals(ValueRange::ofVariableMax(1, 365, 366), $field->range());
         self::assertTrue($field->isDateBased());
         self::assertFalse($field->isTimeBased());
     }
