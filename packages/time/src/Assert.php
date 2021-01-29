@@ -12,6 +12,20 @@ use Par\Time\Exception\InvalidArgumentException;
  */
 final class Assert extends \Webmozart\Assert\Assert
 {
+    public static function date(int $year, int $month, int $dayOfMonth, string $message = ''): void
+    {
+        if (!Factory::isValidDate($year, $month, $dayOfMonth)) {
+            static::reportInvalidArgument(
+                \sprintf(
+                    $message ?: 'Expected a valid dayOfMonth for %d-%02d. Got %d',
+                    $year,
+                    $month,
+                    $dayOfMonth
+                )
+            );
+        }
+    }
+
     /**
      * @param string $message
      *
