@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Par\Core;
 
-use Closure;
 use Stringable;
 
 /**
@@ -87,58 +86,10 @@ final class Values
             return self::arrayToString($value);
         }
 
-        $type = self::typeOf($value);
+        $type = get_debug_type($value);
         $hash = self::hash($value);
 
-        if ($type === 'resource') {
-            $resourceType = 'closed';
-            if (is_resource($value)) {
-                $resourceType = get_resource_type($value);
-            }
-            $type = sprintf('resource(%s)', $resourceType);
-        }
-
         return sprintf('%s@%s', $type, (string)$hash);
-    }
-
-    /**
-     * Returns a textual representation for the type of value.
-     *
-     * - `'null'` for a __NULL__ value.
-     * - `'int'` for a native __integer__.
-     * - `'float'` for a native __float__ or __double__.
-     * - `'bool'` for a native __boolean__.
-     * - `'string'` for a native __string__.
-     * - `'array'` for a native __array__.
-     * - `'className'` for an __object__. `get_class($value)` is used for all objects except for anonymous classes, in
-     *   which case 'anonymous' is used.
-     * - `'closure'` for a __closure__ which is actually an instance of `Closure`.
-     * - `'resource'` for a __resource__.
-     *
-     * @param mixed $value The value for which to determine the type
-     *
-     * @return string The type of value.
-     * @psalm-mutation-free
-     */
-    public static function typeOf(mixed $value): string
-    {
-        if (is_object($value)) {
-            return self::getObjectType($value);
-        }
-
-        $nativeType = gettype($value);
-        $map = [
-            'boolean' => 'bool',
-            'integer' => 'int',
-            'double' => 'float',
-            'resource' => 'resource',
-            'resource (closed)' => 'resource',
-            'NULL' => 'null',
-            'array' => 'array',
-            'string' => 'string',
-        ];
-
-        return $map[$nativeType] ?? 'unknown';
     }
 
     /**
@@ -209,30 +160,5 @@ final class Values
         }
 
         return sprintf($tpl, implode(', ', $elements));
-    }
-
-    /**
-     * Returns the type of object.
-     *
-     * Instances of `Closure` return `'closure'`, anonymous instances return `'anonymous'` all other instances return
-     * `get_class($value)`.
-     *
-     * @param object $value The object to get the type for.
-     *
-     * @return string The objects type
-     * @psalm-mutation-free
-     */
-    private static function getObjectType(object $value): string
-    {
-        if ($value instanceof Closure) {
-            return 'closure';
-        }
-
-        $class = get_class($value);
-        if (preg_match('/^class@anonymous/', $class)) {
-            $class = 'anonymous';
-        }
-
-        return $class;
     }
 }
