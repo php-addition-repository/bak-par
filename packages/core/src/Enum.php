@@ -162,12 +162,12 @@ abstract class Enum implements Hashable, Stringable
     {
         $className = static::class;
 
-        /** @var T $instance */
         $instance = self::$instances[$className][$definition->name()] ?? new static(
                 $definition->ordinal(),
                 $definition->name()
             );
 
+        /** @psalm-var Enum<T> $instance */
         return self::rememberInstance($definition->name(), $instance);
     }
 
