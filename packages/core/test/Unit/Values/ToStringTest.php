@@ -48,6 +48,8 @@ final class ToStringTest extends TestCase
         $closure = static function (): void {
         };
 
+        $stringFormat = '%s@%s';
+
         return [
             'string' => ['foo', 'foo'],
             'int' => [1, '1'],
@@ -72,23 +74,23 @@ final class ToStringTest extends TestCase
             ],
             'object' => [
                 $obj,
-                sprintf('stdClass@%s', (string)Values::hash($obj)),
+                sprintf($stringFormat, get_debug_type($obj), (string)Values::hash($obj)),
             ],
             'anonymous-object' => [
                 $anonObj,
-                sprintf('anonymous@%s', (string)Values::hash($anonObj)),
+                sprintf($stringFormat, get_debug_type($anonObj), (string)Values::hash($anonObj)),
             ],
             'closure' => [
                 $closure,
-                sprintf('closure@%s', (string)Values::hash($closure)),
+                sprintf($stringFormat, get_debug_type($closure), (string)Values::hash($closure)),
             ],
             'resource' => [
                 $resource,
-                sprintf('resource(stream)@%s', (string)Values::hash($resource)),
+                sprintf($stringFormat, get_debug_type($resource), (string)Values::hash($resource)),
             ],
             'resource(closed)' => [
                 $closedResource,
-                sprintf('resource(closed)@%s', (string)Values::hash($closedResource)),
+                sprintf($stringFormat, get_debug_type($closedResource), (string)Values::hash($closedResource)),
             ],
         ];
     }
