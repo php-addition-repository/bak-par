@@ -25,8 +25,6 @@ use Par\Time\Traits\TemporalMathTrait;
  * LocalDate is an immutable date-time object that represents a date, often viewed as year-month-day. Other date
  * fields, such as day-of-year, day-of-week and week-of-year, can also be accessed. For example, the value "2nd October
  * 2007" can be stored in a LocalDate.
- *
- * @implements Comparable<LocalDate>
  */
 final class LocalDate implements Hashable, Comparable, Temporal
 {
@@ -297,7 +295,7 @@ final class LocalDate implements Hashable, Comparable, Temporal
             return $this->hash() <=> $other->hash();
         }
 
-        throw ClassMismatch::forExpectedInstance($this, $other);
+        throw ClassMismatch::forUnexpectedInstance($this, $other);
     }
 
     /**

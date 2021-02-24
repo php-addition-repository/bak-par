@@ -21,8 +21,6 @@ use Par\Time\Traits\TemporalMathTrait;
 
 /**
  * A year in the ISO-8601 calendar system, such as 2007.
- *
- * @template-implements Comparable<Year>
  */
 final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
 {
@@ -173,7 +171,7 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
             return $this->value <=> $other->value;
         }
 
-        throw ClassMismatch::forExpectedInstance($this, $other);
+        throw ClassMismatch::forUnexpectedInstance($this, $other);
     }
 
     /**

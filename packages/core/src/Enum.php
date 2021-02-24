@@ -17,7 +17,6 @@ use ReflectionException;
  * @example                                   "packages/core/test/Fixtures/Planet.php" Implementation example
  *
  * @template-covariant                        T of Enum
- * @template-implements                       Comparable<Enum>
  */
 abstract class Enum implements Hashable, Comparable
 {
@@ -198,7 +197,7 @@ abstract class Enum implements Hashable, Comparable
             return $this->ordinal <=> $other->ordinal;
         }
 
-        throw ClassMismatch::forExpectedInstance($this, $other);
+        throw ClassMismatch::forUnexpectedInstance($this, $other);
     }
 
     /**

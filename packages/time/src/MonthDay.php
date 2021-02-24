@@ -27,8 +27,6 @@ use Par\Time\Temporal\TemporalField;
  *
  * This class does not store or represent a year, time or time-zone. For example, the value "December 3rd" can be
  * stored in a MonthDay. Since a MonthDay does not possess a year, the leap day of February 29th is considered valid.
- *
- * @template-implements Comparable<MonthDay>
  */
 final class MonthDay implements Hashable, Comparable, TemporalAccessor, TemporalAdjuster
 {
@@ -207,7 +205,7 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
             return $currentValue <=> $otherValue;
         }
 
-        throw ClassMismatch::forExpectedInstance($this, $other);
+        throw ClassMismatch::forUnexpectedInstance($this, $other);
     }
 
     /**

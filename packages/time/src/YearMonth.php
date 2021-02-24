@@ -26,8 +26,6 @@ use Par\Time\Traits\TemporalMathTrait;
  *
  * This class does not store or represent a day, time or time-zone. For example, the value "October 2007" can be stored
  * in a YearMonth.
- *
- * @implements Comparable<YearMonth>
  */
 final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuster
 {
@@ -211,7 +209,7 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
             return $currentValue <=> $otherValue;
         }
 
-        throw ClassMismatch::forExpectedInstance($this, $other);
+        throw ClassMismatch::forUnexpectedInstance($this, $other);
     }
 
     /**
