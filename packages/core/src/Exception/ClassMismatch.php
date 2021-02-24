@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Par\Core\Exception;
 
-use Par\Core\Values;
+use RuntimeException;
 
-final class ClassMismatch extends \RuntimeException implements ExceptionInterface
+final class ClassMismatch extends RuntimeException implements ExceptionInterface
 {
 
     public static function forInvalidArgument(string $function,
@@ -17,7 +17,7 @@ final class ClassMismatch extends \RuntimeException implements ExceptionInterfac
     {
         return new self(
             sprintf(
-                '%s(): Argument #%d ($%s) must be of type %s, %s given.',
+                '%s(): Argument #%d ($%s) must be of type %s, got %s.',
                 $function,
                 $argumentPos,
                 $argumentName,
@@ -27,18 +27,13 @@ final class ClassMismatch extends \RuntimeException implements ExceptionInterfac
         );
     }
 
-    public static function forExpectedInstance(object $expected, mixed $actual): self
-    {
-        return self::forExpectedType(get_class($expected), $actual);
-    }
-
-    private static function forExpectedType(string $expectedType, mixed $actual): self
+    public static function forUnexpectedInstance(object $expectedInstance, mixed $actualValue): self
     {
         return new self(
             sprintf(
                 'Expected an instance of %s, got %s',
-                $expectedType,
-                Values::typeOf($actual)
+                get_class($expectedInstance),
+                get_debug_type($actualValue)
             )
         );
     }
