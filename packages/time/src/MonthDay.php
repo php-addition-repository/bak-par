@@ -194,7 +194,7 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
     }
 
     /**
-     * @@inheritDoc
+     * @inheritDoc
      */
     public function compareTo(Comparable $other): int
     {

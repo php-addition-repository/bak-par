@@ -198,7 +198,7 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
     }
 
     /**
-     * @@inheritDoc
+     * @inheritDoc
      */
     public function compareTo(Comparable $other): int
     {
