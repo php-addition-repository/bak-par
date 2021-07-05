@@ -20,7 +20,7 @@
         "psalm/plugin-phpunit": "^0.15.0",
         "roave/security-advisories": "dev-master",
         "symplify/changelog-linker": "^9.0",
-        "symplify/monorepo-builder": "^9.0",
+        "symplify/monorepo-builder": "^9.0 <9.4.6",
         "vimeo/psalm": "^4.4"
     },
     "autoload": {
