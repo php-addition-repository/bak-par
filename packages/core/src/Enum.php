@@ -151,6 +151,9 @@ abstract class Enum implements Hashable, Comparable
     {
         $className = static::class;
 
+        /**
+         * @psalm-suppress UnsafeInstantiation
+         */
         $instance = self::$instances[$className][$definition->name()] ?? new static(
                 $definition->ordinal(),
                 $definition->name()
@@ -280,8 +283,8 @@ abstract class Enum implements Hashable, Comparable
         throw new BadMethodCallException("Cannot unserialize enum {$className}.");
     }
 
-    final private function __construct(private int $ordinal, private string $name)
+    private function __construct(private int $ordinal, private string $name)
     {
-        // Protected to prevent usage of "new EnumImpl"
+        // Private to prevent usage of "new EnumImpl"
     }
 }
