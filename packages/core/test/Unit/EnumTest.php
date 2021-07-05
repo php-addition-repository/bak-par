@@ -106,6 +106,7 @@ class EnumTest extends TestCase
 
     /**
      * @test
+     * @psalm-suppress UnusedFunctionCall
      */
     public function itCannotUsedInSerialization(): void
     {
