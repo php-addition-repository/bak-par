@@ -41,7 +41,7 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
     }
 
     /**
-     * Obtains an instance of DayOfWeek from an implementation of the DateTimeInterface.
+     * Obtains an instance of Year from an implementation of the DateTimeInterface.
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
