@@ -10,8 +10,8 @@ use Par\Core\Enum;
  * @internal
  * @extends Enum<Planet>
  *
- * @method static self Off()
- * @method static self On()
+ * @method static static Off()
+ * @method static static On()
  */
 final class LightSwitch extends Enum
 {

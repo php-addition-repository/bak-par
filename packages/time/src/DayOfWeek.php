@@ -25,13 +25,13 @@ use Par\Time\Util\Range;
  *
  * @extends Enum<DayOfWeek>
  *
- * @method static self Monday() The singleton instance for the day-of-week of Monday.
- * @method static self Tuesday() The singleton instance for the day-of-week of Tuesday.
- * @method static self Wednesday() The singleton instance for the day-of-week of Wednesday.
- * @method static self Thursday() The singleton instance for the day-of-week of Thursday.
- * @method static self Friday() The singleton instance for the day-of-week of Friday.
- * @method static self Saturday() The singleton instance for the day-of-week of Saturday.
- * @method static self Sunday() The singleton instance for the day-of-week of Sunday.
+ * @method static static Monday() The singleton instance for the day-of-week of Monday.
+ * @method static static Tuesday() The singleton instance for the day-of-week of Tuesday.
+ * @method static static Wednesday() The singleton instance for the day-of-week of Wednesday.
+ * @method static static Thursday() The singleton instance for the day-of-week of Thursday.
+ * @method static static Friday() The singleton instance for the day-of-week of Friday.
+ * @method static static Saturday() The singleton instance for the day-of-week of Saturday.
+ * @method static static Sunday() The singleton instance for the day-of-week of Sunday.
  */
 final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
 {

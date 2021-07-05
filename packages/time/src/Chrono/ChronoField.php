@@ -20,11 +20,11 @@ use Par\Time\Temporal\ValueRange;
  *
  * @extends Enum<ChronoUnit>
  *
- * @method static self DayOfWeek()
- * @method static self DayOfMonth()
- * @method static self DayOfYear()
- * @method static self MonthOfYear()
- * @method static self Year()
+ * @method static static DayOfWeek()
+ * @method static static DayOfMonth()
+ * @method static static DayOfYear()
+ * @method static static MonthOfYear()
+ * @method static static Year()
  */
 final class ChronoField extends Enum implements TemporalField
 {

@@ -123,9 +123,9 @@ abstract class Enum implements Hashable, Comparable
             $reflectionClass = new ReflectionClass($className);
             $docComment = $reflectionClass->getDocComment();
             if (is_string($docComment)) {
-                preg_match_all('/@method\s+static\s+self\s+([\w_]+)\(\s*?\)/', $docComment, $matches);
+                preg_match_all('/@method\s+static\s+(self|static)\s+([\w_]+)\(\s*?\)/', $docComment, $matches);
 
-                $methods = array_values($matches[1]);
+                $methods = array_values($matches[2]);
             }
         } catch (ReflectionException) {
         }

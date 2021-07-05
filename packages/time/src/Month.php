@@ -29,18 +29,18 @@ use Par\Time\Util\Range;
  *
  * @extends Enum<Month>
  *
- * @method static self January() The singleton instance for the month of January with 31 days.
- * @method static self February() The singleton instance for the month of February with 28 days, or 29 in a leap year.
- * @method static self March() The singleton instance for the month of March with 31 days.
- * @method static self April() The singleton instance for the month of April with 30 days.
- * @method static self May() The singleton instance for the month of May with 31 days.
- * @method static self June() The singleton instance for the month of June with 30 days.
- * @method static self July() The singleton instance for the month of July with 31 days.
- * @method static self August() The singleton instance for the month of August with 31 days.
- * @method static self September() The singleton instance for the month of September with 30 days.
- * @method static self October() The singleton instance for the month of October with 31 days.
- * @method static self November() The singleton instance for the month of November with 30 days.
- * @method static self December() The singleton instance for the month of December with 31 days.
+ * @method static static January() The singleton instance for the month of January with 31 days.
+ * @method static static February() The singleton instance for the month of February with 28 days, or 29 in a leap year.
+ * @method static static March() The singleton instance for the month of March with 31 days.
+ * @method static static April() The singleton instance for the month of April with 30 days.
+ * @method static static May() The singleton instance for the month of May with 31 days.
+ * @method static static June() The singleton instance for the month of June with 30 days.
+ * @method static static July() The singleton instance for the month of July with 31 days.
+ * @method static static August() The singleton instance for the month of August with 31 days.
+ * @method static static September() The singleton instance for the month of September with 30 days.
+ * @method static static October() The singleton instance for the month of October with 31 days.
+ * @method static static November() The singleton instance for the month of November with 30 days.
+ * @method static static December() The singleton instance for the month of December with 31 days.
  */
 final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
 {

@@ -11,20 +11,20 @@ use Par\Time\Temporal\TemporalUnit;
 /**
  * @extends Enum<ChronoUnit>
  *
- * @method static self Micros()
- * @method static self Millis()
- * @method static self Seconds()
- * @method static self Minutes()
- * @method static self Hours()
- * @method static self HalfDays()
- * @method static self Days()
- * @method static self Weeks()
- * @method static self Months()
- * @method static self Years()
- * @method static self Decades()
- * @method static self Centuries()
- * @method static self Millennia()
- * @method static self Forever()
+ * @method static static Micros()
+ * @method static static Millis()
+ * @method static static Seconds()
+ * @method static static Minutes()
+ * @method static static Hours()
+ * @method static static HalfDays()
+ * @method static static Days()
+ * @method static static Weeks()
+ * @method static static Months()
+ * @method static static Years()
+ * @method static static Decades()
+ * @method static static Centuries()
+ * @method static static Millennia()
+ * @method static static Forever()
  */
 final class ChronoUnit extends Enum implements TemporalUnit
 {
