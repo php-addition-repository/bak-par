@@ -51,9 +51,9 @@ final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
     /**
      * Obtains an instance of day-of-week for today.
      *
-     * @return self
+     * @return static
      */
-    public static function today(): self
+    public static function today(): static
     {
         return self::fromNative(Factory::today());
     }
@@ -63,11 +63,11 @@ final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
-     * @return self
+     * @return static
      */
-    public static function fromNative(DateTimeInterface $dateTime): self
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
-        return self::of(
+        return static::of(
             ChronoField::DayOfWeek()->getFromNative($dateTime)
         );
     }
@@ -77,34 +77,34 @@ final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param int $dayOfWeek The day-of-week to represent, from 1 (Monday) to 7 (Sunday)
      *
-     * @return self
+     * @return static
      * @throws InvalidArgumentException If the day-of-week is invalid
      */
-    public static function of(int $dayOfWeek): self
+    public static function of(int $dayOfWeek): static
     {
         ChronoField::DayOfWeek()->checkValidValue($dayOfWeek);
 
-        return self::valueOf(self::VALUE_MAP[$dayOfWeek]);
+        return static::valueOf(static::VALUE_MAP[$dayOfWeek]);
     }
 
     /**
      * Obtains an instance of day-of-week for tomorrow.
      *
-     * @return self
+     * @return static
      */
-    public static function tomorrow(): self
+    public static function tomorrow(): static
     {
-        return self::fromNative(Factory::tomorrow());
+        return static::fromNative(Factory::tomorrow());
     }
 
     /**
      * Obtains an instance of day-of-week for yesterday.
      *
-     * @return self
+     * @return static
      */
-    public static function yesterday(): self
+    public static function yesterday(): static
     {
-        return self::fromNative(Factory::yesterday());
+        return static::fromNative(Factory::yesterday());
     }
 
     /**
@@ -114,9 +114,9 @@ final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param int $days The days to subtract, positive or negative
      *
-     * @return self The resulting day-of-week
+     * @return static The resulting day-of-week
      */
-    public function minus(int $days): self
+    public function minus(int $days): static
     {
         return $this->plus($days * -1);
     }
@@ -128,9 +128,9 @@ final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param int $days The days to add, positive or negative
      *
-     * @return self The resulting day-of-week
+     * @return static The resulting day-of-week
      */
-    public function plus(int $days): self
+    public function plus(int $days): static
     {
         $currentValue = $this->value();
         $range = ChronoField::DayOfWeek()->range();
@@ -140,7 +140,7 @@ final class DayOfWeek extends Enum implements TemporalAccessor, TemporalAdjuster
             return $this;
         }
 
-        return self::of($newValue);
+        return static::of($newValue);
     }
 
     /**

@@ -31,9 +31,9 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
     /**
      * Obtains the current year from the system clock in the default time-zone.
      *
-     * @return self
+     * @return static
      */
-    public static function now(): self
+    public static function now(): static
     {
         $now = Factory::now();
 
@@ -45,11 +45,11 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
-     * @return self
+     * @return static
      */
-    public static function fromNative(DateTimeInterface $dateTime): self
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
-        return self::of(
+        return static::of(
             ChronoField::Year()->getFromNative($dateTime)
         );
     }
@@ -59,11 +59,11 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      *
      * @param int $year The year to represent
      *
-     * @return self
+     * @return static
      */
-    public static function of(int $year): self
+    public static function of(int $year): static
     {
-        return new self($year);
+        return new static($year);
     }
 
     /**
@@ -71,10 +71,10 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      *
      * @param string $text The text to parse
      *
-     * @return self
+     * @return static
      * @throws InvalidArgumentException If text could not be parsed or value is outside of range
      */
-    public static function parse(string $text): self
+    public static function parse(string $text): static
     {
         Assert::regex($text, '/^[-+]?\d{1,}$/');
 
@@ -205,7 +205,7 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      *
      * @return static
      */
-    public function minusYears(int $years): self
+    public function minusYears(int $years): static
     {
         return $this->minus($years, ChronoUnit::Years());
     }
@@ -213,7 +213,7 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
     /**
      * @inheritDoc
      */
-    public function with(TemporalAdjuster $adjuster): self
+    public function with(TemporalAdjuster $adjuster): static
     {
         if ($adjuster instanceof self) {
             return $adjuster;
@@ -225,7 +225,7 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
     /**
      * @inheritDoc
      */
-    public function withField(TemporalField $field, int $newValue): self
+    public function withField(TemporalField $field, int $newValue): static
     {
         if (!$this->supportsField($field)) {
             throw UnsupportedTemporalType::forField($field);
@@ -255,7 +255,7 @@ final class Year implements Hashable, Comparable, Temporal, TemporalAdjuster
      *
      * @return static
      */
-    public function plusYears(int $years): self
+    public function plusYears(int $years): static
     {
         return $this->plus($years, ChronoUnit::Years());
     }

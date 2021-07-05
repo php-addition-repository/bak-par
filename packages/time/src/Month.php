@@ -65,9 +65,9 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
     /**
      * Obtains an instance of Month for today.
      *
-     * @return self
+     * @return static
      */
-    public static function today(): self
+    public static function today(): static
     {
         return self::fromNative(Factory::today());
     }
@@ -77,9 +77,9 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
-     * @return self
+     * @return static
      */
-    public static function fromNative(DateTimeInterface $dateTime): self
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
         return self::of(
             ChronoField::MonthOfYear()->getFromNative($dateTime)
@@ -91,10 +91,10 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param int $month The month-of-year to represent, from 1 (January) to 12 (December)
      *
-     * @return self
+     * @return static
      * @throws InvalidArgumentException If the month-of-year is invalid
      */
-    public static function of(int $month): self
+    public static function of(int $month): static
     {
         ChronoField::MonthOfYear()->checkValidValue($month);
 
@@ -104,9 +104,9 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
     /**
      * Obtains an instance of Month for tomorrow.
      *
-     * @return self
+     * @return static
      */
-    public static function tomorrow(): self
+    public static function tomorrow(): static
     {
         return self::fromNative(Factory::tomorrow());
     }
@@ -114,9 +114,9 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
     /**
      * Obtains an instance of Month for yesterday.
      *
-     * @return self
+     * @return static
      */
-    public static function yesterday(): self
+    public static function yesterday(): static
     {
         return self::fromNative(Factory::yesterday());
     }
@@ -129,9 +129,9 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param int $months The months to subtract, positive or negative
      *
-     * @return self The resulting month.
+     * @return static The resulting month.
      */
-    public function minus(int $months): self
+    public function minus(int $months): static
     {
         return $this->plus($months * -1);
     }
@@ -143,9 +143,9 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
      *
      * @param int $months The months to add, positive or negative
      *
-     * @return self The resulting month.
+     * @return static The resulting month.
      */
-    public function plus(int $months): self
+    public function plus(int $months): static
     {
         $currentValue = $this->value();
         $range = ChronoField::MonthOfYear()->range();
@@ -155,7 +155,7 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
             return $this;
         }
 
-        return self::of($newValue);
+        return static::of($newValue);
     }
 
     /**
@@ -175,23 +175,23 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
      * month. January, February and March return January. April, May and June return April. July, August and
      * September return July. October, November and December return October.
      *
-     * @return self The resulting Month.
+     * @return static The resulting Month.
      */
-    public function firstMonthOfQuarter(): self
+    public function firstMonthOfQuarter(): static
     {
         if ($this->value() >= 10) {
-            return self::October();
+            return static::October();
         }
 
         if ($this->value() >= 7) {
-            return self::July();
+            return static::July();
         }
 
         if ($this->value() >= 4) {
-            return self::April();
+            return static::April();
         }
 
-        return self::January();
+        return static::January();
     }
 
     /**
@@ -209,7 +209,6 @@ final class Month extends Enum implements TemporalAccessor, TemporalAdjuster
         $firstDay = 1;
 
         foreach (self::values() as $month) {
-            /** @var self $month */
             if ($month->compareTo($this) < 0) {
                 $firstDay += $month->length($leapYear);
             }

@@ -43,11 +43,11 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
      * @param int|Month $month      The month-of-year to represent, from 1 (January) to 12 (December)
      * @param int       $dayOfMonth The day-of-month to represent, from 1 to 31
      *
-     * @return self
+     * @return static
      * @throws InvalidArgumentException If value of any field is out of range, or if the day-of-month is invalid for
      *                                  the month
      */
-    public static function of(int|Month $month, int $dayOfMonth): self
+    public static function of(int|Month $month, int $dayOfMonth): static
     {
         $month = is_int($month) ? $month : $month->value();
 
@@ -57,9 +57,9 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
     /**
      * Obtains the current month-day from the system clock in the default time-zone.
      *
-     * @return self
+     * @return static
      */
-    public static function now(): self
+    public static function now(): static
     {
         $now = Factory::now();
 
@@ -71,11 +71,11 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
      *
      * @param DateTimeInterface $dateTime The datetime to convert
      *
-     * @return self
+     * @return static
      */
-    public static function fromNative(DateTimeInterface $dateTime): self
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
-        return self::of(
+        return static::of(
             ChronoField::MonthOfYear()->getFromNative($dateTime),
             ChronoField::DayOfMonth()->getFromNative($dateTime)
         );
@@ -88,9 +88,9 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
      *
      * @param string $text The text to parse such as "--12-03"
      *
-     * @return self The parsed month-day
+     * @return static The parsed month-day
      */
-    public static function parse(string $text): self
+    public static function parse(string $text): static
     {
         Assert::regex($text, '/^--\d{2}-\d{2}$/');
 
@@ -98,7 +98,7 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
 
         $month = Month::of((int)$matches[1]);
 
-        return self::of($month, (int)$matches[2]);
+        return static::of($month, (int)$matches[2]);
     }
 
     /**
@@ -157,13 +157,13 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
      *
      * @param int|Month $month The month-of-year to set in the returned month-day
      *
-     * @return self A MonthDay based on this month-day with the requested month
+     * @return static A MonthDay based on this month-day with the requested month
      */
-    public function withMonth(int|Month $month): self
+    public function withMonth(int|Month $month): static
     {
         $month = is_int($month) ? $month : $month->value();
 
-        return new self($month, $this->dayOfMonth);
+        return new static($month, $this->dayOfMonth);
     }
 
     /**
@@ -174,11 +174,11 @@ final class MonthDay implements Hashable, Comparable, TemporalAccessor, Temporal
      *
      * @param int $dayOfMonth The day-of-month to set in the return month-day, from 1 to 31
      *
-     * @return self A MonthDay based on this month-day with the requested day
+     * @return static A MonthDay based on this month-day with the requested day
      */
-    public function withDayOfMonth(int $dayOfMonth): self
+    public function withDayOfMonth(int $dayOfMonth): static
     {
-        return new self($this->month, $dayOfMonth);
+        return new static($this->month, $dayOfMonth);
     }
 
     /**

@@ -41,7 +41,7 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function fromNative(DateTimeInterface $dateTime): self
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
         return new self(
             ChronoField::Year()->getFromNative($dateTime),
@@ -55,7 +55,7 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function now(): self
+    public static function now(): static
     {
         return self::fromNative(Factory::now());
     }
@@ -67,9 +67,9 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function today(): self
+    public static function today(): static
     {
-        return self::now();
+        return static::now();
     }
 
     /**
@@ -77,9 +77,9 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function yesterday(): self
+    public static function yesterday(): static
     {
-        return self::fromNative(Factory::yesterday());
+        return static::fromNative(Factory::yesterday());
     }
 
     /**
@@ -87,9 +87,9 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function tomorrow(): self
+    public static function tomorrow(): static
     {
-        return self::fromNative(Factory::tomorrow());
+        return static::fromNative(Factory::tomorrow());
     }
 
     /**
@@ -104,12 +104,12 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function of(int|Year $year, int|Month $month, int $dayOfMonth): self
+    public static function of(int|Year $year, int|Month $month, int $dayOfMonth): static
     {
         $year = is_int($year) ? $year : $year->value();
         $month = is_int($month) ? $month : $month->value();
 
-        return new self($year, $month, $dayOfMonth);
+        return new static($year, $month, $dayOfMonth);
     }
 
     /**
@@ -123,12 +123,12 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function ofYearDay(int $year, int $dayOfYear): self
+    public static function ofYearDay(int $year, int $dayOfYear): static
     {
         ChronoField::DayOfYear()->checkValidValue($dayOfYear);
 
         $daysToAdd = $dayOfYear - 1;
-        $firstDayOfYear = self::of($year, 1, 1);
+        $firstDayOfYear = static::of($year, 1, 1);
         if ($dayOfYear === 0) {
             return $firstDayOfYear;
         }
@@ -145,41 +145,41 @@ final class LocalDate implements Hashable, Comparable, Temporal
      *
      * @return static The local date
      */
-    public static function parse(string $text): self
+    public static function parse(string $text): static
     {
         Assert::regex($text, '/^\d{4}-\d{2}-\d{2}$/');
 
         preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $text, $matches);
 
-        return new self((int)$matches[1], (int)$matches[2], (int)$matches[3]);
+        return new static((int)$matches[1], (int)$matches[2], (int)$matches[3]);
     }
 
-    public function plusYears(int $amount): self
+    public function plusYears(int $amount): static
     {
         return $this->plus($amount, ChronoUnit::Years());
     }
 
-    public function minusYears(int $amount): self
+    public function minusYears(int $amount): static
     {
         return $this->minus($amount, ChronoUnit::Years());
     }
 
-    public function plusMonths(int $amount): self
+    public function plusMonths(int $amount): static
     {
         return $this->plus($amount, ChronoUnit::Months());
     }
 
-    public function minusMonths(int $amount): self
+    public function minusMonths(int $amount): static
     {
         return $this->minus($amount, ChronoUnit::Months());
     }
 
-    public function plusDays(int $amount): self
+    public function plusDays(int $amount): static
     {
         return $this->plus($amount, ChronoUnit::Days());
     }
 
-    public function minusDays(int $amount): self
+    public function minusDays(int $amount): static
     {
         return $this->minus($amount, ChronoUnit::Days());
     }
@@ -309,7 +309,7 @@ final class LocalDate implements Hashable, Comparable, Temporal
     /**
      * @inheritDoc
      */
-    public function with(TemporalAdjuster $adjuster): Temporal
+    public function with(TemporalAdjuster $adjuster): static
     {
         return $adjuster->adjustInto($this);
     }
@@ -317,7 +317,7 @@ final class LocalDate implements Hashable, Comparable, Temporal
     /**
      * @inheritDoc
      */
-    public function withField(TemporalField $field, int $newValue): Temporal
+    public function withField(TemporalField $field, int $newValue): static
     {
         if (!$this->supportsField($field)) {
             throw UnsupportedTemporalType::forField($field);
@@ -332,24 +332,24 @@ final class LocalDate implements Hashable, Comparable, Temporal
         };
     }
 
-    public function withYear(int|Year $year): self
+    public function withYear(int|Year $year): static
     {
-        return self::of($year, $this->month, $this->dayOfMonth);
+        return static::of($year, $this->month, $this->dayOfMonth);
     }
 
-    public function withMonth(int|Month $month): self
+    public function withMonth(int|Month $month): static
     {
-        return self::of($this->year, $month, $this->dayOfMonth);
+        return static::of($this->year, $month, $this->dayOfMonth);
     }
 
-    public function withDayOfYear(int $dayOfYear): self
+    public function withDayOfYear(int $dayOfYear): static
     {
-        return self::ofYearDay($this->year, $dayOfYear);
+        return static::ofYearDay($this->year, $dayOfYear);
     }
 
-    public function withDayOfMonth(int $dayOfMonth): self
+    public function withDayOfMonth(int $dayOfMonth): static
     {
-        return self::of($this->year, $this->month, $dayOfMonth);
+        return static::of($this->year, $this->month, $dayOfMonth);
     }
 
     /**

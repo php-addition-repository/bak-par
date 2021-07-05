@@ -10,9 +10,9 @@ use RuntimeException;
 
 final class UnsupportedTemporalType extends RuntimeException implements ExceptionInterface
 {
-    public static function forField(TemporalField $field): self
+    public static function forField(TemporalField $field): static
     {
-        return new self(
+        return new static(
             sprintf(
                 'Unsupported field: %s',
                 $field->toString()
@@ -20,9 +20,9 @@ final class UnsupportedTemporalType extends RuntimeException implements Exceptio
         );
     }
 
-    public static function forUnit(TemporalUnit $unit): self
+    public static function forUnit(TemporalUnit $unit): static
     {
-        return new self(
+        return new static(
             sprintf(
                 'Unsupported unit: %s',
                 $unit->toString()

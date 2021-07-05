@@ -23,7 +23,7 @@ final class DecoratedTemporal implements Temporal
      * @inheritDoc
      * @psalm-suppress PossiblyNullArgument
      */
-    public static function fromNative(DateTimeInterface $dateTime): Temporal
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
         return new static(self::$decorated);
     }
@@ -45,7 +45,7 @@ final class DecoratedTemporal implements Temporal
      * @psalm-suppress MixedReturnStatement
      * @psalm-suppress MixedInferredReturnType
      */
-    public function minus(int $amountToSubtract, TemporalUnit $unit): Temporal
+    public function minus(int $amountToSubtract, TemporalUnit $unit): static
     {
         return call_user_func_array([static::$decorated, __FUNCTION__], func_get_args());
     }
@@ -56,7 +56,7 @@ final class DecoratedTemporal implements Temporal
      * @psalm-suppress MixedReturnStatement
      * @psalm-suppress MixedInferredReturnType
      */
-    public function minusAmount(TemporalAmount $amount): Temporal
+    public function minusAmount(TemporalAmount $amount): static
     {
         return call_user_func_array([static::$decorated, __FUNCTION__], func_get_args());
     }
@@ -67,7 +67,7 @@ final class DecoratedTemporal implements Temporal
      * @psalm-suppress MixedReturnStatement
      * @psalm-suppress MixedInferredReturnType
      */
-    public function plus(int $amountToAdd, TemporalUnit $unit): Temporal
+    public function plus(int $amountToAdd, TemporalUnit $unit): static
     {
         return call_user_func_array([static::$decorated, __FUNCTION__], func_get_args());
     }
@@ -78,7 +78,7 @@ final class DecoratedTemporal implements Temporal
      * @psalm-suppress MixedReturnStatement
      * @psalm-suppress MixedInferredReturnType
      */
-    public function plusAmount(TemporalAmount $amount): Temporal
+    public function plusAmount(TemporalAmount $amount): static
     {
         return call_user_func_array([static::$decorated, __FUNCTION__], func_get_args());
     }
@@ -100,7 +100,7 @@ final class DecoratedTemporal implements Temporal
      * @psalm-suppress MixedReturnStatement
      * @psalm-suppress MixedInferredReturnType
      */
-    public function with(TemporalAdjuster $adjuster): Temporal
+    public function with(TemporalAdjuster $adjuster): static
     {
         return call_user_func_array([static::$decorated, __FUNCTION__], func_get_args());
     }
@@ -111,7 +111,7 @@ final class DecoratedTemporal implements Temporal
      * @psalm-suppress MixedReturnStatement
      * @psalm-suppress MixedInferredReturnType
      */
-    public function withField(TemporalField $field, int $newValue): Temporal
+    public function withField(TemporalField $field, int $newValue): static
     {
         return call_user_func_array([static::$decorated, __FUNCTION__], func_get_args());
     }

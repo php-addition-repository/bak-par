@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Par\Time\Traits;
 
-use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAdjusters;
 use Par\Time\Temporal\TemporalAmount;
 use Par\Time\Temporal\TemporalUnit;
@@ -16,30 +15,24 @@ trait TemporalMathTrait
 {
     /**
      * @inheritDoc
-     *
-     * @return static
      */
-    public function minus(int $amountToSubtract, TemporalUnit $unit): Temporal
+    public function minus(int $amountToSubtract, TemporalUnit $unit): static
     {
         return $this->plus($amountToSubtract * -1, $unit);
     }
 
     /**
      * @inheritDoc
-     *
-     * @return static
      */
-    public function minusAmount(TemporalAmount $amount): Temporal
+    public function minusAmount(TemporalAmount $amount): static
     {
         return $amount->subtractFrom($this);
     }
 
     /**
      * @inheritDoc
-     *
-     * @return static
      */
-    public function plus(int $amountToAdd, TemporalUnit $unit): Temporal
+    public function plus(int $amountToAdd, TemporalUnit $unit): static
     {
         $adjuster = TemporalAdjusters::plusUnit($amountToAdd, $unit);
 
@@ -48,10 +41,8 @@ trait TemporalMathTrait
 
     /**
      * @inheritDoc
-     *
-     * @return static
      */
-    public function plusAmount(TemporalAmount $amount): Temporal
+    public function plusAmount(TemporalAmount $amount): static
     {
         return $amount->addTo($this);
     }

@@ -40,9 +40,9 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
      * @param int|Year  $year  The year to represent
      * @param int|Month $month The month-of-year to represent
      *
-     * @return self
+     * @return static
      */
-    public static function of(int|Year $year, int|Month $month): self
+    public static function of(int|Year $year, int|Month $month): static
     {
         $year = is_int($year) ? $year : $year->value();
         $month = is_int($month) ? $month : $month->value();
@@ -57,9 +57,9 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
      *
      * @return static
      */
-    public static function fromNative(DateTimeInterface $dateTime): self
+    public static function fromNative(DateTimeInterface $dateTime): static
     {
-        return self::of(
+        return static::of(
             ChronoField::Year()->getFromNative($dateTime),
             ChronoField::MonthOfYear()->getFromNative($dateTime)
         );
@@ -68,13 +68,13 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
     /**
      * Obtains the current year-month from the system clock in the default time-zone.
      *
-     * @return self
+     * @return static
      */
-    public static function now(): self
+    public static function now(): static
     {
         $now = Factory::now();
 
-        return self::fromNative($now);
+        return static::fromNative($now);
     }
 
     /**
@@ -84,15 +84,15 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
      *
      * @param string $text The text to parse such as "2007-03"
      *
-     * @return self The parsed year-month
+     * @return static The parsed year-month
      */
-    public static function parse(string $text): self
+    public static function parse(string $text): static
     {
         Assert::regex($text, '/^-?\d{1,9}-\d{2}$/');
 
         preg_match('/^(-?\d{1,9})-(\d{2})$/', $text, $matches);
 
-        return new self((int)$matches[1], (int)$matches[2]);
+        return new static((int)$matches[1], (int)$matches[2]);
     }
 
     /**
@@ -178,9 +178,9 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
      *
      * @param int|Month $month The month-of-year to set in the returned year-month, from 1 (January) to 12 (December)
      *
-     * @return self A YearMonth based on this year-month with the requested month
+     * @return static A YearMonth based on this year-month with the requested month
      */
-    public function withMonth(int|Month $month): self
+    public function withMonth(int|Month $month): static
     {
         return self::of($this->year, $month);
     }
@@ -190,9 +190,9 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
      *
      * @param int|Year $year The year to set in the returned year-month
      *
-     * @return self A YearMonth based on this year-month with the requested year
+     * @return static A YearMonth based on this year-month with the requested year
      */
-    public function withYear(int|Year $year): self
+    public function withYear(int|Year $year): static
     {
         return self::of($year, $this->month);
     }
@@ -270,7 +270,7 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
     /**
      * @inheritDoc
      */
-    public function with(TemporalAdjuster $adjuster): self
+    public function with(TemporalAdjuster $adjuster): static
     {
         return $adjuster->adjustInto($this);
     }
@@ -278,34 +278,34 @@ final class YearMonth implements Hashable, Comparable, Temporal, TemporalAdjuste
     /**
      * @inheritDoc
      */
-    public function withField(TemporalField $field, int $newValue): Temporal
+    public function withField(TemporalField $field, int $newValue): static
     {
         if (!$this->supportsField($field)) {
             throw UnsupportedTemporalType::forField($field);
         }
 
         return match ($field) {
-            ChronoField::Year() => self::of($newValue, $this->month),
-            ChronoField::MonthOfYear() => self::of($this->year, $newValue)
+            ChronoField::Year() => static::of($newValue, $this->month),
+            ChronoField::MonthOfYear() => static::of($this->year, $newValue)
         };
     }
 
-    public function plusYears(int $amountToAdd): self
+    public function plusYears(int $amountToAdd): static
     {
         return $this->plus($amountToAdd, ChronoUnit::Years());
     }
 
-    public function minusYears(int $amountToSubtract): self
+    public function minusYears(int $amountToSubtract): static
     {
         return $this->minus($amountToSubtract, ChronoUnit::Years());
     }
 
-    public function plusMonths(int $amountToAdd): self
+    public function plusMonths(int $amountToAdd): static
     {
         return $this->plus($amountToAdd, ChronoUnit::Months());
     }
 
-    public function minusMonths(int $amountToSubtract): self
+    public function minusMonths(int $amountToSubtract): static
     {
         return $this->minus($amountToSubtract, ChronoUnit::Months());
     }

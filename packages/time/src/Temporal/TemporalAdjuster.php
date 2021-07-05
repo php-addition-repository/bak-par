@@ -8,7 +8,6 @@ namespace Par\Time\Temporal;
  * Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment,
  * permitting different approaches, as per the strategy design pattern. Examples might be an adjuster that sets the
  * date avoiding weekends, or one that sets the date to the last day of the month.
- *
  */
 interface TemporalAdjuster
 {

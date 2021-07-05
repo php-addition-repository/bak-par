@@ -37,10 +37,10 @@ final class ValueRange implements Hashable
      * @param int $min The minimum value
      * @param int $max The maximum value
      *
-     * @return ValueRange
+     * @return static
      * @throws InvalidArgumentException If the minimum is greater than the maximum.
      */
-    public static function ofFixed(int $min, int $max): self
+    public static function ofFixed(int $min, int $max): static
     {
         return new self($min, $min, $max, $max);
     }
@@ -55,13 +55,13 @@ final class ValueRange implements Hashable
      * @param int $smallestMax The smallest maximum value
      * @param int $largestMax  The largest maximum value
      *
-     * @return ValueRange
+     * @return static
      * @throws InvalidArgumentException If the smallest minimum is greater than the smallest maximum, or the smallest
      * maximum is greater than the largest maximum or the largest minimum is greater than the largest maximum.
      */
-    public static function ofVariable(int $smallestMin, int $largestMin, int $smallestMax, int $largestMax): self
+    public static function ofVariable(int $smallestMin, int $largestMin, int $smallestMax, int $largestMax): static
     {
-        return new self($smallestMin, $largestMin, $smallestMax, $largestMax);
+        return new static($smallestMin, $largestMin, $smallestMax, $largestMax);
     }
 
     /**
@@ -74,13 +74,13 @@ final class ValueRange implements Hashable
      * @param int $smallestMax The smallest maximum value
      * @param int $largestMax  The largest maximum value
      *
-     * @return ValueRange
+     * @return static
      * @throws InvalidArgumentException If minimum is greater than the smallest maximum, or the smallest
      * maximum is greater than the largest maximum or the minimum is greater than the largest maximum.
      */
-    public static function ofVariableMax(int $min, int $smallestMax, int $largestMax): self
+    public static function ofVariableMax(int $min, int $smallestMax, int $largestMax): static
     {
-        return new self($min, $min, $smallestMax, $largestMax);
+        return new static($min, $min, $smallestMax, $largestMax);
     }
 
     /**

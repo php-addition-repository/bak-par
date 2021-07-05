@@ -28,7 +28,7 @@ interface Temporal extends TemporalAccessor
      *
      * @return static
      */
-    public static function fromNative(DateTimeInterface $dateTime): self;
+    public static function fromNative(DateTimeInterface $dateTime): static;
 
     /**
      * Transforms this temporal to an immutable native representation.
@@ -48,7 +48,7 @@ interface Temporal extends TemporalAccessor
      *
      * @return static An object of the same type with the specified period subtracted
      */
-    public function minus(int $amountToSubtract, TemporalUnit $unit): self;
+    public function minus(int $amountToSubtract, TemporalUnit $unit): static;
 
     /**
      * Returns an object of the same type as this object with an amount subtracted.
@@ -60,7 +60,7 @@ interface Temporal extends TemporalAccessor
      *
      * @return static An object of the same type with the specified amount subtracted
      */
-    public function minusAmount(TemporalAmount $amount): self;
+    public function minusAmount(TemporalAmount $amount): static;
 
     /**
      * Returns an object of the same type as this object with the specified period added.
@@ -73,7 +73,7 @@ interface Temporal extends TemporalAccessor
      *
      * @return static An object of the same type with the specified amount of unit added
      */
-    public function plus(int $amountToAdd, TemporalUnit $unit): self;
+    public function plus(int $amountToAdd, TemporalUnit $unit): static;
 
     /**
      * Returns an object of the same type as this object with an amount added.
@@ -85,7 +85,7 @@ interface Temporal extends TemporalAccessor
      *
      * @return static An object of the same type with the specified amount added
      */
-    public function plusAmount(TemporalAmount $amount): self;
+    public function plusAmount(TemporalAmount $amount): static;
 
     /**
      * Checks if the specified unit is supported.
@@ -103,7 +103,7 @@ interface Temporal extends TemporalAccessor
      *
      * @return static An object of the same type with the specified adjustment made
      */
-    public function with(TemporalAdjuster $adjuster): self;
+    public function with(TemporalAdjuster $adjuster): static;
 
     /**
      * Returns an object of the same type as this object with the specified field altered.
@@ -117,5 +117,5 @@ interface Temporal extends TemporalAccessor
      *
      * @return static An object of the same type with the specified field set
      */
-    public function withField(TemporalField $field, int $newValue): self;
+    public function withField(TemporalField $field, int $newValue): static;
 }
