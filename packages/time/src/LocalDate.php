@@ -16,8 +16,8 @@ use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAdjuster;
 use Par\Time\Temporal\TemporalAdjusters;
 use Par\Time\Temporal\TemporalField;
+use Par\Time\Temporal\TemporalMathTrait;
 use Par\Time\Temporal\TemporalUnit;
-use Par\Time\Traits\TemporalMathTrait;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as 2007-12-03.

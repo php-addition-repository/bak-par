@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Par\Time\Traits;
-
-use Par\Time\Temporal\TemporalAdjusters;
-use Par\Time\Temporal\TemporalAmount;
-use Par\Time\Temporal\TemporalUnit;
+namespace Par\Time\Temporal;
 
 /**
  * @psalm-require-implements Temporal

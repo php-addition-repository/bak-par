@@ -15,8 +15,8 @@ use Par\Time\Exception\UnsupportedTemporalType;
 use Par\Time\Temporal\Temporal;
 use Par\Time\Temporal\TemporalAdjuster;
 use Par\Time\Temporal\TemporalField;
+use Par\Time\Temporal\TemporalMathTrait;
 use Par\Time\Temporal\TemporalUnit;
-use Par\Time\Traits\TemporalMathTrait;
 
 /**
  * A year-month in the ISO-8601 calendar system, such as 2007-12.
