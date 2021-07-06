@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Par\Core;
 
 use BadMethodCallException;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
 use ReflectionClass;
 use ReflectionException;
-use Stringable;
 
 /**
  * This is the common base class of all enumerations.
  *
  * @example                                   "packages/core/test/Fixtures/Planet.php" Implementation example
- * @psalm-immutable
  *
  * @template-covariant                        T of Enum
  */
-abstract class Enum implements Hashable, Stringable
+abstract class Enum implements Hashable, Comparable
 {
     /**
      * @var array<string, array<string, EnumDefinition>>
@@ -32,7 +31,7 @@ abstract class Enum implements Hashable, Stringable
     private static array $allInstancesLoaded = [];
 
     /**
-     * @psalm-var array<string, array<string, Enum>>
+     * @var array<string, array<string, Enum>>
      */
     private static array $instances = [];
 
@@ -55,7 +54,6 @@ abstract class Enum implements Hashable, Stringable
      * @param string $name The name of the element to return
      *
      * @return static
-     * @psalm-pure
      */
     final public static function valueOf(string $name): static
     {
@@ -73,9 +71,6 @@ abstract class Enum implements Hashable, Stringable
      * Returns a list containing the elements of this enum type, in the order they are declared.
      *
      * @return static[]
-     * @psalm-mutation-free
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress ImpureMethodCall
      */
     final public static function values(): iterable
     {
@@ -99,7 +94,6 @@ abstract class Enum implements Hashable, Stringable
      * @param string $name
      *
      * @return EnumDefinition|null
-     * @psalm-pure
      */
     private static function findDefinition(string $name): ?EnumDefinition
     {
@@ -114,9 +108,6 @@ abstract class Enum implements Hashable, Stringable
 
     /**
      * @return array<string, EnumDefinition>
-     * @psalm-pure
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress ImpureMethodCall
      */
     private static function resolveDefinition(): array
     {
@@ -132,9 +123,9 @@ abstract class Enum implements Hashable, Stringable
             $reflectionClass = new ReflectionClass($className);
             $docComment = $reflectionClass->getDocComment();
             if (is_string($docComment)) {
-                preg_match_all('/@method\s+static\s+self\s+([\w_]+)\(\s*?\)/', $docComment, $matches);
+                preg_match_all('/@method\s+static\s+(self|static)\s+([\w_]+)\(\s*?\)/', $docComment, $matches);
 
-                $methods = array_values($matches[1]);
+                $methods = array_values($matches[2]);
             }
         } catch (ReflectionException) {
         }
@@ -155,13 +146,14 @@ abstract class Enum implements Hashable, Stringable
      * @param EnumDefinition $definition
      *
      * @return static
-     * @psalm-pure
-     * @psalm-suppress ImpureStaticProperty
      */
     private static function createFromDefinition(EnumDefinition $definition): static
     {
         $className = static::class;
 
+        /**
+         * @psalm-suppress UnsafeInstantiation
+         */
         $instance = self::$instances[$className][$definition->name()] ?? new static(
                 $definition->ordinal(),
                 $definition->name()
@@ -176,8 +168,6 @@ abstract class Enum implements Hashable, Stringable
      * @param static $instance
      *
      * @return static
-     * @psalm-pure
-     * @psalm-suppress ImpureStaticProperty
      */
     private static function rememberInstance(string $name, Enum $instance): static
     {
@@ -190,8 +180,8 @@ abstract class Enum implements Hashable, Stringable
         ) {
             uasort(
                 self::$instances[$className],
-                static function (self $a, self $b) {
-                    return $a->ordinal() <=> $b->ordinal();
+                static function (Enum $a, Enum $b): int {
+                    return $a->compareTo($b);
                 }
             );
 
@@ -199,6 +189,18 @@ abstract class Enum implements Hashable, Stringable
         }
 
         return $instance;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function compareTo(Comparable $other): int
+    {
+        if ($other instanceof static) {
+            return $this->ordinal <=> $other->ordinal;
+        }
+
+        throw ClassMismatch::forUnexpectedInstance($this, $other);
     }
 
     /**
@@ -221,6 +223,9 @@ abstract class Enum implements Hashable, Stringable
     /**
      * Returns the name of this enum constant, as contained in the declaration.
      *
+     * This method may be overridden, though it typically isn't necessary or desirable. An enum type should override
+     * this method when a more "programmer-friendly" string form exists.
+     *
      * @return string The name of this enum constant
      */
     public function toString(): string
@@ -229,18 +234,8 @@ abstract class Enum implements Hashable, Stringable
     }
 
     /**
-     * Returns the name of this enum constant, as contained in the declaration.
-     *
-     * @return string The name of this enum constant
-     */
-    final public function __toString(): string
-    {
-        return sprintf("%s::%s", static::class, $this->name);
-    }
-
-    /**
      * @inheritDoc
-     * @psalm-assert-if-true T $other
+     * @psalm-assert-if-true =T $other
      */
     final public function equals(mixed $other): bool
     {
@@ -288,8 +283,8 @@ abstract class Enum implements Hashable, Stringable
         throw new BadMethodCallException("Cannot unserialize enum {$className}.");
     }
 
-    final private function __construct(private int $ordinal, private string $name)
+    private function __construct(private int $ordinal, private string $name)
     {
-        // Protected to prevent usage of "new EnumImpl"
+        // Private to prevent usage of "new EnumImpl"
     }
 }

@@ -6,16 +6,19 @@ namespace Par\CoreTest\Unit;
 
 use BadMethodCallException;
 use Par\Core\Enum;
+use Par\Core\Exception\ClassMismatch;
 use Par\Core\Exception\InvalidEnumDefinition;
 use Par\Core\Exception\InvalidEnumElement;
+use Par\Core\PHPUnit\EnumTestCaseTrait;
 use Par\Core\PHPUnit\HashableAssertions;
+use Par\CoreTest\Fixtures\LightSwitch;
 use Par\CoreTest\Fixtures\Planet;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 class EnumTest extends TestCase
 {
     use HashableAssertions;
+    use EnumTestCaseTrait;
 
     /**
      * @test
@@ -26,16 +29,6 @@ class EnumTest extends TestCase
 
         self::assertInstanceOf(Planet::class, $element);
         self::assertSame('Earth', $element->name());
-    }
-
-    /**
-     * @test
-     */
-    public function itCanBeCastToString(): void
-    {
-        $element = Planet::Earth();
-
-        self::assertSame(Planet::class . '::Earth', (string)$element);
     }
 
     /**
@@ -113,6 +106,7 @@ class EnumTest extends TestCase
 
     /**
      * @test
+     * @psalm-suppress UnusedFunctionCall
      */
     public function itCannotUsedInSerialization(): void
     {
@@ -153,30 +147,51 @@ class EnumTest extends TestCase
         Planet::valueOf('sun');
     }
 
-    protected function setUp(): void
+    /**
+     * @test
+     */
+    public function itCanBeSorted(): void
     {
-        parent::setUp();
+        $list = [
+            Planet::Uranus(),
+            Planet::Jupiter(),
+            Planet::Earth(),
+        ];
 
-        // Reset all static properties
-        $reflectionClass = new ReflectionClass(Enum::class);
+        uasort(
+            $list,
+            static function (Planet $a, Planet $b): int {
+                return $a->compareTo($b);
+            }
+        );
 
-        $definitionCache = $reflectionClass->getProperty('definitionCache');
-        $definitionCache->setAccessible(true);
-        $definitionCache->setValue($definitionCache->getDefaultValue());
-
-        $instances = $reflectionClass->getProperty('instances');
-        $instances->setAccessible(true);
-        $instances->setValue($instances->getDefaultValue());
-
-        $allInstancesLoaded = $reflectionClass->getProperty('allInstancesLoaded');
-        $allInstancesLoaded->setAccessible(true);
-        $allInstancesLoaded->setValue($allInstancesLoaded->getDefaultValue());
+        self::assertSame(
+            [
+                Planet::Earth(),
+                Planet::Jupiter(),
+                Planet::Uranus(),
+            ],
+            array_values($list)
+        );
     }
+
+    /**
+     * @test
+     */
+    public function itThrowsErrorWhenComparingWithDifferentEnum(): void
+    {
+        $this->expectException(ClassMismatch::class);
+
+        $otherValue = LightSwitch::Off();
+
+        Planet::Earth()->compareTo($otherValue);
+    }
+
 }
 
 /**
  * @internal
- * @psalm-immutable
+ * @extends Enum<NoMethodTagsEnum>
  */
 final class NoMethodTagsEnum extends Enum
 {

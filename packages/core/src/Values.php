@@ -22,7 +22,6 @@ final class Values
      * @param mixed $b The referenced value with which to compare
      *
      * @return bool True if the arguments are equal to each other
-     * @psalm-mutation-free
      */
     public static function equals(mixed $a, mixed $b): bool
     {
@@ -42,13 +41,13 @@ final class Values
      * "textually represents" this value. The result should be a concise but informative representation that
      * is easy for a person to read.
      *
-     * It will transform a value implementing `\Par\Core\Hashable` to string. Other values become:
+     * It will transform a value implementing `\Stringable` to string. Other values become:
      * - `'null'` for a __NULL__ value.
      * - `'value'` for a native __integer__.
      * - `'value'` for a native __float__ or __double__.
      * - `'true'` or `'false'` for a native __boolean__.
      * - `'value'` for a native __string__.
-     * - `'[el1, el2, elN]'` for a native __array__ list or `'{key1=el1, key2=el2, keyN=elN}'` for native a __array__
+     * - `'[el1, el2, elN]'` for a native __array__ list or `'{key1=el1, key2=el2, keyN=elN}'` for a native __array__
      *   map. Where __elN__ and __keyN__ are textual representations of its value, except when its value is an array
      *   then `'[...]'` is used.
      * - `'className@hash'` for an __object__. `get_class($value)` is used for all objects except for anonymous
@@ -62,7 +61,6 @@ final class Values
      * @param mixed $value The value for which to determine the textual representation
      *
      * @return string
-     * @psalm-mutation-free
      */
     public static function toString(mixed $value): string
     {
@@ -99,7 +97,6 @@ final class Values
      * @param mixed $value The value to produce a hash for
      *
      * @return bool|float|int|string|null
-     * @psalm-mutation-free
      */
     public static function hash(mixed $value): bool|float|int|string|null
     {
@@ -120,15 +117,11 @@ final class Values
      * @param array<mixed> $value The array to transform
      *
      * @return string The resulting string
-     * @psalm-mutation-free
      */
     private static function arrayToString(array $value): string
     {
         if (array_values($value) === $value) {
             $tpl = '[%s]';
-            /**
-             * @psalm-suppress ImpureFunctionCall
-             */
             $elements = array_map(
                 static function ($value): string {
                     if (is_array($value)) {
@@ -141,9 +134,6 @@ final class Values
             );
         } else {
             $tpl = '{%s}';
-            /**
-             * @psalm-suppress ImpureFunctionCall
-             */
             $elements = array_map(
                 static function ($key, $value): string {
                     if (is_array($value)) {

@@ -1,0 +1,40 @@
+{
+    "name": "par/time",
+    "description": "PHP Addition Repository - Time related classes",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alex Brouwer",
+            "email": "brouwer.alexander@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "license": "MIT",
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-intl": "*",
+        "par/core": "^0.5",
+        "webmozart/assert": "^1.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Par\\Time\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Par\\TimeTest\\": "test/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5.x-dev"
+        }
+    }
+}

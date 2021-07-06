@@ -8,17 +8,16 @@ use Par\Core\Enum;
 
 /**
  * @internal
- * @psalm-immutable
  * @extends Enum<Planet>
  *
- * @method static self Mercury()
- * @method static self Venus()
- * @method static self Earth()
- * @method static self Mars()
- * @method static self Jupiter()
- * @method static self Saturn()
- * @method static self Uranus()
- * @method static self Neptune()
+ * @method static static Mercury()
+ * @method static static Venus()
+ * @method static static Earth()
+ * @method static static Mars()
+ * @method static static Jupiter()
+ * @method static static Saturn()
+ * @method static static Uranus()
+ * @method static static Neptune()
  */
 final class Planet extends Enum
 {

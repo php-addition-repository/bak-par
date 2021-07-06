@@ -5,11 +5,11 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/core/src" isTestSource="false" packagePrefix="Par\Core\" />
       <sourceFolder url="file://$MODULE_DIR$/packages/core/test" isTestSource="true" packagePrefix="Par\CoreTest\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="true" packagePrefix="App\" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/time/src" isTestSource="false" packagePrefix="Par\Time\" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/time/test" isTestSource="true" packagePrefix="Par\TimeTest\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/symplify-kernel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/composer-json-manipulator" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/console-color-diff" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/changelog-linker" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/easy-testing" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/package-builder" />
@@ -53,7 +53,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/event-dispatcher" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-ds/php-ds" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/jean85/pretty-package-versions" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-file-iterator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
@@ -67,7 +66,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/console" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/filesystem" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-timer" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-normalizer" />
@@ -99,6 +97,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/vimeo/psalm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psalm/plugin-phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php81" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
