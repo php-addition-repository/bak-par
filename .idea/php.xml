@@ -5,7 +5,6 @@
       <path value="$PROJECT_DIR$/vendor/symplify/symplify-kernel" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/symplify/composer-json-manipulator" />
-      <path value="$PROJECT_DIR$/vendor/symplify/console-color-diff" />
       <path value="$PROJECT_DIR$/vendor/symplify/changelog-linker" />
       <path value="$PROJECT_DIR$/vendor/symplify/easy-testing" />
       <path value="$PROJECT_DIR$/vendor/symplify/package-builder" />
@@ -93,7 +92,6 @@
       <path value="$PROJECT_DIR$/vendor/psalm/plugin-phpunit" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
-      <path value="$PROJECT_DIR$/vendor/symplify/console-color-diff" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
