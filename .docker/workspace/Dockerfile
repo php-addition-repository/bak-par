@@ -91,4 +91,4 @@ WORKDIR ${WORKDIR}
 RUN mkdir /home/${APP_USER}/.composer
 
 # Make sure PATH contains project bin and project composer bin
-ENV PATH="${WORKDIR}/bin:${WORKDIR}/vendor/bin:${PATH}"
+ENV PATH="${WORKDIR}/bin:${WORKDIR}/tools:${WORKDIR}/vendor/bin:${PATH}"
