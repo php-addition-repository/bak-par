@@ -66,18 +66,6 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
 COPY --from=composer:2.4 /usr/bin/composer /usr/bin/composer
 
 #--------------------------------------------------------------------------
-# Phive
-#--------------------------------------------------------------------------
-
-ARG PHIVE_VERSION=0.15.2
-RUN wget -O phive.phar https://github.com/phar-io/phive/releases/download/${PHIVE_VERSION}/phive-${PHIVE_VERSION}.phar \
-    && wget -O phive.phar.asc https://github.com/phar-io/phive/releases/download/${PHIVE_VERSION}/phive-${PHIVE_VERSION}.phar.asc \
-    && gpg --yes --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79 \
-    && gpg --yes --verify phive.phar.asc phive.phar \
-    && chmod +x phive.phar \
-    && mv phive.phar /usr/bin/phive
-
-#--------------------------------------------------------------------------
 # Project
 #--------------------------------------------------------------------------
 
@@ -91,4 +79,4 @@ WORKDIR ${WORKDIR}
 RUN mkdir /home/${APP_USER}/.composer
 
 # Make sure PATH contains project bin and project composer bin
-ENV PATH="${WORKDIR}/bin:${WORKDIR}/tools:${WORKDIR}/vendor/bin:${PATH}"
+ENV PATH="${WORKDIR}/bin:${WORKDIR}/vendor/bin:${PATH}"
