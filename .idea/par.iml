@@ -5,7 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/core/src" isTestSource="false" packagePrefix="Par\Core\" />
       <sourceFolder url="file://$MODULE_DIR$/packages/core/test" isTestSource="true" packagePrefix="Par\CoreTest\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="true" packagePrefix="App\" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/symplify-kernel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/composer-json-manipulator" />
@@ -99,6 +98,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/vimeo/psalm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psalm/plugin-phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php81" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

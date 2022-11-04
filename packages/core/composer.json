@@ -13,11 +13,11 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.0"
+            "php": "8.1"
         }
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-intl": "*",
         "php-ds/php-ds": "^1.2"
     },
