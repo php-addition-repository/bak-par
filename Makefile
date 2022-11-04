@@ -7,6 +7,7 @@ USER_ID=$(shell id -u)
 .PHONY: setup
 setup: docker-init
 	$(DOCKER_COMPOSE) run workspace composer install
+	$(DOCKER_COMPOSE) run workspace phive install
 
 build: docker-init
 	$(DOCKER_COMPOSE) build

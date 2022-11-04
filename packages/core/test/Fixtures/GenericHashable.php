@@ -18,12 +18,11 @@ final class GenericHashable implements Hashable
 
     /**
      * @inheritDoc
-     * @psalm-assert-if-true GenericHashable $other
      */
-    public function equals(mixed $other): bool
+    public function equals(mixed $obj): bool
     {
-        if ($other instanceof self) {
-            return $this->value === $other->value;
+        if ($obj instanceof self) {
+            return $this->value === $obj->value;
         }
 
         return false;

@@ -30,12 +30,11 @@ interface Hashable extends \Ds\Hashable
      *
      * @example              "packages/core/test/Fixtures/GenericHashable.php" 16 Implementation example
      *
-     * @param mixed $other The referenced value with which to compare
+     * @param mixed $obj The referenced value with which to compare
      *
      * @return bool True if this object is the same as the other argument
      * @psalm-mutation-free
-     * @noinspection         PhpParameterNameChangedDuringInheritanceInspection
-     * @psalm-assert-if-true static $other
+     * @psalm-assert-if-true static $obj
      */
-    public function equals(mixed $other): bool;
+    public function equals(mixed $obj): bool;
 }
