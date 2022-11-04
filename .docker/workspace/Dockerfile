@@ -2,7 +2,7 @@
 # Workspace image
 ###########################################################################
 ARG TARGET_PHP_VERSION=8.1
-FROM php:${TARGET_PHP_VERSION}-cli-alpine as workspace
+FROM php:${TARGET_PHP_VERSION}-cli-buster as workspace
 
 ARG SERVICE_DIR="./.docker/workspace"
 ARG SHARED_DIR="./.docker/shared"
@@ -13,13 +13,14 @@ COPY ${SHARED_DIR} ${BUILD_DIR}
 # Setup
 #--------------------------------------------------------------------------
 
-RUN apk update && apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     bash \
-    curl \
     git \
+    gpg \
     wget \
     unzip \
-    && rm -rf /tmp/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 #--------------------------------------------------------------------------
 # Set Timezone
@@ -40,8 +41,8 @@ ARG APP_USER_ID=1000
 ARG APP_GROUP_ID=1000
 ARG WORKDIR="/app"
 
-RUN addgroup -g ${APP_GROUP_ID} -S ${APP_GROUP} \
-	&& adduser -u ${APP_USER_ID} -S ${APP_USER} -G ${APP_GROUP} \
+RUN addgroup --gid ${APP_GROUP_ID} ${APP_USER} \
+  	&& adduser --uid ${APP_USER_ID} -gid ${APP_GROUP_ID} --disabled-password --gecos "" ${APP_USER} \
     && ${BUILD_DIR}/scripts/create-user-dir.sh ${APP_USER_ID} ${APP_GROUP_ID} "${WORKDIR}"
 
 #--------------------------------------------------------------------------
@@ -63,6 +64,18 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
 #--------------------------------------------------------------------------
 
 COPY --from=composer:2.4 /usr/bin/composer /usr/bin/composer
+
+#--------------------------------------------------------------------------
+# Phive
+#--------------------------------------------------------------------------
+
+ARG PHIVE_VERSION=0.15.2
+RUN wget -O phive.phar https://github.com/phar-io/phive/releases/download/${PHIVE_VERSION}/phive-${PHIVE_VERSION}.phar \
+    && wget -O phive.phar.asc https://github.com/phar-io/phive/releases/download/${PHIVE_VERSION}/phive-${PHIVE_VERSION}.phar.asc \
+    && gpg --yes --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79 \
+    && gpg --yes --verify phive.phar.asc phive.phar \
+    && chmod +x phive.phar \
+    && mv phive.phar /usr/bin/phive
 
 #--------------------------------------------------------------------------
 # Project
