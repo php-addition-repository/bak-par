@@ -1,13 +1,14 @@
-name: Split Monorepo
+name: 'Packages Split'
 
 on:
   push:
     branches:
       - main
-  
-    # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
     tags:
       - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
   provide_packages_json:
@@ -21,7 +22,6 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
-          extensions: intl, ds
           coverage: none
           tools: composer
 
@@ -52,16 +52,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - # Uses an action in the root directory
-        name: Monorepo Split of ${{ matrix.package }}
-        uses: symplify/github-action-monorepo-split@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_GIT_TOKEN }}
+      # no tag
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        name: Split into ${{ matrix.package }}
+        uses: "symplify/monorepo-split-github-action@2.1"
         with:
-          package-directory: 'packages/${{ matrix.package }}'
-          split-repository-organization: 'php-addition-repository'
-          split-repository-name: '${{ matrix.package }}'
-          branch: 'main'
+          package_directory: 'packages/${{ matrix.package }}'
+          repository_organization: 'php-addition-repository'
+          repository_name: '${{ matrix.package }}'
           user-name: 'Alex Brouwer'
           user-email: 'brouwer.alexander@gmail.com'
-      
+
+      # with tag
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        name: Split into ${{ matrix.package }}
+        uses: "symplify/monorepo-split-github-action@2.1"
+        with:
+          tag: ${GITHUB_REF#refs/tags/}
+          package_directory: 'packages/${{ matrix.package }}'
+          repository_organization: 'php-addition-repository'
+          repository_name: '${{ matrix.package }}'
+          user-name: 'Alex Brouwer'
+          user-email: 'brouwer.alexander@gmail.com'
