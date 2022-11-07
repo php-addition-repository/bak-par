@@ -9,6 +9,10 @@
         </testsuite>
     </testsuites>
 
+    <extensions>
+        <extension class="\Par\Core\PHPUnit\ObjectEqualityExtension"/>
+    </extensions>
+
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">packages/*/src/</directory>

@@ -12,20 +12,8 @@ use Par\Core\Hashable;
  */
 final class GenericHashable implements Hashable
 {
-    public function __construct(private int|string|bool|null|float $value)
+    public function __construct(private readonly int|string|bool|null|float $value)
     {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function equals(mixed $obj): bool
-    {
-        if ($obj instanceof self) {
-            return $this->value === $obj->value;
-        }
-
-        return false;
     }
 
     /**
