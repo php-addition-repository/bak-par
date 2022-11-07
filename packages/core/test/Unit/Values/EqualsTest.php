@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Values;
 
-use Par\Core\Hashable;
+use Par\Core\ObjectEquality;
 use Par\Core\Values;
 use PHPUnit\Framework\TestCase;
 
@@ -14,11 +14,11 @@ class EqualsTest extends TestCase
     /**
      * @test
      */
-    public function itCanDetermineEqualityBetweenHashableAndOther(): void
+    public function itCanDetermineEqualityBetweenObjectEqualityInstanceAndOther(): void
     {
         $b = 'string';
 
-        $a = $this->createMock(Hashable::class);
+        $a = $this->createMock(ObjectEquality::class);
         $a->expects(self::once())
           ->method('equals')
           ->with($b)
@@ -30,11 +30,11 @@ class EqualsTest extends TestCase
     /**
      * @test
      */
-    public function itCanDetermineEqualityBetweenOtherAndHashable(): void
+    public function itCanDetermineEqualityBetweenOtherAndObjectEqualityInstance(): void
     {
         $b = 'string';
 
-        $a = $this->createMock(Hashable::class);
+        $a = $this->createMock(ObjectEquality::class);
         $a->expects(self::once())
           ->method('equals')
           ->with($b)
@@ -46,7 +46,7 @@ class EqualsTest extends TestCase
     /**
      * @test
      */
-    public function itCanDetermineEqualityBetweenNonHashables(): void
+    public function itCanDetermineEqualityBetweenValuesNotImplementingObjectEquality(): void
     {
         self::assertTrue(Values::equals('foo', 'foo'));
 

@@ -15,7 +15,8 @@ final class Values
     /**
      * Determines if values should be considered equal.
      *
-     * If `$a` implements `Par\Core\Hashable`, `$a->equals($b)` is used, or if `$b` implements `Par\Core\Hashable`
+     * If `$a` implements `Par\Core\ObjectEquality`, `$a->equals($b)` is used, or if `$b` implements
+     * `Par\Core\ObjectEquality`
      * `$b->equals($a)` is used, otherwise uses a strict comparison (`$a === $b`).
      *
      * @param mixed $a A value
@@ -26,11 +27,11 @@ final class Values
      */
     public static function equals(mixed $a, mixed $b): bool
     {
-        if ($a instanceof Hashable) {
+        if ($a instanceof ObjectEquality) {
             return $a->equals($b);
         }
 
-        if ($b instanceof Hashable) {
+        if ($b instanceof ObjectEquality) {
             return $b->equals($a);
         }
 
@@ -117,7 +118,7 @@ final class Values
     /**
      * Transform an array to its textual representation.
      *
-     * @param array<mixed> $value The array to transform
+     * @param array $value The array to transform
      *
      * @return string The resulting string
      * @psalm-mutation-free

@@ -23,14 +23,14 @@ final class StringUtils
     {
         return array_map(
             static function (string|Stringable $string) {
-                return sprintf('"%s"', (string)$string);
+                return sprintf('"%s"', $string);
             },
             $list
         );
     }
 
     /**
-     * Returns a string where all elements have been joined in a human readable way.
+     * Returns a string where all elements have been joined in a human-readable way.
      *
      * For example:
      * - `['a','b','c']` becomes `"a, b and c"`.
@@ -39,7 +39,7 @@ final class StringUtils
      *
      * @param array<string|Stringable> $list A list of strings
      *
-     * @return string A string where all elements have been joined in a human readable way
+     * @return string A string where all elements have been joined in a human-readable way
      * @psalm-pure
      */
     public static function listToHumanReadable(array $list): string
