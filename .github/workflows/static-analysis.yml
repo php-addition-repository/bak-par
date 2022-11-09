@@ -29,11 +29,12 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: intl
+          tools: cs2pr
 
       - name: Install dependencies
         uses: ramsey/composer-install@v2
 
       - name: Send feedback on Github
         run: |
-          vendor/bin/psalm --output-format=github
+          vendor/bin/psalm --output-format=checkstyle | cs2pr
 
