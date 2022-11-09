@@ -29,11 +29,11 @@ jobs:
 
       # get package json list
       - id: output_data
-        run: echo "::set-output name=matrix::$(vendor/bin/monorepo-builder packages-json)"
+        run: echo "packages=$(vendor/bin/monorepo-builder packages-json)" >> $GITHUB_STATE
   
     # this step is needed, so the output gets to the next defined job
     outputs:
-      matrix: ${{ steps.output_data.outputs.matrix }}
+      packages: ${{ steps.output_data.outputs.packages }}
 
   split_monorepo:
     needs: provide_packages_json
@@ -42,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ fromJson(needs.provide_packages_json.outputs.matrix) }}
+        package: ${{ fromJson(needs.provide_packages_json.outputs.packages) }}
 
     steps:
       - uses: actions/checkout@v2
