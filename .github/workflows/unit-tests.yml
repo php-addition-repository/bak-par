@@ -47,15 +47,16 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: pcov
           extensions: intl
+          tools: cs2
 
       - name: Install dependencies
         uses: ramsey/composer-install@v2
 
       - name: PHPUnit
-        run: vendor/bin/phpunit --coverage-clover clover.xml
+        run: vendor/bin/phpunit --coverage-cobertura build/coverage/cobertura.xml
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: clover.xml
+          coverage-reports: build/coverage/cobertura.xml
