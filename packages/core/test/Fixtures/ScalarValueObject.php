@@ -27,5 +27,4 @@ final class ScalarValueObject implements ObjectEquality
     public function __construct(private readonly float|bool|int|string|null $value)
     {
     }
-
 }

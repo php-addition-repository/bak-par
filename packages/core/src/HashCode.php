@@ -12,7 +12,6 @@ use TypeError;
  */
 final class HashCode
 {
-
     public const MAX_RECURSION_DEPTH = 10;
 
     /**

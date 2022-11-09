@@ -8,7 +8,6 @@ use RuntimeException;
 
 trait ResourceTrait
 {
-
     /**
      * @return mixed
      * @psalm-return closed-resource

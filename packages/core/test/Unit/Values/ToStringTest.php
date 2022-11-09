@@ -38,7 +38,6 @@ final class ToStringTest extends TestCase
         $obj = new stdClass();
 
         $anonObj = new class () {
-
         };
 
         $resource = $this->createResource();

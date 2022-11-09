@@ -30,5 +30,4 @@ final class ObjectEqualityExtension implements BeforeFirstTestHook
             new ObjectEqualityComparator()
         );
     }
-
 }
