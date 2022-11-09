@@ -55,8 +55,8 @@ jobs:
           package_directory: "packages/${{ matrix.package }}"
           repository_organization: "php-addition-repository"
           repository_name: "${{ matrix.package }}"
-          user_name: "GitHub Action"
-          user_email: "action@github.com"
+          user_name: "Alex Brouwer"
+          user_email: "brouwer.alexander@gmail.com"
           branch: "main"
 
       # with tag
@@ -70,6 +70,6 @@ jobs:
           package_directory: "packages/${{ matrix.package }}"
           repository_organization: "php-addition-repository"
           repository_name: "${{ matrix.package }}"
-          user_name: "GitHub Action"
-          user_email: "action@github.com"
+          user_name: "Alex Brouwer"
+          user_email: "brouwer.alexander@gmail.com"
           branch: "main"

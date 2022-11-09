@@ -37,8 +37,8 @@ jobs:
           package_directory: "packages/docs"
           repository_organization: "php-addition-repository"
           repository_name: "php-addition-repository.github.io"
-          user_name: "GitHub Action"
-          user_email: "action@github.com"
+          user_name: "Alex Brouwer"
+          user_email: "brouwer.alexander@gmail.com"
           branch: "main"
 
       # with tag
@@ -52,6 +52,6 @@ jobs:
           package_directory: "packages/docs"
           repository_organization: "php-addition-repository"
           repository_name: "php-addition-repository.github.io"
-          user_name: "GitHub Action"
-          user_email: "action@github.com"
+          user_name: "Alex Brouwer"
+          user_email: "brouwer.alexander@gmail.com"
           branch: "main"
