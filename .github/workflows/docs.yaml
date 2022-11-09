@@ -32,7 +32,7 @@ jobs:
         name: Push main to docs
         uses: "symplify/monorepo-split-github-action@2.0"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           package-directory: "packages/${{ matrix.package }}"
           split-repository-organization: "php-addition-repository"
@@ -46,7 +46,7 @@ jobs:
         name: Push tag to docs
         uses: "symplify/monorepo-split-github-action@2.0"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package-directory: "packages/${{ matrix.package }}"
