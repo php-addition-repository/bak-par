@@ -53,10 +53,10 @@ jobs:
         uses: ramsey/composer-install@v2
 
       - name: PHPUnit
-        run: vendor/bin/phpunit --coverage-cobertura build/coverage/cobertura.xml
+        run: vendor/bin/phpunit --coverage-clover build/coverage/clover.xml
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/coverage/cobertura.xml
+          coverage-reports: build/coverage/clover.xml
