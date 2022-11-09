@@ -23,7 +23,7 @@ repository:
   allow_squash_merge: true
   default_branch: main
   description: "Monorepo for all PHP Addition Repository (PAR) packages"
-  homepage: hhttps://php-addition-repository.github.io/
+  homepage: https://php-addition-repository.github.io/
   #  topics: collection
   has_downloads: false
   has_issues: true
