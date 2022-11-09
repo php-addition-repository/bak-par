@@ -146,7 +146,7 @@ class HashCodeTest extends TestCase
      */
     public function itCanCreateHashForBooleanValue(bool $value, int $expectedHash): void
     {
-        self::assertNotEquals($expectedHash, HashCode::forBool($value));
+        self::assertEquals($expectedHash, HashCode::forBool($value));
     }
 
     /**
