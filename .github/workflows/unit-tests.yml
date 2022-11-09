@@ -53,7 +53,8 @@ jobs:
 
       - name: PHPUnit
         run: |
-          vendor/bin/phpunit --coverage-clover build/coverage/clover.xml
+          composer require --dev mheap/phpunit-github-actions-printer
+          vendor/bin/phpunit --printer mheap\\GithubActionsReporter\\Printer --coverage-clover build/coverage/clover.xml
           cat build/coverage/clover.xml
 
       - name: Run codacy-coverage-reporter
