@@ -99,7 +99,7 @@ final class Values
      * @param mixed $value The value to produce a hash for
      *
      * @return bool|float|int|string|null
-     * @psalm-mutation-free
+     *
      */
     public static function hash(mixed $value): bool|float|int|string|null
     {
