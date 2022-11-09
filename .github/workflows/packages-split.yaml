@@ -28,12 +28,12 @@ jobs:
         uses: ramsey/composer-install@v2
 
       # get package json list
-      - id: output_data
-        run: echo "packages=$(vendor/bin/monorepo-builder packages-json)" >> $GITHUB_STATE
+      - id: packages
+        run: echo "packages=$(vendor/bin/monorepo-builder packages-json)" >> $GITHUB_OUTPUT
   
     # this step is needed, so the output gets to the next defined job
     outputs:
-      packages: ${{ steps.output_data.outputs.packages }}
+      packages: ${{ steps.packages.outputs.packages }}
 
   split_monorepo:
     needs: provide_packages_json
