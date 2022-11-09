@@ -52,7 +52,9 @@ jobs:
         uses: ramsey/composer-install@v2
 
       - name: PHPUnit
-        run: vendor/bin/phpunit --coverage-clover build/coverage/clover.xml
+        run: |
+          vendor/bin/phpunit --coverage-clover build/coverage/clover.xml
+          cat build/coverage/clover.xml
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
