@@ -9,6 +9,7 @@ namespace Par\Core;
  */
 interface ObjectEquality
 {
+
     /**
      * Determines if object should be considered equal to other value.
      *
