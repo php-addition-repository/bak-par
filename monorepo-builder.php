@@ -18,9 +18,6 @@ return static function (MBConfig $mbConfig): void {
     $mbConfig->packageDirectories([
         __DIR__ . '/packages',
     ]);
-    $mbConfig->packageDirectoriesExcludes([
-        __DIR__ . '/packages/docs',
-    ]);
 
     $mbConfig->dataToAppend(
         [

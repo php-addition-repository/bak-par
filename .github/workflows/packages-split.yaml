@@ -42,13 +42,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
+        package: ${{ fromJson(needs.provide_packages_json.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v2
 
       # no tag
-      - if: "!startsWith(github.ref, 'refs/tags/')"
+      - if: "!startsWith(github.ref, 'refs/tags/') && !startsWith(matrix.package, 'docs')"
         name: Split into ${{ matrix.package }}
         uses: "symplify/monorepo-split-github-action@2.2"
         with:
@@ -59,7 +59,7 @@ jobs:
           user_email: 'brouwer.alexander@gmail.com'
 
       # with tag
-      - if: "startsWith(github.ref, 'refs/tags/')"
+      - if: "startsWith(github.ref, 'refs/tags/') && !startsWith(matrix.package, 'docs')"
         name: Split into ${{ matrix.package }}
         uses: "symplify/monorepo-split-github-action@2.2"
         with:
