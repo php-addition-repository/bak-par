@@ -12,8 +12,6 @@ branches:
         strict: true
         contexts:
           #          - "Code Style (ubuntu-latest, 8.1)"
-          - "Composer Validate"
-          - "Monorepo-builder Validate"
           - "Static Analysis (ubuntu-latest, 8.1)"
           - "Unit Tests (ubuntu-latest, 8.1)"
       restrictions: null
