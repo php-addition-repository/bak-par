@@ -7,9 +7,6 @@ on:
     tags:
       - '*'
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   provide_packages_json:
     # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
@@ -30,7 +27,7 @@ jobs:
 
       # get package json list
       - id: packages
-        run: echo "packages=$(vendor/bin/monorepo-builder packages-json)" >> $GITHUB_OUTPUT
+        run: echo "packages=$(vendor/bin/monorepo-builder packages-json --exclude-package docs)" >> $GITHUB_OUTPUT
   
     # this step is needed, so the output gets to the next defined job
     outputs:
@@ -49,24 +46,26 @@ jobs:
       - uses: actions/checkout@v2
 
       # no tag
-      - if: "!startsWith(github.ref, 'refs/tags/') && !startsWith(matrix.package, 'docs')"
+      - if: "!startsWith(github.ref, 'refs/tags/')"
         name: Split into ${{ matrix.package }}
-        uses: "symplify/monorepo-split-github-action@2.2"
+        uses: "symplify/monorepo-split-github-action@2.0"
         with:
-          package_directory: 'packages/${{ matrix.package }}'
-          repository_organization: 'php-addition-repository'
-          repository_name: '${{ matrix.package }}'
-          user_name: 'Alex Brouwer'
-          user_email: 'brouwer.alexander@gmail.com'
+          package-directory: "packages/${{ matrix.package }}"
+          split-repository-organization: "php-addition-repository"
+          split-repository-name: "${{ matrix.package }}"
+          user-name: "GitHub Action"
+          user-email: "action@github.com"
+          branch: "main"
 
       # with tag
-      - if: "startsWith(github.ref, 'refs/tags/') && !startsWith(matrix.package, 'docs')"
+      - if: "startsWith(github.ref, 'refs/tags/')"
         name: Split into ${{ matrix.package }}
-        uses: "symplify/monorepo-split-github-action@2.2"
+        uses: "symplify/monorepo-split-github-action@2.0"
         with:
           tag: ${GITHUB_REF#refs/tags/}
-          package_directory: 'packages/${{ matrix.package }}'
-          repository_organization: 'php-addition-repository'
-          repository_name: '${{ matrix.package }}'
-          user_name: 'Alex Brouwer'
-          user_email: 'brouwer.alexander@gmail.com'
+          package-directory: "packages/${{ matrix.package }}"
+          split-repository-organization: "php-addition-repository"
+          split-repository-name: "${{ matrix.package }}"
+          user-name: "GitHub Action"
+          user-email: "action@github.com"
+          branch: "main"
