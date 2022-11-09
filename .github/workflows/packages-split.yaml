@@ -50,7 +50,7 @@ jobs:
         name: Split into ${{ matrix.package }}
         uses: "symplify/monorepo-split-github-action@2.2"
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_GIT_TOKEN }}
+          GITHUB_TOKEN: "x-access-token:${{ secrets.REPO_GIT_TOKEN }}"
         with:
           package_directory: "packages/${{ matrix.package }}"
           repository_organization: "php-addition-repository"
@@ -64,7 +64,7 @@ jobs:
         name: Split into ${{ matrix.package }}
         uses: "symplify/monorepo-split-github-action@2.2"
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_GIT_TOKEN }}
+          GITHUB_TOKEN: "x-access-token:${{ secrets.REPO_GIT_TOKEN }}"
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package_directory: "packages/${{ matrix.package }}"
