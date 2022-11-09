@@ -13,7 +13,6 @@ namespace Par\Core;
  */
 interface Hashable
 {
-
     /**
      * Produces a scalar or null value to be used as the object's hash, which determines
      * where it goes in the hash table. While this value does not have to be

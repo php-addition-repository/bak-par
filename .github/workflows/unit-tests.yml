@@ -1,0 +1,64 @@
+on:
+  push:
+    paths:
+      - "**.php"
+      - ".github/workflows/unit-tests.yml"
+      - ".scrutinizer.yml"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "**.php"
+      - ".github/workflows/unit-tests.yml"
+      - ".scrutinizer.yml"
+
+name: "Unit tests"
+
+jobs:
+  supported-versions-matrix:
+    name: Supported Versions Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.supported-versions-matrix.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: supported-versions-matrix
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
+
+  tests:
+    name: "Unit Tests"
+    runs-on: ${{ matrix.operating-system }}
+    needs:
+      - supported-versions-matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: pcov
+          extensions: intl
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+
+      - name: PHPUnit
+        run: |
+          composer require --dev mheap/phpunit-github-actions-printer
+          vendor/bin/phpunit --printer mheap\\GithubActionsReporter\\Printer --coverage-clover build/coverage/clover.xml
+          cat build/coverage/clover.xml
+
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: build/coverage/clover.xml

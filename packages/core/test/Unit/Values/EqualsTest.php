@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class EqualsTest extends TestCase
 {
-
     /**
      * @test
      */

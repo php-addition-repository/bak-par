@@ -1,0 +1,44 @@
+on:
+  push:
+    paths:
+      - "composer.json"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "composer.json"
+
+name: "Validate"
+
+jobs:
+  run:
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ "8.1" ]
+        actions:
+          - name: Validate composer
+            run: composer validate --strict
+
+          - name: Validate monorepo-builder
+            run: vendor/bin/monorepo-builder validate
+
+    name: ${{ matrix.actions.name }}
+    runs-on: ${{ matrix.operating-system }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: intl
+          coverage: none
+          tools: none
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+
+      - run: ${{ matrix.actions.run }}

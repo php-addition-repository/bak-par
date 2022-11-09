@@ -11,7 +11,6 @@ use Stringable;
  */
 final class Values
 {
-
     /**
      * Determines if values should be considered equal.
      *

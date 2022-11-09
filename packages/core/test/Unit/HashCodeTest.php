@@ -13,7 +13,6 @@ use TypeError;
 
 class HashCodeTest extends TestCase
 {
-
     use ResourceTrait;
 
     /**
@@ -167,10 +166,9 @@ class HashCodeTest extends TestCase
      * @dataProvider provideForResourceValue
      *
      * @param mixed                          $value
+     * @param int                            $expectedHash
      *
      * @psalm-param resource|closed-resource $value
-     *
-     * @param int                            $expectedHash
      */
     public function itCanCreateHashForResourceValue(mixed $value, int $expectedHash): void
     {
