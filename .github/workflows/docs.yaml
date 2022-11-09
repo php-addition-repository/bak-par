@@ -30,7 +30,7 @@ jobs:
       # no tag
       - if: "!startsWith(github.ref, 'refs/tags/')"
         name: Push main to docs
-        uses: "symplify/monorepo-split-github-action@2.0"
+        uses: "symplify/monorepo-split-github-action@2.2"
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -44,7 +44,7 @@ jobs:
       # with tag
       - if: "startsWith(github.ref, 'refs/tags/')"
         name: Push tag to docs
-        uses: "symplify/monorepo-split-github-action@2.0"
+        uses: "symplify/monorepo-split-github-action@2.2"
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
