@@ -27,15 +27,25 @@ jobs:
           workdir: '/github/workspace'
           args: 'project:run -t packages/docs/docs'
 
-      - name: Push docs
-        uses: symplify/github-action-monorepo-split@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_GIT_TOKEN }}
+      # no tag
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        name: Push main to docs
+        uses: "symplify/monorepo-split-github-action@2.1"
         with:
-          package-directory: 'packages/docs'
-          split-repository-organization: 'php-addition-repository'
-          split-repository-name: 'php-addition-repository.github.io'
-          branch: 'main'
+          package_directory: 'packages/docs'
+          repository_organization: 'php-addition-repository'
+          repository_name: 'php-addition-repository.github.io'
           user-name: 'Alex Brouwer'
           user-email: 'brouwer.alexander@gmail.com'
-      
+
+      # with tag
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        name: Push tag to docs
+        uses: "symplify/monorepo-split-github-action@2.1"
+        with:
+          tag: ${GITHUB_REF#refs/tags/}
+          package_directory: 'packages/docs'
+          repository_organization: 'php-addition-repository'
+          repository_name: 'php-addition-repository.github.io'
+          user-name: 'Alex Brouwer'
+          user-email: 'brouwer.alexander@gmail.com'

@@ -1,0 +1,41 @@
+on:
+  push:
+    paths:
+      - "**.php"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "**.php"
+
+name: "Static analysis"
+
+jobs:
+  run:
+    name: "Static Analysis"
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ "8.1" ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: intl
+          coverage: none
+          tools: cs2pr
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+
+      - name: Send feedback on Github
+        run: |
+          vendor/bin/psalm --output-format=github | cs2pr
+

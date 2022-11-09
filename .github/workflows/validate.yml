@@ -1,10 +1,14 @@
-name: Code Analysis
-
 on:
-  pull_request: null
   push:
+    paths:
+      - "**.php"
     branches:
       - main
+  pull_request:
+    paths:
+      - "**.php"
+
+name: "Validate"
 
 jobs:
   code_analysis:
@@ -18,9 +22,6 @@ jobs:
           - name: Monorepo-builder Validate
             run: vendor/bin/monorepo-builder validate
 
-          - name: Psalm
-            run: vendor/bin/psalm
-
     name: ${{ matrix.actions.name }}
     runs-on: ubuntu-latest
 
@@ -30,15 +31,12 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
-          extensions: intl, ds
+          extensions: intl
           coverage: none
           tools: composer
 
-      - name: Cache PHP dependencies
-        uses: actions/cache@v1
-        with:
-          path: vendor
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
-      - run: composer install --no-progress --ansi
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
 
-      - run: ${{ matrix.actions.run }}
+      - name: ${{ matrix.actions.name }}
+        run: ${{ matrix.actions.run }}
