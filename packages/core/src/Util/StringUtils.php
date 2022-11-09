@@ -23,7 +23,7 @@ final class StringUtils
     {
         return array_map(
             static function (string|Stringable $string) {
-                return sprintf('"%s"', $string);
+                return sprintf('"%s"', (string)$string);
             },
             $list
         );

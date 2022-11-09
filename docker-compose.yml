@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: .docker/workspace/Dockerfile
       args:
-        - TZ=${TIMEZONE}
+        - TZ=${TIMEZONE-UTC}
     volumes:
       - source: ~/.ssh
         target: /home/app/.ssh

@@ -9,6 +9,9 @@ use Par\Core\Values;
 use SebastianBergmann\Comparator\Comparator;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class ObjectEqualityComparator extends Comparator
 {
     public function accepts($expected, $actual): bool
@@ -36,5 +39,4 @@ final class ObjectEqualityComparator extends Comparator
             );
         }
     }
-
 }
