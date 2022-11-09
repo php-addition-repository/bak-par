@@ -21,5 +21,5 @@ interface Hashable
      * @return bool|float|int|string|null
      * @psalm-mutation-free
      */
-    public function hash(): bool|float|int|string|null;
+    public function hash(): bool | float|int|string|null;
 }
