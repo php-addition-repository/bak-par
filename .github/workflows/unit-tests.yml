@@ -47,7 +47,6 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: pcov
           extensions: intl
-          tools: cs2
 
       - name: Install dependencies
         uses: ramsey/composer-install@v2
