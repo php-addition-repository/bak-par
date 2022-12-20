@@ -19,7 +19,7 @@
         "roave/security-advisories": "dev-master",
         "squizlabs/php_codesniffer": "^3.7",
         "symplify/monorepo-builder": "^11.1",
-        "vimeo/psalm": "^4.30"
+        "vimeo/psalm": "^5.4"
     },
     "autoload": {
         "psr-4": {
